@@ -1,8 +1,9 @@
 import 'dart:io';
 
-import 'package:comparify_cross/ad_helper.dart';
-import 'package:comparify_cross/home.dart';
-import 'package:comparify_cross/scan_barcode_page.dart';
+import 'package:comparify_cross/pages/helpers/ad_helper.dart';
+import 'package:comparify_cross/pages/home.dart';
+import 'package:comparify_cross/pages/scan_barcode_page.dart';
+import 'package:comparify_cross/pages/store_link_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,7 +18,7 @@ class AboutUsPage extends StatefulWidget {
 class _AboutUsState extends State<AboutUsPage> {
   InterstitialAd? _interstitialAd;
 
-  int _selectedTab = 2;
+  int _selectedTab = 3;
 
   @override
   void initState() {
@@ -42,8 +43,9 @@ class _AboutUsState extends State<AboutUsPage> {
     } else if (index == 1) {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const ScanBarCodePage()));
-      // }
-    } else if (index == 2) {}
+    } else if (index == 2) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
+    } else if (index == 3) {}
   }
 
   void _loadInterstitialAd() {
@@ -182,111 +184,124 @@ class _AboutUsState extends State<AboutUsPage> {
               "Comparify",
               style: TextStyle(color: const Color(0xFF0C46DD)),
             ),
-            backgroundColor: Colors.white,
-            leading: const BackButton(color: Color(0xFF0C46DD))),
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.white),
+            // leading: const BackButton(color: Color(0xFF0C46DD))),
         body: Builder(builder: (BuildContext context) {
           return Container(
             alignment: Alignment.center,
             color: Colors.white,
-            child: Flex(
-                direction: Axis.vertical,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  const Image(
-                    image: AssetImage("assets/logo.png"),
-                    height: 150,
-                  ),
-                  const SizedBox(
+            child: ListView (
+              children: <Widget> [
+                Column(
+                  children: <Widget>[
+                    const Image(
+                      image: AssetImage("assets/logo.png"),
+                      height: 150,
+                    ),
+                    const SizedBox(
+                        height: 70,
+                        child: Text(
+                            "    We ar developer family which realized some day that we need to compare prices. "
+                                "So started implement such application. Hope it helps you to save money.",
+                            style: TextStyle(
+                                height: 1.5,
+                                fontSize: 14,
+                                color: const Color(0xFF0C46FF)))),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const SizedBox(
+                        height: 85,
+                        child: Text(
+                            "    Мы семья разработчиков, которая однажды поняла, что нам нужно сравнивать цены. "
+                                "Поэтому мы начали реализовывать такое приложение. Надеюсь, она поможет вам сэкономить деньги.",
+                            style: TextStyle(
+                                height: 1.5,
+                                fontSize: 14,
+                                color: const Color(0xFF0C46FF)))),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const SizedBox(
                       height: 70,
                       child: Text(
-                          "    We ar developer family which realized some day that we need to compare prices. "
-                          "So started implement such application. Hope it helps you to save money.",
+                          "    Mēs esam izstrādātāju ģimene, kas kādu dienu saprata, ka mums ir jāsalīdzina cenas. "
+                              "Tāpēc sākam izstrādāt šādu aplikāciju. Cerams, ka tā palīdzēs jums ietaupīt naudu.",
                           style: TextStyle(
                               height: 1.5,
                               fontSize: 14,
-                              color: const Color(0xFF0C46FF)))),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  const SizedBox(
-                      height: 85,
-                      child: Text(
-                          "    Мы семья разработчиков, которая однажды поняла, что нам нужно сравнивать цены. "
-                          "Поэтому мы начали реализовывать такое приложение. Надеюсь, она поможет вам сэкономить деньги.",
-                          style: TextStyle(
-                              height: 1.5,
-                              fontSize: 14,
-                              color: const Color(0xFF0C46FF)))),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  const SizedBox(
-                    height: 70,
-                    child: Text(
-                        "    Mēs esam izstrādātāju ģimene, kas kādu dienu saprata, ka mums ir jāsalīdzina cenas. "
-                        "Tāpēc sākam izstrādāt šādu aplikāciju. Cerams, ka tā palīdzēs jums ietaupīt naudu.",
-                        style: TextStyle(
-                            height: 1.5,
-                            fontSize: 14,
-                            color: const Color(0xFF0C46FF))),
-                  ),
-                  const Divider(
-                    color: Colors.grey,
-                  ),
-                  InkWell(
-                      onTap: () => launchUrl(url),
-                      child: Row(children: <Widget>[
-                        playStorelogoSection,
-                        playStoreTextSection
-                      ])),
-                  const Divider(
-                    color: Colors.grey,
-                  ),
-                  const SizedBox(height: 2),
-                  InkWell(
-                      onTap: () => launchUrl(
-                          Uri.parse("mailto:marina.paberzze@gmail.com")),
-                      child: Row(children: <Widget>[
-                        contactUsLogoSection,
-                        contactUsTextSection
-                      ])),
-                  const Divider(
-                    color: Colors.grey,
-                  ),
-                  const SizedBox(height: 2),
-                  InkWell(
-                      onTap: () => _loadFB(),
-                      child: Row(
-                          children: <Widget>[fbLogoSection, fbTextSection])),
-                  const Divider(
-                    color: Colors.grey,
-                  ),
-                  const SizedBox(height: 2),
-                  InkWell(
-                      onTap: () => launchUrl(Uri.parse(
-                          'https://www.instagram.com/_u/comparify.lv')),
-                      child: Row(children: <Widget>[
-                        instaLogoSection,
-                        instaTextSection
-                      ])),
-                  const Divider(
-                    color: Colors.grey,
-                  ),
-                  const SizedBox(height: 2),
-                  InkWell(
-                      onTap: () => launchUrl(
-                          Uri.parse('https://www.tiktok.com/@comparify_lv')),
-                      child: Row(children: <Widget>[
-                        tiktokLogoSection,
-                        tiktokTextSection
-                      ]))
-                ]),
+                              color: const Color(0xFF0C46FF))),
+                    ),
+                    const Divider(
+                      color: Colors.grey,
+                    ),
+                    InkWell(
+                        onTap: () => launchUrl(url),
+                        child: Row(children: <Widget>[
+                          playStorelogoSection,
+                          playStoreTextSection
+                        ])),
+                    const Divider(
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(height: 2),
+                    InkWell(
+                        onTap: () => launchUrl(
+                            Uri.parse("mailto:marina.paberzze@gmail.com")),
+                        child: Row(children: <Widget>[
+                          contactUsLogoSection,
+                          contactUsTextSection
+                        ])),
+                    const Divider(
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(height: 2),
+                    InkWell(
+                        onTap: () => _loadFB(),
+                        child: Row(
+                            children: <Widget>[fbLogoSection, fbTextSection])),
+                    const Divider(
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(height: 2),
+                    InkWell(
+                        onTap: () => launchUrl(Uri.parse(
+                            'https://www.instagram.com/_u/comparify.lv')),
+                        child: Row(children: <Widget>[
+                          instaLogoSection,
+                          instaTextSection
+                        ])),
+                    const Divider(
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(height: 2),
+                    InkWell(
+                        onTap: () => launchUrl(
+                            Uri.parse('https://www.tiktok.com/@comparify_lv')),
+                        child: Row(children: <Widget>[
+                          tiktokLogoSection,
+                          tiktokTextSection
+                        ]))
+                  ],
+                )
+              ]
+
+            )
+            // Flex( //TODO:: Expanded
+            //     direction: Axis.vertical,
+            //     mainAxisAlignment: MainAxisAlignment.start,
+            //     children: <Widget>[
+
+                // ]
+          // ),
           );
         }),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedTab,
           backgroundColor: Colors.white,
           onTap: (index) => _changeTab(index),
+          type: BottomNavigationBarType.fixed,
           selectedItemColor: const Color(0xFF0C46DD),
           unselectedItemColor: Colors.grey,
           items: const [
@@ -304,6 +319,13 @@ class _AboutUsState extends State<AboutUsPage> {
                   size: 18,
                 ),
                 label: "Skeneris"),
+            BottomNavigationBarItem(
+                icon: ImageIcon(
+                  AssetImage("assets/store.png"),
+                  // color: Colors.grey,
+                  size: 18,
+                ),
+                label: "Veikali"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/comparify.png"),

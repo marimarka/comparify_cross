@@ -1,6 +1,8 @@
-import 'package:comparify_cross/home.dart';
+import 'package:comparify_cross/pages/home.dart';
+import 'package:comparify_cross/pages/intro.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:intro_slider/intro_slider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Home(),
+      home: Intro(), //Home(),
     );
   }
 }

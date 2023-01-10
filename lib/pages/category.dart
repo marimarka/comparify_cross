@@ -1,9 +1,10 @@
-import 'package:comparify_cross/about_us_page.dart';
-import 'package:comparify_cross/ad_helper.dart';
-import 'package:comparify_cross/constants.dart';
-import 'package:comparify_cross/product_card.dart';
-import 'package:comparify_cross/scan_barcode_page.dart';
-import 'package:comparify_cross/search_page.dart';
+import 'package:comparify_cross/pages/about_us_page.dart';
+import 'package:comparify_cross/pages/helpers/ad_helper.dart';
+import 'package:comparify_cross/pages/helpers/constants.dart';
+import 'package:comparify_cross/pages/helpers/product_card.dart';
+import 'package:comparify_cross/pages/scan_barcode_page.dart';
+import 'package:comparify_cross/pages/search_page.dart';
+import 'package:comparify_cross/pages/store_link_page.dart';
 import 'package:comparify_cross/services/api_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,15 +13,18 @@ import 'package:http/http.dart' as http;
 
 class Category extends StatefulWidget {
   final String categoriesName;
+  final String imageUrl;
 
-  Category({required this.categoriesName, Key? key}) : super(key: key);
+  Category({required this.categoriesName, required this.imageUrl, Key? key})
+      : super(key: key);
 
   @override
-  _CategoryState createState() => _CategoryState(categoriesName);
+  _CategoryState createState() => _CategoryState(categoriesName, imageUrl);
 }
 
 class _CategoryState extends State<Category> {
   final String categoriesName;
+  final String imageUrl;
   InterstitialAd? _interstitialAd;
 
   int _selectedTab = 0;
@@ -71,7 +75,8 @@ class _CategoryState extends State<Category> {
             context: context,
             builder: (BuildContext context) => AlertDialog(
               title: const Text('Kaut kas nogāja greizī'),
-              content: const Text('Iespējams tagad mums ir problēmas dabūt datus! Lūdzu, mēģini vēlāk.'),
+              content: const Text(
+                  'Iespējams tagad mums ir problēmas dabūt datus! Lūdzu, mēģini vēlāk.'),
               actions: <Widget>[
                 // TextButton(
                 //   onPressed: () => Navigator.pop(context, 'Cancel'),
@@ -113,7 +118,8 @@ class _CategoryState extends State<Category> {
           context: context,
           builder: (BuildContext context) => AlertDialog(
             title: const Text('Kaut kas nogāja greizī'),
-            content: const Text('Iespējams tagad mums ir problēmas dabūt datus! Lūdzu, mēģini vēlāk.'),
+            content: const Text(
+                'Iespējams tagad mums ir problēmas dabūt datus! Lūdzu, mēģini vēlāk.'),
             actions: <Widget>[
               // TextButton(
               //   onPressed: () => Navigator.pop(context, 'Cancel'),
@@ -134,7 +140,7 @@ class _CategoryState extends State<Category> {
     });
   }
 
-  _CategoryState(@required this.categoriesName);
+  _CategoryState(@required this.categoriesName, @required this.imageUrl);
 
   late ScrollController _controller;
 
@@ -206,7 +212,8 @@ class _CategoryState extends State<Category> {
           currentIndex: _selectedTab,
           backgroundColor: Colors.white,
           onTap: (index) => _changeTab(index),
-          selectedItemColor: Colors.blueAccent,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Color(0xFF0C46DD),
           unselectedItemColor: Colors.grey,
           items: const [
             BottomNavigationBarItem(
@@ -225,6 +232,13 @@ class _CategoryState extends State<Category> {
                 label: "Skeneris"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
+                  AssetImage("assets/store.png"),
+                  // color: Colors.grey,
+                  size: 18,
+                ),
+                label: "Veikali"),
+            BottomNavigationBarItem(
+                icon: ImageIcon(
                   AssetImage("assets/comparify.png"),
                   // color: Colors.grey,
                   size: 18,
@@ -235,6 +249,8 @@ class _CategoryState extends State<Category> {
   }
 
   _changeTab(int index) {
+    print('index: ' + index.toString());
+    print('ad: ' + _interstitialAd.toString());
     if (index == 0) {
       if (_interstitialAd != null) {
         _interstitialAd?.show();
@@ -242,12 +258,44 @@ class _CategoryState extends State<Category> {
         Navigator.pop(context);
       }
     } else if (index == 1) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const ScanBarCodePage()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ScanBarCodePage()));
     } else if (index == 2) {
+      // if (_interstitialAd != null)
+      //   // _loadInterstitialAdAndStoreLinkPage();
+      //   _interstitialAd!.show();
+      // } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
+      // }
+    } else if (index == 3) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => AboutUsPage()));
     }
+  }
+
+  void _loadInterstitialAdAndStoreLinkPage() {
+    InterstitialAd.load(
+      adUnitId: AdHelper.interstitialAdUnitId,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => StoreLinkPage()));
+            },
+          );
+
+          setState(() {
+            _interstitialAd = ad;
+          });
+        },
+        onAdFailedToLoad: (err) {
+          print('Failed to load an interstitial ad: ${err.message}');
+        },
+      ),
+    );
   }
 
   int getCategoryNumber(String name) {

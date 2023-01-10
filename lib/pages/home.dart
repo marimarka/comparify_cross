@@ -1,13 +1,15 @@
-import 'package:comparify_cross/about_us_page.dart';
-import 'package:comparify_cross/ad_helper.dart';
-import 'package:comparify_cross/bar_code_scanner.dart';
-import 'package:comparify_cross/categories.dart';
-import 'package:comparify_cross/scan_barcode_page.dart';
-import 'package:comparify_cross/search_page.dart';
+import 'package:comparify_cross/pages/about_us_page.dart';
+import 'package:comparify_cross/pages/categories.dart';
+import 'package:comparify_cross/pages/helpers/ad_helper.dart';
+import 'package:comparify_cross/pages/scan_barcode_page.dart';
+import 'package:comparify_cross/pages/search_page.dart';
+import 'package:comparify_cross/pages/store_link_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class Home extends StatefulWidget {
+
+  static String id = 'Home';
   const Home({Key? key}) : super(key: key);
 
   @override
@@ -39,10 +41,12 @@ class _HomeState extends State {
   _changeTab(int index) {
     if (index == 0) {
     } else if (index == 1) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const ScanBarCodePage()));
-      // }
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ScanBarCodePage()));
     } else if (index == 2) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
+    } else if (index == 3) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => AboutUsPage()));
     }
@@ -118,6 +122,13 @@ class _HomeState extends State {
                 size: 18,
               ),
               label: "Skeneris"),
+          BottomNavigationBarItem(
+              icon: ImageIcon(
+                AssetImage("assets/store.png"),
+                // color: Colors.grey,
+                size: 18,
+              ),
+              label: "Veikali"),
           BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage("assets/comparify.png"),

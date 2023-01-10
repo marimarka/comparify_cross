@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:comparify_cross/constants.dart';
+import 'package:comparify_cross/pages/helpers/constants.dart';
 import 'package:comparify_cross/models/products_dto_v2.dart';
 import 'package:http/http.dart' as http;
 

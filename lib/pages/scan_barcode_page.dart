@@ -1,9 +1,10 @@
-import 'package:comparify_cross/about_us_page.dart';
-import 'package:comparify_cross/constants.dart';
-import 'package:comparify_cross/home.dart';
 import 'package:comparify_cross/models/products_dto_v2.dart';
-import 'package:comparify_cross/product_card.dart';
-import 'package:comparify_cross/search_page.dart';
+import 'package:comparify_cross/pages/about_us_page.dart';
+import 'package:comparify_cross/pages/helpers/constants.dart';
+import 'package:comparify_cross/pages/helpers/product_card.dart';
+import 'package:comparify_cross/pages/home.dart';
+import 'package:comparify_cross/pages/search_page.dart';
+import 'package:comparify_cross/pages/store_link_page.dart';
 import 'package:comparify_cross/services/api_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart' as http;
 
-import 'ad_helper.dart';
+import 'helpers/ad_helper.dart';
 
 class ScanBarCodePage extends StatefulWidget {
   const ScanBarCodePage({Key? key}) : super(key: key);
@@ -109,6 +110,9 @@ class _ScanBarCodePageState extends State {
       barcodeScan();
     } else if (index == 2) {
       Navigator.push(
+          context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
+    } else if (index == 3) {
+      Navigator.push(
           context, MaterialPageRoute(builder: (context) => AboutUsPage()));
     }
   }
@@ -143,6 +147,7 @@ class _ScanBarCodePageState extends State {
         appBar: AppBar(
             title: const Text("Comparify"),
             backgroundColor: Colors.white,
+            automaticallyImplyLeading: false,
             actions: [
               // Navigate to the Search Screen
               IconButton(
@@ -163,11 +168,13 @@ class _ScanBarCodePageState extends State {
             : !callDone
                 ? AlertDialog(
                     title: const Text('Paziņojums'),
-                    content: const Text('Lūdzu, noskenē kodu vai meklē pēc nosaukuma.'),
+                    content: const Text(
+                        'Lūdzu, noskenē kodu vai meklē pēc nosaukuma.'),
                     actions: <Widget>[
                       TextButton(
                         onPressed: () => Navigator.of(context).push(
-                            MaterialPageRoute(builder: (_) => const SearchPage())),
+                            MaterialPageRoute(
+                                builder: (_) => const SearchPage())),
                         child: const Text('Doties uz meklēšanu'),
                       ),
                       TextButton(
@@ -191,6 +198,7 @@ class _ScanBarCodePageState extends State {
           backgroundColor: Colors.white,
           currentIndex: _selectedTab,
           onTap: (index) => _changeTab(index),
+          type: BottomNavigationBarType.fixed,
           selectedItemColor: const Color(0xFF0C46DD),
           unselectedItemColor: Colors.grey,
           items: const [
@@ -208,6 +216,13 @@ class _ScanBarCodePageState extends State {
                   size: 18,
                 ),
                 label: "Skeneris"),
+            BottomNavigationBarItem(
+                icon: ImageIcon(
+                  AssetImage("assets/store.png"),
+                  // color: Colors.grey,
+                  size: 18,
+                ),
+                label: "Veikali"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/comparify.png"),

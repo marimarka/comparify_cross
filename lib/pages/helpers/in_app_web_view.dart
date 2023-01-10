@@ -19,6 +19,7 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        backgroundColor: Color(0xFF0C46DD),
       ),
       body: Padding(
         padding: EdgeInsets.all(12),

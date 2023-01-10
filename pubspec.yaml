@@ -35,7 +35,7 @@ dependencies:
     sdk: flutter
   http: ^0.13.4
   flutter_linkify: ^5.0.2
-  url_launcher: ^6.0.9
+  url_launcher: ^6.1.7
   flutter_neumorphic: ^3.0.3
   flutter_barcode_scanner: ^2.0.0
   intl: 0.18.0
@@ -44,6 +44,9 @@ dependencies:
   flutter_launcher_icons: ^0.11.0
   contactus: ^1.2.0
   flutter_email_sender: ^5.0.2
+  intro_slider: ^3.0.9
+  shared_preferences: ^2.0.15
+  after_layout: ^1.2.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -89,7 +92,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/barbora_logo.png
+#    - assets/barbora_logo.png
     - assets/rimi_logo.png
     - assets/logo.png
     - assets/catalogs.png
@@ -102,7 +105,23 @@ flutter:
     - assets/insta.png
     - assets/fb.png
     - assets/contact_us.png
-    - assets/piena_veikals_logo.png
+    - assets/store.png
+    - assets/store_rimi_logo.png
+    - assets/categories/3d_alko.png
+    - assets/categories/3d_bakaleja.png
+    - assets/categories/3d_gala.png
+    - assets/categories/3d_darzini.png
+    - assets/categories/3d_dzerieni.png
+    - assets/categories/3d_maize.png
+    - assets/categories/3d_majai.png
+    - assets/categories/3d_piens.png
+    - assets/categories/3d_saldeti.png
+    - assets/categories/3d_berniem.png
+    - assets/intro/intro1.png
+    - assets/intro/intro2.png
+    - assets/intro/intro3.png
+    - assets/intro/intro4.png
+#    - assets/piena_veikals_logo.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
