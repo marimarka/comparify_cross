@@ -32,9 +32,18 @@ class IntroState extends State<Intro> {
       return Home.id;
     } else {
       // Set the flag to true at the end of onboarding screen if everything is successfull and so I am commenting it out
-      await prefs.setBool('seen', true);
+      setState(() {
+        prefs.setBool('seen', true);
+      });
       return Intro.id;
     }
+  }
+
+  Future setSeenCheck() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setBool('seen', true);
+    });
   }
 
   @override
@@ -132,11 +141,13 @@ class IntroState extends State<Intro> {
   TextStyle titleStyle() => TextStyle(color: ApiConstants.mainFontColor, fontSize: 22, fontWeight: FontWeight.bold);
 
   onPressedDone() {
+    setSeenCheck();
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => new Home()));
   }
 
   onSkipPress() {
+    setSeenCheck();
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => new Home()));
   }
