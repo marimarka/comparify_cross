@@ -24,6 +24,7 @@ class ScanBarCodePage extends StatefulWidget {
 
 class _ScanBarCodePageState extends State {
   InterstitialAd? _interstitialAd;
+  InterstitialAd? _interstitialAdAndOpenStorePage;
 
   int _selectedTab = 1;
 
@@ -86,12 +87,14 @@ class _ScanBarCodePageState extends State {
   void initState() {
     super.initState();
     _loadInterstitialAd();
+    _loadInterstitialAdAndOpenStorePage();
     barcodeScan();
   }
 
   @override
   void dispose() {
     _interstitialAd?.dispose();
+    _interstitialAdAndOpenStorePage?.dispose();
     super.dispose();
   }
 
@@ -109,8 +112,12 @@ class _ScanBarCodePageState extends State {
       });
       barcodeScan();
     } else if (index == 2) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
+      if (_interstitialAdAndOpenStorePage != null) {
+        _interstitialAdAndOpenStorePage?.show();
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
+      }
     } else if (index == 3) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => AboutUsPage()));
@@ -141,6 +148,30 @@ class _ScanBarCodePageState extends State {
     );
   }
 
+  void _loadInterstitialAdAndOpenStorePage() {
+    InterstitialAd.load(
+      adUnitId: AdHelper.interstitialAdUnitId,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => StoreLinkPage()));
+            },
+          );
+
+          setState(() {
+            _interstitialAdAndOpenStorePage = ad;
+          });
+        },
+        onAdFailedToLoad: (err) {
+          print('Failed to load an interstitial ad: ${err.message}');
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,20 +180,19 @@ class _ScanBarCodePageState extends State {
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
             actions: [
-              // Navigate to the Search Screen
               IconButton(
                   onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => const SearchPage())),
                   icon: const ImageIcon(
                     AssetImage("assets/search.png"),
-                    color: Colors.black45,
+                    color: ApiConstants.mainFontColor,
                     size: 18,
                   ))
             ]),
         body: foundProduct.isEmpty && callDone
             ? const Center(
                 child: CircularProgressIndicator(
-                  color: const Color(0xFF0C46DD),
+                  color: ApiConstants.mainFontColor,
                 ),
               )
             : !callDone
@@ -212,21 +242,18 @@ class _ScanBarCodePageState extends State {
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/scanner.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Skeneris"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/store.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Veikali"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/comparify.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Comparify"),

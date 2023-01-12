@@ -1,6 +1,7 @@
 import 'package:comparify_cross/pages/about_us_page.dart';
 import 'package:comparify_cross/pages/categories.dart';
 import 'package:comparify_cross/pages/helpers/ad_helper.dart';
+import 'package:comparify_cross/pages/helpers/constants.dart';
 import 'package:comparify_cross/pages/scan_barcode_page.dart';
 import 'package:comparify_cross/pages/search_page.dart';
 import 'package:comparify_cross/pages/store_link_page.dart';
@@ -44,16 +45,16 @@ class _HomeState extends State {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const ScanBarCodePage()));
     } else if (index == 2) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
+      if (_interstitialAd != null) {
+          _interstitialAd!.show();
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
+      }
     } else if (index == 3) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => AboutUsPage()));
     }
-
-    // setState(() {
-    //   _selectedTab = index;
-    // });
   }
 
   void _loadInterstitialAd() {
@@ -64,7 +65,8 @@ class _HomeState extends State {
         onAdLoaded: (ad) {
           ad.fullScreenContentCallback = FullScreenContentCallback(
             onAdDismissedFullScreenContent: (ad) {
-              Navigator.pop(this.context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => StoreLinkPage()));
             },
           );
 
@@ -85,15 +87,13 @@ class _HomeState extends State {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
-        // shadowColor: const Color(0xFF0C46DD),
         actions: [
-          // Navigate to the Search Screen
           IconButton(
               onPressed: () => Navigator.of(context)
                   .push(MaterialPageRoute(builder: (_) => const SearchPage())),
               icon: const ImageIcon(
                 AssetImage("assets/search.png"),
-                color: Colors.black45,
+                color: ApiConstants.mainFontColor,
                 size: 18,
               ))
         ],
@@ -111,28 +111,24 @@ class _HomeState extends State {
           BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage("assets/catalogs.png"),
-                // color: Colors.grey,
                 size: 18,
               ),
               label: "Katalogs"),
           BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage("assets/scanner.png"),
-                // color: Colors.grey,
                 size: 18,
               ),
               label: "Skeneris"),
           BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage("assets/store.png"),
-                // color: Colors.grey,
                 size: 18,
               ),
               label: "Veikali"),
           BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage("assets/comparify.png"),
-                // color: Colors.grey,
                 size: 18,
               ),
               label: "Comparify"),

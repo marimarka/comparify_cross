@@ -26,6 +26,7 @@ class _CategoryState extends State<Category> {
   final String categoriesName;
   final String imageUrl;
   InterstitialAd? _interstitialAd;
+  InterstitialAd? _interstitialAdAndOpenStorePage;
 
   int _selectedTab = 0;
 
@@ -78,10 +79,6 @@ class _CategoryState extends State<Category> {
               content: const Text(
                   'Iespējams tagad mums ir problēmas dabūt datus! Lūdzu, mēģini vēlāk.'),
               actions: <Widget>[
-                // TextButton(
-                //   onPressed: () => Navigator.pop(context, 'Cancel'),
-                //   child: const Text('Cancel'),
-                // ),
                 TextButton(
                   onPressed: () => Navigator.pop(context, 'OK'),
                   child: const Text('OK'),
@@ -121,10 +118,6 @@ class _CategoryState extends State<Category> {
             content: const Text(
                 'Iespējams tagad mums ir problēmas dabūt datus! Lūdzu, mēģini vēlāk.'),
             actions: <Widget>[
-              // TextButton(
-              //   onPressed: () => Navigator.pop(context, 'Cancel'),
-              //   child: const Text('Cancel'),
-              // ),
               TextButton(
                 onPressed: () => Navigator.pop(context, 'OK'),
                 child: const Text('OK'),
@@ -149,12 +142,14 @@ class _CategoryState extends State<Category> {
     super.initState();
     _firstLoad();
     _loadInterstitialAd();
+    _loadInterstitialAdAndStoreLinkPage();
     _controller = ScrollController()..addListener(_loadMore);
   }
 
   @override
   void dispose() {
     _interstitialAd?.dispose();
+    _interstitialAdAndOpenStorePage?.dispose();
     super.dispose();
   }
 
@@ -164,24 +159,23 @@ class _CategoryState extends State<Category> {
         appBar: AppBar(
             title: Text(
               this.categoriesName,
-              style: TextStyle(color: const Color(0xFF0C46DD)),
+              style: const TextStyle(color: ApiConstants.mainFontColor),
             ),
             automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
             actions: [
-              // Navigate to the Search Screen
               IconButton(
                   onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => const SearchPage())),
                   icon: const ImageIcon(
                     AssetImage("assets/search.png"),
-                    // color: Colors.grey,
+                    color: ApiConstants.mainFontColor,
                     size: 18,
                   ))
             ]),
         body: _isFirstLoadRunning
             ? const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(color: ApiConstants.mainFontColor),
               )
             : Column(
                 children: [
@@ -196,7 +190,7 @@ class _CategoryState extends State<Category> {
                     const Padding(
                       padding: EdgeInsets.only(top: 10, bottom: 40),
                       child: Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(color: ApiConstants.mainFontColor),
                       ),
                     ),
                   if (_hasNextPage == false)
@@ -213,34 +207,30 @@ class _CategoryState extends State<Category> {
           backgroundColor: Colors.white,
           onTap: (index) => _changeTab(index),
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: Color(0xFF0C46DD),
+          selectedItemColor: const Color(0xFF0C46DD),
           unselectedItemColor: Colors.grey,
           items: const [
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/catalogs.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Katalogs"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/scanner.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Skeneris"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/store.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Veikali"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/comparify.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Comparify"),
@@ -249,8 +239,6 @@ class _CategoryState extends State<Category> {
   }
 
   _changeTab(int index) {
-    print('index: ' + index.toString());
-    print('ad: ' + _interstitialAd.toString());
     if (index == 0) {
       if (_interstitialAd != null) {
         _interstitialAd?.show();
@@ -261,13 +249,12 @@ class _CategoryState extends State<Category> {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const ScanBarCodePage()));
     } else if (index == 2) {
-      // if (_interstitialAd != null)
-      //   // _loadInterstitialAdAndStoreLinkPage();
-      //   _interstitialAd!.show();
-      // } else {
+      if (_interstitialAdAndOpenStorePage != null) {
+        _interstitialAdAndOpenStorePage!.show();
+      } else {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
-      // }
+       }
     } else if (index == 3) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => AboutUsPage()));
@@ -288,7 +275,7 @@ class _CategoryState extends State<Category> {
           );
 
           setState(() {
-            _interstitialAd = ad;
+            _interstitialAdAndOpenStorePage = ad;
           });
         },
         onAdFailedToLoad: (err) {
@@ -315,7 +302,7 @@ class _CategoryState extends State<Category> {
   void _loadInterstitialAd() {
     InterstitialAd.load(
       adUnitId: AdHelper.interstitialAdUnitId,
-      request: AdRequest(),
+      request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
           ad.fullScreenContentCallback = FullScreenContentCallback(

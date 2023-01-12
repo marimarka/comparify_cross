@@ -1,3 +1,4 @@
+import 'package:comparify_cross/pages/helpers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -18,46 +19,50 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
-        backgroundColor: Color(0xFF0C46DD),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(12),
-        child: Expanded(
-          child: IndexedStack(
-            index: _stackIndex,
-            children: [
-              InAppWebView(
-                initialUrlRequest: URLRequest(url: Uri.parse(widget.uri)),
-                initialOptions: InAppWebViewGroupOptions(
-                  crossPlatform:
-                  InAppWebViewOptions(useShouldOverrideUrlLoading: true),
-                ),
-                onLoadStop: (_, __) {
-                  setState(() {
-                    _stackIndex = 0;
-                  });
-                },
-                onLoadError: (_, __, ___, ____) {
-                  setState(() {
-                    _stackIndex = 0;
-                  });
-                  //TODO: Show error alert message (Error in receive data from server)
-                },
-                onLoadHttpError: (_, __, ___, ____) {
-                  setState(() {
-                    _stackIndex = 0;
-                  });
-                  //TODO: Show error alert message (Error in receive data from server)
-                },
-              ),
-              const Center(
-                // height: 50,
-                child: CircularProgressIndicator(),
-              ),
-            ],
-          ),
+        title: Text(
+          widget.title,
+          style: const TextStyle(color: ApiConstants.mainFontColor),
         ),
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: true,
+        leading: const BackButton(color: ApiConstants.mainFontColor),
+      ),
+      body: Container(
+        child: IndexedStack(
+          index: _stackIndex,
+          children: [
+            InAppWebView(
+              initialUrlRequest: URLRequest(url: Uri.parse(widget.uri)),
+              initialOptions: InAppWebViewGroupOptions(
+                crossPlatform:
+                    InAppWebViewOptions(useShouldOverrideUrlLoading: true),
+              ),
+              onLoadStop: (_, __) {
+                setState(() {
+                  _stackIndex = 0;
+                });
+              },
+              onLoadError: (_, __, ___, ____) {
+                setState(() {
+                  _stackIndex = 0;
+                });
+                //TODO: Show error alert message (Error in receive data from server)
+              },
+              onLoadHttpError: (_, __, ___, ____) {
+                setState(() {
+                  _stackIndex = 0;
+                });
+                //TODO: Show error alert message (Error in receive data from server)
+              },
+            ),
+            const Center(
+              // height: 50,
+              child:
+                  CircularProgressIndicator(color: ApiConstants.mainFontColor),
+            ),
+          ],
+        ),
+        // ),
       ),
     );
   }

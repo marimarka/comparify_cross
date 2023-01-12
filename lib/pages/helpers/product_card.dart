@@ -1,5 +1,6 @@
 import 'package:comparify_cross/models/products_dto_v2.dart';
 import 'package:comparify_cross/models/retailer_price_dto_v2.dart';
+import 'package:comparify_cross/pages/helpers/constants.dart';
 import 'package:comparify_cross/pages/helpers/retailer_price_card.dart';
 import 'package:flutter/material.dart';
 
@@ -71,7 +72,7 @@ class ProductCardState extends State<ProductCard> {
           alignment: Alignment.topLeft,
           child: Text(
             product.productName,
-            style: const TextStyle(fontSize: 22, color: const Color(0xFF0C46DD)),
+            style: const TextStyle(fontSize: 22, color: ApiConstants.mainFontColor),
           )),
     );
     return Card(
@@ -80,6 +81,7 @@ class ProductCardState extends State<ProductCard> {
         ),
         child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[imageSection, nameSection],
           ),
           Expanded(

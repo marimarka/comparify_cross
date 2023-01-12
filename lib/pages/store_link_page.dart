@@ -1,5 +1,6 @@
 import 'package:comparify_cross/pages/about_us_page.dart';
 import 'package:comparify_cross/pages/helpers/ad_helper.dart';
+import 'package:comparify_cross/pages/helpers/constants.dart';
 import 'package:comparify_cross/pages/home.dart';
 import 'package:comparify_cross/pages/scan_barcode_page.dart';
 import 'package:flutter/material.dart';
@@ -74,59 +75,18 @@ class _StoreLinkState extends State<StoreLinkPage> {
 
   @override
   Widget build(BuildContext context) {
-    // const bVTextSection = Expanded(
-    //   child: Text(
-    //       'B veikalā',
-    //       style: TextStyle(color: Color(0xFF0C46DD), fontSize: 20)
-    //   // Padding(
-    //   //     padding: EdgeInsets.only(top: 8),
-    //   //     child: Padding(
-    //   //         padding: EdgeInsets.only(bottom: 10, left: 10),
-    //   //         child: Text(
-    //   //           'B veikalā',
-    //   //           style: TextStyle(color: const Color(0xFF0C46DD), fontSize: 20),
-    //   //         ))),
-    // ));
-    // final rVTextSection = Expanded(
-    //   child: //Padding(
-    //       // padding: EdgeInsets.only(top: 8,bottom: 10, left: 10),
-    //       // child:
-    //       Image.asset("assets/store_rimi_logo.png")
-    //       // Padding(
-    //       //     padding: EdgeInsets.only(),
-    //       //     child: Text(
-    //       //       'R veikalā',
-    //       //       style: TextStyle(color: const Color(0xFF0C46DD), fontSize: 20),
-    //       //     ))
-    //
-    // );
-    // const pVTextSection = Expanded(
-    //   child: Padding(
-    //       padding: EdgeInsets.only(top: 8),
-    //       child: Padding(
-    //           padding: EdgeInsets.only(bottom: 10, left: 10),
-    //           child: Text(
-    //             'P veikalā',
-    //             style: TextStyle(color: const Color(0xFF0C46DD), fontSize: 20),
-    //           ))),
-    // );
     return Scaffold(
         appBar: AppBar(
             title: const Text(
               "Comparify",
-              style: TextStyle(color: const Color(0xFF0C46DD)),
+              style: TextStyle(color: ApiConstants.mainFontColor),
             ),
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false),
-            // leading: const BackButton(color: Color(0xFF0C46DD))),
         body: Builder(builder: (BuildContext context) {
           return Container(
             alignment: Alignment.center,
-            color: Colors.white,
-            child: Flex(
-                direction: Axis.vertical,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
+              child: ListView(children: <Widget>[
                   const SizedBox(
                       height: 40,
                       child: Padding(
@@ -134,7 +94,7 @@ class _StoreLinkState extends State<StoreLinkPage> {
                           child: Text("Noformē pirkumus: ",
                               style: TextStyle(
                                   fontSize: 20,
-                                  color: const Color(0xFF0C46FF))))),
+                                  color: ApiConstants.mainFontColor)))),
                   InkWell(
                       onTap: () => launchUrl(
                           Uri.parse("https://www.barbora.lv/grozs"),
@@ -151,7 +111,7 @@ class _StoreLinkState extends State<StoreLinkPage> {
                                   child: Text('Barbora veikalā',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                          color: Color(0xFF0C46DD),
+                                          color: ApiConstants.mainFontColor,
                                           fontSize: 20)))))),
                   const SizedBox(height: 2),
                   InkWell(
@@ -189,10 +149,9 @@ class _StoreLinkState extends State<StoreLinkPage> {
                                 child: Text('PienaVeikals veikalā',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        color: Color(0xFF0C46DD),
+                                        color: ApiConstants.mainFontColor,
                                         fontSize: 20))))),
                   ),
-                  //Row(children: <Widget>[pVTextSection])),
                 ]),
           );
         }),
@@ -207,28 +166,24 @@ class _StoreLinkState extends State<StoreLinkPage> {
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/catalogs.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Katalogs"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/scanner.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Skeneris"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/store.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Veikali"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/comparify.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Comparify"),

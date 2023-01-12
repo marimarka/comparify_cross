@@ -1,4 +1,5 @@
 import 'package:comparify_cross/models/retailer_price_dto_v2.dart';
+import 'package:comparify_cross/pages/helpers/constants.dart';
 import 'package:comparify_cross/pages/helpers/in_app_web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -73,98 +74,120 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
           width: 25,
           child: FittedBox(
               fit: BoxFit.contain,
-              child: //isFirst
-              // ? Text(product.retailerName, style: TextStyle(color: Colors.green))
-              // : Text(product.retailerName, style: TextStyle(color: const Color(0xFF0C46DD))),
-              // child:
-              product.retailerName == 'Barbora' && product.retailerPrice != '-'
-                  ? const TooltipSample()
-                  : const Text('')
-            //Image.asset("assets/barbora_logo.png")
-            // : product.retailerName == 'Rimi'
-            //     ? Image.asset("assets/rimi_logo.png")
-            //     : Text('P',
-            //         style: isFirst
-            //             ? const TextStyle(color: Colors.green)
-            //             : const TextStyle(
-            //                 color: Color(
-            //                     0xFF0C46DD))) //Image.asset("assets/piena_veikals_logo.png"),
-          ),
+              child:
+                  product.retailerName == 'Barbora' &&
+                          product.retailerPrice != '-'
+                      ? const TooltipSample()
+                      : const Text('')
+              ),
         ));
 
-    final nameAndPriceSection = Expanded(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            isFirst == true
-            // ? product.retailerName == 'Barbora'
-            //    ? Padding(
-            //        padding: EdgeInsets.only(top: 2),
-            //        child: Text('Cena atjaunota: ' + product.retailerLastUpdate,
-            //            style:
-            //                const TextStyle(color: Colors.green, fontSize: 14)))
-                ? Padding(
-                padding: const EdgeInsets.only(left: 3),
-                child: Text(product.retailerName,
-                    style: const TextStyle(color: Colors.green, fontSize: 20)))
-            // : product.retailerName == 'Barbora'
-            //     : Padding(
-            //         padding: EdgeInsets.only(top: 2),
-            //         child: Text('Cena atjaunota: ' + product.retailerLastUpdate,
-            //             style:
-            //                 const TextStyle(color: const Color(0xFF0C46DD), fontSize: 14))),
-                : Padding(
-                padding: const EdgeInsets.only(left: 3),
-                child: Text(product.retailerName,
-                    style: const TextStyle(
-                        color: const Color(0xFF0C46DD), fontSize: 20))),
-            // ? product.retailerName == 'Barbora'
-            Padding(
-                padding: const EdgeInsets.only(top: 2),
-                child: product.retailerPrice != '-'
-                    ? Text('Cena atjaunota: ' + product.retailerLastUpdate,
-                    style: const TextStyle(color: Colors.black26, fontSize: 14))
-                    : const Text("")),
-            // : Text(product.retailerName,
-            //     style: const TextStyle(color: Colors.green, fontSize: 20))
-            // : product.retailerName == 'Barbora'
-            //     : Padding(
-            // padding: EdgeInsets.only(top: 2),
-            // child: Text('Cena atjaunota: ' + product.retailerLastUpdate,
-            // style:
-            // const TextStyle(color: const Color(0xFF0C46DD), fontSize: 14))),
-            // : Text(product.retailerName,
-            //     style: const TextStyle(color: Colors.black, fontSize: 20)),
-            isFirst == true
-                ? Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Text(getFormattedPrice(product.retailerPrice),
-                    style: const TextStyle(color: Colors.green, fontSize: 20)))
-                : Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Text(getFormattedPrice(product.retailerPrice),
-                    style: const TextStyle(
-                        color: const Color(0xFF0C46DD), fontSize: 20)))
-          ],
-        ));
+    final nameAndPriceSection = product.retailerPrice == '-'
+        ? Expanded(
+            child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              isFirst == true
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 3),
+                      child: Text(product.retailerName,
+                          style: const TextStyle(
+                              color: Color(0xFF0C46DD), fontSize: 20)))
+                  : Padding(
+                      padding: const EdgeInsets.only(left: 3),
+                      child: Text(product.retailerName,
+                          style: const TextStyle(
+                              color: ApiConstants.mainFontColor, fontSize: 20))),
+              Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: product.retailerPrice != '-'
+                      ? Text('Atjaunots: ' + product.retailerLastUpdate,
+                          style: const TextStyle(
+                              color: Colors.black26, fontSize: 14))
+                      : const Text("")),
+              isFirst == true
+                  ? Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Text(getFormattedPrice(product.retailerPrice),
+                          style: const TextStyle(
+                              color: Color(0xFF0C46DD), fontSize: 20)))
+                  : Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Text(getFormattedPrice(product.retailerPrice),
+                          style: const TextStyle(
+                              color: ApiConstants.mainFontColor, fontSize: 20)))
+            ],
+          ))
+        : Expanded(
+            child: InkWell(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => InAppWebViewPage(
+                        title: product.retailerName,
+                        uri: product.retailerUrl))),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    isFirst == true
+                        ? Padding(
+                            padding: const EdgeInsets.only(left: 3),
+                            child: Text(product.retailerName,
+                                style: const TextStyle(
+                                    color: Color(0xFF0C46DD), fontSize: 20)))
+                        : Padding(
+                            padding: const EdgeInsets.only(left: 3),
+                            child: Text(product.retailerName,
+                                style: const TextStyle(
+                                    color: ApiConstants.mainFontColor,
+                                    fontSize: 20))),
+                    Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: product.retailerPrice != '-'
+                            ? Text(
+                                'Atjaunots: ' + product.retailerLastUpdate,
+                                style: const TextStyle(
+                                    color: Colors.black26, fontSize: 14))
+                            : const Text("")),
+                    isFirst == true
+                        ? Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Text(
+                                getFormattedPrice(product.retailerPrice),
+                                style: const TextStyle(
+                                    color: Color(0xFF0C46DD), fontSize: 20)))
+                        : Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Text(
+                                getFormattedPrice(product.retailerPrice),
+                                style: const TextStyle(
+                                    color: ApiConstants.mainFontColor,
+                                    fontSize: 20)))
+                  ],
+                )),
+          );
     return Container(
         margin: const EdgeInsets.only(left: 10, right: 10),
-        child: product.retailerPrice == '-'
-            ? Container(
-            child: RetailerPriceRow(
-                logoSection: logoSection,
-                nameAndPriceSection: nameAndPriceSection))
-            : InkWell(
-            onTap: () =>
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) =>
-                        InAppWebViewPage(
-                            title: product.retailerName,
-                            uri: product.retailerUrl))),
-            // launch(product.retailerUrl),
-            child: RetailerPriceRow(
-                logoSection: logoSection,
-                nameAndPriceSection: nameAndPriceSection)));
+        child: Container(
+          child: RetailerPriceRow(
+            logoSection: logoSection,
+            nameAndPriceSection: nameAndPriceSection,
+          ),
+        ));
+    // child: product.retailerPrice == '-'
+    //     ? Container(
+    //     child: RetailerPriceRow(
+    //         logoSection: logoSection,
+    //         nameAndPriceSection: nameAndPriceSection))
+    //     : InkWell(
+    //     onTap: () =>
+    //         Navigator.of(context).push(MaterialPageRoute(
+    //             builder: (_) =>
+    //                 InAppWebViewPage(
+    //                     title: product.retailerName,
+    //                     uri: product.retailerUrl))),
+    //     // launch(product.retailerUrl),
+    //     child: RetailerPriceRow(
+    //         logoSection: logoSection,
+    //         nameAndPriceSection: nameAndPriceSection)));
   }
 
   String getFormattedPrice(String price) {
@@ -183,24 +206,26 @@ class TooltipSample extends StatelessWidget {
     return Tooltip(
       message: 'Neattēlo Paldies kartes individuāla piedāvājuma atlaides',
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-        // color: Col
-        gradient:
-        const LinearGradient(colors: <Color>[Colors.blue, Colors.blueAccent]),
+        borderRadius: BorderRadius.circular(10),
+        gradient: const LinearGradient(
+            colors: <Color>[Colors.white, Colors.black12]),
       ),
       height: 50,
       padding: const EdgeInsets.all(8.0),
       preferBelow: false,
       textStyle: const TextStyle(
         fontSize: 18,
+        color: ApiConstants.mainFontColor
       ),
       showDuration: const Duration(seconds: 3),
       waitDuration: const Duration(seconds: 1),
-      child: const Text('*', style: TextStyle(color: Color(0xFF0C46DD)),),
+      child: const Text(
+        '*',
+        style: TextStyle(color: ApiConstants.mainFontColor),
+      ),
     );
   }
 }
-
 
 class RetailerPriceRow extends StatelessWidget {
   const RetailerPriceRow({

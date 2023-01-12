@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:comparify_cross/pages/helpers/ad_helper.dart';
+import 'package:comparify_cross/pages/helpers/constants.dart';
 import 'package:comparify_cross/pages/home.dart';
 import 'package:comparify_cross/pages/scan_barcode_page.dart';
 import 'package:comparify_cross/pages/store_link_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 
 class AboutUsPage extends StatefulWidget {
   AboutUsPage({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class AboutUsPage extends StatefulWidget {
 
 class _AboutUsState extends State<AboutUsPage> {
   InterstitialAd? _interstitialAd;
+  InterstitialAd? _interstitialAdAndOpenStorePage;
 
   int _selectedTab = 3;
 
@@ -24,11 +27,13 @@ class _AboutUsState extends State<AboutUsPage> {
   void initState() {
     super.initState();
     _loadInterstitialAd();
+    _loadInterstitialAdAndOpenStorePage();
   }
 
   @override
   void dispose() {
     _interstitialAd?.dispose();
+    _interstitialAdAndOpenStorePage?.dispose();
     super.dispose();
   }
 
@@ -44,7 +49,12 @@ class _AboutUsState extends State<AboutUsPage> {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const ScanBarCodePage()));
     } else if (index == 2) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
+      if (_interstitialAdAndOpenStorePage != null) {
+        _interstitialAdAndOpenStorePage?.show();
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
+      }
     } else if (index == 3) {}
   }
 
@@ -72,10 +82,35 @@ class _AboutUsState extends State<AboutUsPage> {
     );
   }
 
+  void _loadInterstitialAdAndOpenStorePage() {
+    InterstitialAd.load(
+      adUnitId: AdHelper.interstitialAdUnitId,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => StoreLinkPage()));
+            },
+          );
+
+          setState(() {
+            _interstitialAdAndOpenStorePage = ad;
+          });
+        },
+        onAdFailedToLoad: (err) {
+          print('Failed to load an interstitial ad: ${err.message}');
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     dynamic url;
-    final playStorelogoSection = Padding(
+
+   final playStorelogoSection = Padding(
         padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
         child: SizedBox(
           height: 25,
@@ -83,6 +118,15 @@ class _AboutUsState extends State<AboutUsPage> {
           child: FittedBox(
               fit: BoxFit.contain,
               child: Image.asset("assets/logo-google-play.png")),
+        ));
+    final sharelogoSection = Padding(
+        padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
+        child: SizedBox(
+          height: 25,
+          width: 25,
+          child: FittedBox(
+              fit: BoxFit.contain,
+              child: Image.asset("assets/share.png")),
         ));
     final contactUsLogoSection = Padding(
         padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
@@ -124,7 +168,17 @@ class _AboutUsState extends State<AboutUsPage> {
               padding: EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
                 'Rate us',
-                style: TextStyle(color: const Color(0xFF0C46DD), fontSize: 20),
+                style: TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+              ))),
+    );
+    const shareTextSection = Expanded(
+      child: Padding(
+          padding: EdgeInsets.only(top: 8),
+          child: Padding(
+              padding: EdgeInsets.only(bottom: 10, left: 10),
+              child: Text(
+                'Share app',
+                style: TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     if (Platform.isAndroid || Platform.isIOS) {
@@ -144,7 +198,7 @@ class _AboutUsState extends State<AboutUsPage> {
               padding: EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
                 'Contact Us',
-                style: TextStyle(color: const Color(0xFF0C46DD), fontSize: 20),
+                style: TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
 
@@ -155,7 +209,7 @@ class _AboutUsState extends State<AboutUsPage> {
               padding: EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
                 'Like us on Facebook',
-                style: TextStyle(color: const Color(0xFF0C46DD), fontSize: 20),
+                style: TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     const instaTextSection = Expanded(
@@ -165,7 +219,7 @@ class _AboutUsState extends State<AboutUsPage> {
               padding: EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
                 'Follow us on Instagram',
-                style: TextStyle(color: const Color(0xFF0C46DD), fontSize: 20),
+                style: TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     const tiktokTextSection = Expanded(
@@ -175,24 +229,21 @@ class _AboutUsState extends State<AboutUsPage> {
               padding: EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
                 'TikTok: Comparify_lv',
-                style: TextStyle(color: const Color(0xFF0C46DD), fontSize: 20),
+                style: TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     return Scaffold(
         appBar: AppBar(
             title: const Text(
               "Comparify",
-              style: TextStyle(color: const Color(0xFF0C46DD)),
+              style: TextStyle(color: Colors.white, backgroundColor: Color(0xFF0C46DD)),
             ),
             automaticallyImplyLeading: false,
             backgroundColor: Colors.white),
-            // leading: const BackButton(color: Color(0xFF0C46DD))),
         body: Builder(builder: (BuildContext context) {
           return Container(
-            alignment: Alignment.center,
-            color: Colors.white,
-            child: ListView (
-              children: <Widget> [
+              alignment: Alignment.center,
+              child: ListView(children: <Widget>[
                 Column(
                   children: <Widget>[
                     const Image(
@@ -200,39 +251,49 @@ class _AboutUsState extends State<AboutUsPage> {
                       height: 150,
                     ),
                     const SizedBox(
-                        height: 70,
+                        height: 80,
                         child: Text(
                             "    We ar developer family which realized some day that we need to compare prices. "
-                                "So started implement such application. Hope it helps you to save money.",
+                            "So started implement such application. Hope it helps you to save money.",
                             style: TextStyle(
                                 height: 1.5,
-                                fontSize: 14,
-                                color: const Color(0xFF0C46FF)))),
+                                fontSize: 16,
+                                color: ApiConstants.mainFontColor))),
                     const SizedBox(
                       height: 5,
                     ),
                     const SizedBox(
-                        height: 85,
+                        height: 95,
                         child: Text(
                             "    Мы семья разработчиков, которая однажды поняла, что нам нужно сравнивать цены. "
-                                "Поэтому мы начали реализовывать такое приложение. Надеюсь, она поможет вам сэкономить деньги.",
+                            "Поэтому мы начали реализовывать такое приложение. Надеюсь, она поможет вам сэкономить деньги.",
                             style: TextStyle(
                                 height: 1.5,
-                                fontSize: 14,
-                                color: const Color(0xFF0C46FF)))),
+                                fontSize: 16,
+                                color: ApiConstants.mainFontColor))),
                     const SizedBox(
                       height: 5,
                     ),
                     const SizedBox(
-                      height: 70,
+                      height: 95,
                       child: Text(
                           "    Mēs esam izstrādātāju ģimene, kas kādu dienu saprata, ka mums ir jāsalīdzina cenas. "
-                              "Tāpēc sākam izstrādāt šādu aplikāciju. Cerams, ka tā palīdzēs jums ietaupīt naudu.",
+                          "Tāpēc sākam izstrādāt šādu aplikāciju. Cerams, ka tā palīdzēs jums ietaupīt naudu.",
                           style: TextStyle(
                               height: 1.5,
-                              fontSize: 14,
-                              color: const Color(0xFF0C46FF))),
+                              fontSize: 16,
+                              color: ApiConstants.mainFontColor)),
                     ),
+                    const Divider(
+                      color: Colors.grey,
+                    ),
+                    InkWell(
+                        onTap: () =>
+                            Share.share('Download Comparify on https://play.google.com/store/apps/details?id=com.emmea.comparify'),
+                        child: Row(children: <Widget>[
+                          sharelogoSection,
+                          shareTextSection
+                        ])),
                     const Divider(
                       color: Colors.grey,
                     ),
@@ -285,17 +346,7 @@ class _AboutUsState extends State<AboutUsPage> {
                         ]))
                   ],
                 )
-              ]
-
-            )
-            // Flex( //TODO:: Expanded
-            //     direction: Axis.vertical,
-            //     mainAxisAlignment: MainAxisAlignment.start,
-            //     children: <Widget>[
-
-                // ]
-          // ),
-          );
+              ]));
         }),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedTab,
@@ -308,28 +359,24 @@ class _AboutUsState extends State<AboutUsPage> {
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/catalogs.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Katalogs"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/scanner.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Skeneris"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/store.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Veikali"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/comparify.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Comparify"),

@@ -1,5 +1,5 @@
 name: comparify_cross
-description: A new Flutter project.
+description: Comparify is application to compare prices in most popular internet.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 2.0.0+1
 
 environment:
   sdk: '>=2.18.5 <3.0.0'
@@ -34,26 +34,22 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   http: ^0.13.4
-  flutter_linkify: ^5.0.2
   url_launcher: ^6.1.7
-  flutter_neumorphic: ^3.0.3
   flutter_barcode_scanner: ^2.0.0
   intl: 0.18.0
   flutter_inappwebview: ^5.3.2
   google_mobile_ads: ^1.2.0
-  flutter_launcher_icons: ^0.11.0
   contactus: ^1.2.0
   flutter_email_sender: ^5.0.2
-  intro_slider: ^3.0.9
+  intro_slider: ^4.2.0
   shared_preferences: ^2.0.15
-  after_layout: ^1.2.0
+  share_plus: ^6.3.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
-  flutter_launcher_icons: ^0.11.0
   flutter_test:
     sdk: flutter
 
@@ -121,6 +117,7 @@ flutter:
     - assets/intro/intro2.png
     - assets/intro/intro3.png
     - assets/intro/intro4.png
+    - assets/share.png
 #    - assets/piena_veikals_logo.png
   # To add assets to your application, add an assets section, like this:
   # assets:

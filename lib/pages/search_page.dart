@@ -24,6 +24,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State {
   BannerAd? _bannerAd;
   InterstitialAd? _interstitialAd;
+  InterstitialAd? _interstitialAdAndOpenStorePage;
 
   List<ProductsDTOV2> productList = [];
   Timer searchOnStoppedTyping = new Timer(const Duration(seconds: 2), () {});
@@ -53,14 +54,16 @@ class _SearchPageState extends State {
       ),
     ).load();
     super.initState();
+    _loadInterstitialAdAndStoreLinkPage();
+    _loadInterstitialAdAndCategoryPage();
   }
 
   @override
   void dispose() {
-    // TODO: Dispose a BannerAd object
     _bannerAd?.dispose();
     _controller.dispose();
     _interstitialAd?.dispose();
+    _interstitialAdAndOpenStorePage?.dispose();
     super.dispose();
   }
 
@@ -101,10 +104,6 @@ class _SearchPageState extends State {
             content: const Text(
                 'Iespējams tagad mums ir problēmas dabūt datus! Lūdzu, mēģini vēlāk.'),
             actions: <Widget>[
-              // TextButton(
-              //   onPressed: () => Navigator.pop(context, 'Cancel'),
-              //   child: const Text('Cancel'),
-              // ),
               TextButton(
                 onPressed: () => Navigator.pop(context, 'OK'),
                 child: const Text('OK'),
@@ -116,7 +115,6 @@ class _SearchPageState extends State {
     }
 
     setState(() {
-      // FocusManager.instance.primaryFocus?.unfocus();
       _isSearchRunning = false;
     });
   }
@@ -124,32 +122,24 @@ class _SearchPageState extends State {
   _changeTab(int index) {
     if (index == 0) {
       if (_interstitialAd != null) {
-        _loadInterstitialAdAndCategoryPage();
+        _interstitialAd?.show();
       } else {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const Home()));
       }
     } else if (index == 1) {
-      if (_interstitialAd != null) {
-        _loadInterstitialAdAndScanPage();
-      } else {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ScanBarCodePage()));
-      }
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ScanBarCodePage()));
     } else if (index == 2) {
-      if (_interstitialAd != null) {
-        _loadInterstitialAdAndStoreLinkPage();
+      if (_interstitialAdAndOpenStorePage != null) {
+        _interstitialAdAndOpenStorePage?.show();
       } else {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
       }
     } else if (index == 3) {
-      if (_interstitialAd != null) {
-        _loadInterstitialAdAndScanPage();
-      } else {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => AboutUsPage()));
-      }
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => AboutUsPage()));
     }
   }
 
@@ -159,11 +149,10 @@ class _SearchPageState extends State {
 
     return Scaffold(
         appBar: AppBar(
-            title: const Text('Comparify',
-                style: TextStyle(color: const Color(0xFF0C46DD))),
+            title:
+                const Text('Comparify', style: TextStyle(color: ApiConstants.mainFontColor)),
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false),
-            // leading: const BackButton(color: Color(0xFF0C46DD))),
         body: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
@@ -172,20 +161,23 @@ class _SearchPageState extends State {
                   ? SizedBox(
                       height: _bannerAd!.size.height.toDouble(),
                       child: Align(
-                        // alignment: Alignment.topCenter,
                         child: Container(
                           width: _bannerAd!.size.width.toDouble(),
                           height: _bannerAd!.size.height.toDouble(),
                           child: AdWidget(ad: _bannerAd!),
-                        ), // make container of your ads
+                        ),
                       ))
                   : const SizedBox(
                       height: 5,
                     ),
               TextField(
+                cursorColor: ApiConstants.mainFontColor,
                 controller: _controller,
                 onChanged: (value) => _onChangeHandler(value),
                 decoration: InputDecoration(
+                  focusedBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: ApiConstants.mainFontColor),
+                  ),
                   prefixIcon: const IconButton(
                     onPressed: null,
                     icon: ImageIcon(AssetImage("assets/search.png")),
@@ -194,7 +186,7 @@ class _SearchPageState extends State {
                       ? IconButton(
                           onPressed: () => clearAll(),
                           icon: const ImageIcon(AssetImage("assets/clear.png")),
-                        )
+                          color: ApiConstants.mainFontColor)
                       : null,
                 ),
               ),
@@ -216,7 +208,7 @@ class _SearchPageState extends State {
                 const Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 40),
                   child: Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(color: ApiConstants.mainFontColor),
                   ),
                 ),
             ],
@@ -233,28 +225,24 @@ class _SearchPageState extends State {
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/catalogs.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Katalogs"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/scanner.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Skeneris"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/store.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Veikali"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/comparify.png"),
-                  // color: Colors.grey,
                   size: 18,
                 ),
                 label: "Comparify"),
@@ -278,30 +266,8 @@ class _SearchPageState extends State {
         onAdLoaded: (ad) {
           ad.fullScreenContentCallback = FullScreenContentCallback(
             onAdDismissedFullScreenContent: (ad) {
-              Navigator.pop(this.context);
-            },
-          );
-
-          setState(() {
-            _interstitialAd = ad;
-          });
-        },
-        onAdFailedToLoad: (err) {
-          print('Failed to load an interstitial ad: ${err.message}');
-        },
-      ),
-    );
-  }
-
-  void _loadInterstitialAdAndScanPage() {
-    InterstitialAd.load(
-      adUnitId: AdHelper.interstitialAdUnitId,
-      request: const AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (ad) {
-          ad.fullScreenContentCallback = FullScreenContentCallback(
-            onAdDismissedFullScreenContent: (ad) {
-              const ScanBarCodePage();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Home()));
             },
           );
 
@@ -324,12 +290,13 @@ class _SearchPageState extends State {
         onAdLoaded: (ad) {
           ad.fullScreenContentCallback = FullScreenContentCallback(
             onAdDismissedFullScreenContent: (ad) {
-              StoreLinkPage();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => StoreLinkPage()));
             },
           );
 
           setState(() {
-            _interstitialAd = ad;
+            _interstitialAdAndOpenStorePage = ad;
           });
         },
         onAdFailedToLoad: (err) {

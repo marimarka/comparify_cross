@@ -1,6 +1,6 @@
 import 'package:comparify_cross/pages/category.dart';
+import 'package:comparify_cross/pages/helpers/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class Categories extends StatefulWidget {
   const Categories({super.key});
@@ -97,7 +97,6 @@ class SongbookCard extends StatelessWidget {
                                 fit: BoxFit.fitHeight),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(12.0))),
-                        //ColorsExtension.appPurple),
                         // width: 120,
                         // height: 120,
                         width: MediaQuery.of(context).size.width * 0.6,
@@ -111,7 +110,7 @@ class SongbookCard extends StatelessWidget {
                       categoriesName,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                          color: Color(0xFF0C46DD), fontSize: 20),
+                          color: ApiConstants.mainFontColor, fontSize: 20),
                     ),
                   )
                 ]))));
@@ -131,7 +130,6 @@ class SongBookWidgetStyle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     throw UnimplementedError();
   }
 }
