@@ -7,8 +7,8 @@ import 'package:comparify_cross/pages/scan_barcode_page.dart';
 import 'package:comparify_cross/pages/store_link_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutUsPage extends StatefulWidget {
   AboutUsPage({Key? key}) : super(key: key);
@@ -110,7 +110,7 @@ class _AboutUsState extends State<AboutUsPage> {
   Widget build(BuildContext context) {
     dynamic url;
 
-   final playStorelogoSection = Padding(
+    final playStorelogoSection = Padding(
         padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
         child: SizedBox(
           height: 25,
@@ -125,8 +125,7 @@ class _AboutUsState extends State<AboutUsPage> {
           height: 25,
           width: 25,
           child: FittedBox(
-              fit: BoxFit.contain,
-              child: Image.asset("assets/share.png")),
+              fit: BoxFit.contain, child: Image.asset("assets/share.png")),
         ));
     final contactUsLogoSection = Padding(
         padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
@@ -168,7 +167,8 @@ class _AboutUsState extends State<AboutUsPage> {
               padding: EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
                 'Rate us',
-                style: TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                style:
+                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     const shareTextSection = Expanded(
@@ -178,7 +178,8 @@ class _AboutUsState extends State<AboutUsPage> {
               padding: EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
                 'Share app',
-                style: TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                style:
+                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     if (Platform.isAndroid || Platform.isIOS) {
@@ -198,7 +199,8 @@ class _AboutUsState extends State<AboutUsPage> {
               padding: EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
                 'Contact Us',
-                style: TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                style:
+                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
 
@@ -209,7 +211,8 @@ class _AboutUsState extends State<AboutUsPage> {
               padding: EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
                 'Like us on Facebook',
-                style: TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                style:
+                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     const instaTextSection = Expanded(
@@ -219,7 +222,8 @@ class _AboutUsState extends State<AboutUsPage> {
               padding: EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
                 'Follow us on Instagram',
-                style: TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                style:
+                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     const tiktokTextSection = Expanded(
@@ -229,17 +233,25 @@ class _AboutUsState extends State<AboutUsPage> {
               padding: EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
                 'TikTok: Comparify_lv',
-                style: TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                style:
+                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     return Scaffold(
-        appBar: AppBar(
-            title: const Text(
-              "Comparify",
-              style: TextStyle(color: Colors.white, backgroundColor: Color(0xFF0C46DD)),
-            ),
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.white),
+        // appBar: AppBar(
+        //     title: Container(
+        //         width: 25,
+        //         height: 10,
+        //         decoration: BoxDecoration(
+        //             borderRadius: BorderRadius.circular(4),
+        //             color: const Color(0xFF0C46DD)),
+        //         child: const Text(
+        //           "Comparify",
+        //           style: TextStyle(
+        //               color: Colors.white, backgroundColor: Color(0xFF0C46DD)),
+        //         )),
+        //     automaticallyImplyLeading: false,
+        //     backgroundColor: Colors.white),
         body: Builder(builder: (BuildContext context) {
           return Container(
               alignment: Alignment.center,
@@ -288,8 +300,8 @@ class _AboutUsState extends State<AboutUsPage> {
                       color: Colors.grey,
                     ),
                     InkWell(
-                        onTap: () =>
-                            Share.share('Download Comparify on https://play.google.com/store/apps/details?id=com.emmea.comparify'),
+                        onTap: () => Share.share(
+                            'Download Comparify on https://play.google.com/store/apps/details?id=com.emmea.comparify'),
                         child: Row(children: <Widget>[
                           sharelogoSection,
                           shareTextSection

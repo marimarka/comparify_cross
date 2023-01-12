@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class Home extends StatefulWidget {
-
   static String id = 'Home';
+
   const Home({Key? key}) : super(key: key);
 
   @override
@@ -46,7 +46,7 @@ class _HomeState extends State {
           MaterialPageRoute(builder: (context) => const ScanBarCodePage()));
     } else if (index == 2) {
       if (_interstitialAd != null) {
-          _interstitialAd!.show();
+        _interstitialAd!.show();
       } else {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
@@ -87,6 +87,18 @@ class _HomeState extends State {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
+        title: Container(
+            width: 120,
+            height: 27,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: const Color(0xFF0C46DD)),
+            child: const Text(
+              "Comparify",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white, backgroundColor: Color(0xFF0C46DD)),
+            )),
         actions: [
           IconButton(
               onPressed: () => Navigator.of(context)

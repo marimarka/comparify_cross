@@ -63,7 +63,11 @@ class ProductCardState extends State<ProductCard> {
       width: 130,
       child: FittedBox(
         fit: BoxFit.contain,
-        child: Image.network(product.productImageUrl),
+        child: Image.network(product.productImageUrl,
+          errorBuilder: (context, exception, stackTrace) {
+            return Image.asset("assets/no_image.png");
+          },
+        ),
       ),
     );
 

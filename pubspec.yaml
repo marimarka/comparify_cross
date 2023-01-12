@@ -118,6 +118,7 @@ flutter:
     - assets/intro/intro3.png
     - assets/intro/intro4.png
     - assets/share.png
+    - assets/no_image.png
 #    - assets/piena_veikals_logo.png
   # To add assets to your application, add an assets section, like this:
   # assets:
