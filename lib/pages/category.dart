@@ -184,7 +184,7 @@ class _CategoryState extends State<Category> {
                         itemCount: productList.length,
                         controller: _controller,
                         itemBuilder: (_, index) =>
-                            ProductCard(productList![index])),
+                            ProductCard(productList[index])),
                   ),
                   if (_isLoadMoreRunning == true)
                     const Padding(
