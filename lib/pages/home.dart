@@ -88,17 +88,21 @@ class _HomeState extends State {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         title: Container(
-            width: 120,
+            width: 130,
             height: 27,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
                 color: const Color(0xFF0C46DD)),
-            child: const Text(
-              "Comparify",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.white, backgroundColor: Color(0xFF0C46DD)),
-            )),
+            child: const Center(
+              child: Text(
+                "Comparify",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white, backgroundColor: Color(0xFF0C46DD),
+                fontSize: 16),
+                )
+            )
+        ),
         actions: [
           IconButton(
               onPressed: () => Navigator.of(context)
@@ -125,7 +129,7 @@ class _HomeState extends State {
                 AssetImage("assets/catalogs.png"),
                 size: 18,
               ),
-              label: "Katalogs"),
+              label: "Preces"),
           BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage("assets/scanner.png"),

@@ -85,7 +85,7 @@ class _SearchPageState extends State {
 
     try {
       final url =
-          "${ApiConstants.baseUrl}${ApiConstants.findByNamePageEndpoint}/${name!}";
+          "${ApiConstants.baseUrl}${ApiConstants.findByNamePageEndpoint}/${name}";
       final res = await http.get(Uri.parse("$url"));
 
       final List<ProductsDTOV2> fetchedPosts =
@@ -198,7 +198,7 @@ class _SearchPageState extends State {
                     ? ListView.builder(
                         itemCount: _foundProducts.length,
                         itemBuilder: (context, index) =>
-                            ProductCard(_foundProducts![index]))
+                            ProductCard(_foundProducts[index]))
                     : const Text(
                         'Nav meklēšanas rezultāta',
                         style: TextStyle(fontSize: 24, color: Colors.black45),
@@ -227,7 +227,7 @@ class _SearchPageState extends State {
                   AssetImage("assets/catalogs.png"),
                   size: 18,
                 ),
-                label: "Katalogs"),
+                label: "Preces"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/scanner.png"),

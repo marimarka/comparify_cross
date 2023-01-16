@@ -92,30 +92,30 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
                       padding: const EdgeInsets.only(left: 3),
                       child: Text(product.retailerName,
                           style: const TextStyle(
-                              color: Color(0xFF0C46DD), fontSize: 20)))
+                              color: Color(0xFF0C46DD), fontSize: 16)))
                   : Padding(
                       padding: const EdgeInsets.only(left: 3),
                       child: Text(product.retailerName,
                           style: const TextStyle(
-                              color: ApiConstants.mainFontColor, fontSize: 20))),
+                              color: ApiConstants.mainFontColor, fontSize: 16))),
               Padding(
                   padding: const EdgeInsets.only(top: 2),
                   child: product.retailerPrice != '-'
                       ? Text('Atjaunots: ' + product.retailerLastUpdate,
                           style: const TextStyle(
-                              color: Colors.black26, fontSize: 14))
+                              color: Colors.black26, fontSize: 12))
                       : const Text("")),
               isFirst == true
                   ? Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: Text(getFormattedPrice(product.retailerPrice),
                           style: const TextStyle(
-                              color: Color(0xFF0C46DD), fontSize: 20)))
+                              color: Color(0xFF0C46DD), fontSize: 16)))
                   : Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: Text(getFormattedPrice(product.retailerPrice),
                           style: const TextStyle(
-                              color: ApiConstants.mainFontColor, fontSize: 20)))
+                              color: ApiConstants.mainFontColor, fontSize: 16)))
             ],
           ))
         : Expanded(
@@ -132,20 +132,20 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
                             padding: const EdgeInsets.only(left: 3),
                             child: Text(product.retailerName,
                                 style: const TextStyle(
-                                    color: Color(0xFF0C46DD), fontSize: 20)))
+                                    color: Color(0xFF0C46DD), fontSize: 16)))
                         : Padding(
                             padding: const EdgeInsets.only(left: 3),
                             child: Text(product.retailerName,
                                 style: const TextStyle(
                                     color: ApiConstants.mainFontColor,
-                                    fontSize: 20))),
+                                    fontSize: 16))),
                     Padding(
                         padding: const EdgeInsets.only(top: 2),
                         child: product.retailerPrice != '-'
                             ? Text(
                                 'Atjaunots: ' + product.retailerLastUpdate,
                                 style: const TextStyle(
-                                    color: Colors.black26, fontSize: 14))
+                                    color: Colors.black26, fontSize: 12))
                             : const Text("")),
                     isFirst == true
                         ? Padding(
@@ -153,14 +153,14 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
                             child: Text(
                                 getFormattedPrice(product.retailerPrice),
                                 style: const TextStyle(
-                                    color: Color(0xFF0C46DD), fontSize: 20)))
+                                    color: Color(0xFF0C46DD), fontSize: 16)))
                         : Padding(
                             padding: const EdgeInsets.only(right: 10),
                             child: Text(
                                 getFormattedPrice(product.retailerPrice),
                                 style: const TextStyle(
                                     color: ApiConstants.mainFontColor,
-                                    fontSize: 20)))
+                                    fontSize: 16)))
                   ],
                 )),
           );

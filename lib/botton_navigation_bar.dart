@@ -16,7 +16,7 @@
 //           AssetImage("assets/catalogs.png"),
 //           // color: Colors.grey,
 //           size: 18,
-//         ), label: "Katalogs"),
+//         ), label: "Preces"),
 //         BottomNavigationBarItem(icon: ImageIcon(
 //           AssetImage("assets/scanner.png"),
 //           // color: Colors.grey,

@@ -373,7 +373,7 @@ class _AboutUsState extends State<AboutUsPage> {
                   AssetImage("assets/catalogs.png"),
                   size: 18,
                 ),
-                label: "Katalogs"),
+                label: "Preces"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/scanner.png"),

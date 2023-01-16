@@ -110,7 +110,7 @@ class SongbookCard extends StatelessWidget {
                       categoriesName,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                          color: ApiConstants.mainFontColor, fontSize: 20),
+                          color: ApiConstants.mainFontColor, fontSize: 16),
                     ),
                   )
                 ]))));

@@ -52,7 +52,7 @@ class _ScanBarCodePageState extends State {
 
     try {
       final url =
-          "${ApiConstants.baseUrl}${ApiConstants.findByCodePageEndpoint}/${_scanBarcode!}";
+          "${ApiConstants.baseUrl}${ApiConstants.findByCodePageEndpoint}/${_scanBarcode}";
       final res = await http.get(Uri.parse("$url"));
 
       final List<ProductsDTOV2> fetchedPosts =
@@ -220,7 +220,7 @@ class _ScanBarCodePageState extends State {
                             itemCount: foundProduct.length,
                             // controller: _controller,
                             itemBuilder: (_, index) =>
-                                ProductCard(foundProduct![index])),
+                                ProductCard(foundProduct[index])),
                       ),
                     ],
                   ),
@@ -238,7 +238,7 @@ class _ScanBarCodePageState extends State {
                   // color: Colors.grey,
                   size: 18,
                 ),
-                label: "Katalogs"),
+                label: "Preces"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/scanner.png"),

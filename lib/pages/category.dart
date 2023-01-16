@@ -215,7 +215,7 @@ class _CategoryState extends State<Category> {
                   AssetImage("assets/catalogs.png"),
                   size: 18,
                 ),
-                label: "Katalogs"),
+                label: "Preces"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/scanner.png"),

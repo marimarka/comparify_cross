@@ -168,7 +168,7 @@ class _StoreLinkState extends State<StoreLinkPage> {
                   AssetImage("assets/catalogs.png"),
                   size: 18,
                 ),
-                label: "Katalogs"),
+                label: "Preces"),
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage("assets/scanner.png"),

@@ -74,10 +74,14 @@ class ProductCardState extends State<ProductCard> {
     final nameSection = Expanded(
       child: Align(
           alignment: Alignment.topLeft,
-          child: Text(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: Text(
             product.productName,
-            style: const TextStyle(fontSize: 22, color: ApiConstants.mainFontColor),
-          )),
+            style: const TextStyle(fontSize: 18, color: ApiConstants.mainFontColor),
+          ))
+          )
+          ,
     );
     return Card(
         shape: RoundedRectangleBorder(
@@ -94,7 +98,7 @@ class ProductCardState extends State<ProductCard> {
                 shrinkWrap: true,
                 itemCount: retailerPriceList.length,
                 itemBuilder: (_, index) =>
-                    RetailerPriceCard(retailerPriceList![index], index == 0)),
+                    RetailerPriceCard(retailerPriceList[index], index == 0)),
           )
         ]));
   }
