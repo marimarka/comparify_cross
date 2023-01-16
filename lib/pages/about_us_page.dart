@@ -117,7 +117,7 @@ class _AboutUsState extends State<AboutUsPage> {
           width: 25,
           child: FittedBox(
               fit: BoxFit.contain,
-              child: Image.asset("assets/logo-google-play.png")),
+              child: Image.asset("assets/comparify.png")),
         ));
     final sharelogoSection = Padding(
         padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
@@ -166,7 +166,7 @@ class _AboutUsState extends State<AboutUsPage> {
           child: Padding(
               padding: EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
-                'Rate us',
+                'Rate Comparify',
                 style:
                     TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
@@ -320,8 +320,7 @@ class _AboutUsState extends State<AboutUsPage> {
                     ),
                     const SizedBox(height: 2),
                     InkWell(
-                        onTap: () => launchUrl(
-                            Uri.parse("mailto:marina.paberzze@gmail.com")),
+                        onTap: () => _sendEmail() ,
                         child: Row(children: <Widget>[
                           contactUsLogoSection,
                           contactUsTextSection
@@ -415,5 +414,35 @@ class _AboutUsState extends State<AboutUsPage> {
     } catch (e) {
       await launch(fallbackUrl);
     }
+  }
+
+  void _sendEmail() async {
+    String emailUrl;
+
+    final url = Uri(
+      scheme: 'mailto',
+      path: 'marina.paberzze@gmail.com',
+      query: 'subject=Comparify user email',
+    );
+    if (await canLaunchUrl(url)) {
+      launchUrl(url);
+    } else {
+      print("Can't launch $url");
+    }
+    // if (Platform.isIOS) {
+    //   emailUrl = "message://marina.paberzze@gmail.com";
+    // } else {
+    //   emailUrl = "mailto:marina.paberzze@gmail.com";
+    // }
+
+    // try {
+    //   bool launched = await launch(emailUrl, forceWebView: false);
+    //
+    //   if (!launched) {
+    //     await launch(emailUrl, forceWebView: false);
+    //   }
+    // } catch (e) {
+    //   await launch(emailUrl);
+    // }
   }
 }
