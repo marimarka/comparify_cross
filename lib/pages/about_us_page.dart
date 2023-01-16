@@ -168,7 +168,7 @@ class _AboutUsState extends State<AboutUsPage> {
               child: Text(
                 'Rate Comparify',
                 style:
-                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     const shareTextSection = Expanded(
@@ -179,12 +179,12 @@ class _AboutUsState extends State<AboutUsPage> {
               child: Text(
                 'Share app',
                 style:
-                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     if (Platform.isAndroid || Platform.isIOS) {
       final appId =
-          Platform.isAndroid ? 'com.emmea.comparify' : 'YOUR_IOS_APP_ID';
+      Platform.isAndroid ? 'com.emmea.comparify' : 'YOUR_IOS_APP_ID';
       url = Uri.parse(
         Platform.isAndroid
             ? "market://details?id=$appId"
@@ -200,7 +200,7 @@ class _AboutUsState extends State<AboutUsPage> {
               child: Text(
                 'Contact Us',
                 style:
-                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
 
@@ -212,7 +212,7 @@ class _AboutUsState extends State<AboutUsPage> {
               child: Text(
                 'Like us on Facebook',
                 style:
-                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     const instaTextSection = Expanded(
@@ -223,7 +223,7 @@ class _AboutUsState extends State<AboutUsPage> {
               child: Text(
                 'Follow us on Instagram',
                 style:
-                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     const tiktokTextSection = Expanded(
@@ -234,24 +234,24 @@ class _AboutUsState extends State<AboutUsPage> {
               child: Text(
                 'TikTok: Comparify_lv',
                 style:
-                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     return Scaffold(
-        // appBar: AppBar(
-        //     title: Container(
-        //         width: 25,
-        //         height: 10,
-        //         decoration: BoxDecoration(
-        //             borderRadius: BorderRadius.circular(4),
-        //             color: const Color(0xFF0C46DD)),
-        //         child: const Text(
-        //           "Comparify",
-        //           style: TextStyle(
-        //               color: Colors.white, backgroundColor: Color(0xFF0C46DD)),
-        //         )),
-        //     automaticallyImplyLeading: false,
-        //     backgroundColor: Colors.white),
+      // appBar: AppBar(
+      //     title: Container(
+      //         width: 25,
+      //         height: 10,
+      //         decoration: BoxDecoration(
+      //             borderRadius: BorderRadius.circular(4),
+      //             color: const Color(0xFF0C46DD)),
+      //         child: const Text(
+      //           "Comparify",
+      //           style: TextStyle(
+      //               color: Colors.white, backgroundColor: Color(0xFF0C46DD)),
+      //         )),
+      //     automaticallyImplyLeading: false,
+      //     backgroundColor: Colors.white),
         body: Builder(builder: (BuildContext context) {
           return Container(
               alignment: Alignment.center,
@@ -266,7 +266,7 @@ class _AboutUsState extends State<AboutUsPage> {
                         height: 80,
                         child: Text(
                             "    We ar developer family which realized some day that we need to compare prices. "
-                            "So started implement such application. Hope it helps you to save money.",
+                                "So started implement such application. Hope it helps you to save money.",
                             style: TextStyle(
                                 height: 1.5,
                                 fontSize: 16,
@@ -278,7 +278,7 @@ class _AboutUsState extends State<AboutUsPage> {
                         height: 95,
                         child: Text(
                             "    Мы семья разработчиков, которая однажды поняла, что нам нужно сравнивать цены. "
-                            "Поэтому мы начали реализовывать такое приложение. Надеюсь, она поможет вам сэкономить деньги.",
+                                "Поэтому мы начали реализовывать такое приложение. Надеюсь, она поможет вам сэкономить деньги.",
                             style: TextStyle(
                                 height: 1.5,
                                 fontSize: 16,
@@ -290,7 +290,7 @@ class _AboutUsState extends State<AboutUsPage> {
                       height: 95,
                       child: Text(
                           "    Mēs esam izstrādātāju ģimene, kas kādu dienu saprata, ka mums ir jāsalīdzina cenas. "
-                          "Tāpēc sākam izstrādāt šādu aplikāciju. Cerams, ka tā palīdzēs jums ietaupīt naudu.",
+                              "Tāpēc sākam izstrādāt šādu aplikāciju. Cerams, ka tā palīdzēs jums ietaupīt naudu.",
                           style: TextStyle(
                               height: 1.5,
                               fontSize: 16,
@@ -300,8 +300,9 @@ class _AboutUsState extends State<AboutUsPage> {
                       color: Colors.grey,
                     ),
                     InkWell(
-                        onTap: () => Share.share(
-                            'Download Comparify on https://play.google.com/store/apps/details?id=com.emmea.comparify'),
+                        onTap: () =>
+                            Share.share(
+                                'Download Comparify on https://play.google.com/store/apps/details?id=com.emmea.comparify'),
                         child: Row(children: <Widget>[
                           sharelogoSection,
                           shareTextSection
@@ -320,7 +321,7 @@ class _AboutUsState extends State<AboutUsPage> {
                     ),
                     const SizedBox(height: 2),
                     InkWell(
-                        onTap: () => _sendEmail() ,
+                        onTap: () => _sendEmail(),
                         child: Row(children: <Widget>[
                           contactUsLogoSection,
                           contactUsTextSection
@@ -338,8 +339,9 @@ class _AboutUsState extends State<AboutUsPage> {
                     ),
                     const SizedBox(height: 2),
                     InkWell(
-                        onTap: () => launchUrl(Uri.parse(
-                            'https://www.instagram.com/_u/comparify.lv')),
+                        onTap: () =>
+                            launchUrl(Uri.parse(
+                                'https://www.instagram.com/_u/comparify.lv')),
                         child: Row(children: <Widget>[
                           instaLogoSection,
                           instaTextSection
@@ -349,8 +351,10 @@ class _AboutUsState extends State<AboutUsPage> {
                     ),
                     const SizedBox(height: 2),
                     InkWell(
-                        onTap: () => launchUrl(
-                            Uri.parse('https://www.tiktok.com/@comparify_lv')),
+                        onTap: () =>
+                            launchUrl(
+                                Uri.parse(
+                                    'https://www.tiktok.com/@comparify_lv')),
                         child: Row(children: <Widget>[
                           tiktokLogoSection,
                           tiktokTextSection
@@ -417,32 +421,19 @@ class _AboutUsState extends State<AboutUsPage> {
   }
 
   void _sendEmail() async {
-    String emailUrl;
-
-    final url = Uri(
-      scheme: 'mailto',
-      path: 'marina.paberzze@gmail.com',
-      query: 'subject=Comparify user email',
-    );
-    if (await canLaunchUrl(url)) {
-      launchUrl(url);
+    if (Platform.isIOS) {
+      final url = Uri(
+        scheme: 'mailto',
+        path: 'marina.paberzze@gmail.com',
+        query: 'subject=Comparify user email',
+      );
+      if (await canLaunchUrl(url)) {
+        launchUrl(url);
+      } else {
+        print("Can't launch $url");
+      }
     } else {
-      print("Can't launch $url");
+      launchUrl(Uri.parse("mailto:marina.paberzze@gmail.com"));
     }
-    // if (Platform.isIOS) {
-    //   emailUrl = "message://marina.paberzze@gmail.com";
-    // } else {
-    //   emailUrl = "mailto:marina.paberzze@gmail.com";
-    // }
-
-    // try {
-    //   bool launched = await launch(emailUrl, forceWebView: false);
-    //
-    //   if (!launched) {
-    //     await launch(emailUrl, forceWebView: false);
-    //   }
-    // } catch (e) {
-    //   await launch(emailUrl);
-    // }
   }
 }

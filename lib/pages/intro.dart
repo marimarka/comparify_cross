@@ -27,23 +27,29 @@ class IntroState extends State<Intro> {
   Future checkFirstSeen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seen = (prefs.getBool('seen') ?? false);
-
+    print(_seen);
     if (_seen) {
-      return Home.id;
+
+      Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => new Home()));
+
+      // print("1");
+      // return Home.id;
     } else {
-      // Set the flag to true at the end of onboarding screen if everything is successfull and so I am commenting it out
-      setState(() {
-        prefs.setBool('seen', true);
-      });
-      return Intro.id;
+      await prefs.setBool('seen', true);
+      Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => new Intro()));
+
+      // print("2");
+      // // Set the flag to true at the end of onboarding screen if everything is successfull and so I am commenting it out
+      // await prefs.setBool('seen', true);
+      // return Intro.id;
     }
   }
 
   Future setSeenCheck() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      prefs.setBool('seen', true);
-    });
+    await prefs.setBool('seen', true);
   }
 
   @override
@@ -53,7 +59,8 @@ class IntroState extends State<Intro> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: CircularProgressIndicator(color: ApiConstants.mainFontColor),
+              child:
+                  CircularProgressIndicator(color: ApiConstants.mainFontColor),
             );
           } else {
             return IntroSlider(
@@ -61,27 +68,27 @@ class IntroState extends State<Intro> {
               skipButtonStyle: myButtonStyle(),
               doneButtonStyle: myButtonStyle(),
               nextButtonStyle: myButtonStyle(),
-
               onSkipPress: onSkipPress,
               onDonePress: onPressedDone,
-
               indicatorConfig: IndicatorConfig(
-              sizeIndicator: sizeIndicator,
-              indicatorWidget: Container(
-                width: sizeIndicator,
-                height: 10,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4), color: indicatorInactiveColor),
+                sizeIndicator: sizeIndicator,
+                indicatorWidget: Container(
+                  width: sizeIndicator,
+                  height: 10,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: indicatorInactiveColor),
+                ),
+                activeIndicatorWidget: Container(
+                  width: sizeIndicator + 15,
+                  height: 10,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: indicatorActiveColor),
+                ),
+                spaceBetweenIndicator: 15,
+                typeIndicatorAnimation: TypeIndicatorAnimation.sliding,
               ),
-              activeIndicatorWidget: Container(
-                width: sizeIndicator + 15,
-                height: 10,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4), color: indicatorActiveColor),
-              ),
-              spaceBetweenIndicator: 15,
-              typeIndicatorAnimation: TypeIndicatorAnimation.sliding,
-            ),
             );
           }
         });
@@ -96,7 +103,8 @@ class IntroState extends State<Intro> {
       description:
           "Mēs esam izstrādātāju ģimene, kas kādu dienu saprata, ka mums ir jāsalīdzina cenas. "
           "Tāpēc sākam izstrādāt šādu aplikāciju.\n \n Ticam, ka tā palīdzēs jums ietaupīt naudu.",
-      styleDescription: TextStyle(color: ApiConstants.mainFontColor, fontSize: 22),
+      styleDescription:
+          TextStyle(color: ApiConstants.mainFontColor, fontSize: 22),
       pathImage: "assets/intro/intro1.png",
       backgroundColor: Colors.white,
     ));
@@ -111,7 +119,8 @@ class IntroState extends State<Intro> {
           " Veikalā ielogojies, lai tavs grozs būtu gatavs pirkuma noformēšanai. \n\n"
           "Atgriezies Comparify, lai turpinātu pildīt grozu ar precēm pēc visizdevīgākām cenām.\n\n"
           "Ilgi spiežot uz * pie veikala, uzzināsi iespējamo cenas atšķirību ar veikalu.",
-      styleDescription: TextStyle(color: ApiConstants.mainFontColor, fontSize: 22),
+      styleDescription:
+          TextStyle(color: ApiConstants.mainFontColor, fontSize: 22),
       pathImage: "assets/intro/intro2.png",
       backgroundColor: Colors.white,
     ));
@@ -121,7 +130,8 @@ class IntroState extends State<Intro> {
       description:
           "Ja gribi atrast cenu konkrētai precei, ko turi rokās, noskenē barkodu, "
           "un redzēsi cenas, ko vari salīdzināt trijos veikalos. \n Mums ir ap 500 preces ar barkodu.",
-      styleDescription: TextStyle(color: ApiConstants.mainFontColor, fontSize: 22),
+      styleDescription:
+          TextStyle(color: ApiConstants.mainFontColor, fontSize: 22),
       pathImage: "assets/intro/intro3.png",
       backgroundColor: Colors.white,
     ));
@@ -132,24 +142,28 @@ class IntroState extends State<Intro> {
           "Kad esi piepildījis grozus ar precēm pēc izdevīgākām cenām, "
           "vari ieiet veikalā, lai noformētu pirkumu. Ceram uz tavu atgriešanu mūsu Comparify aplikācijā.\n\n"
           "#Taupamkopaa",
-      styleDescription: TextStyle(color: ApiConstants.mainFontColor, fontSize: 22),
+      styleDescription:
+          TextStyle(color: ApiConstants.mainFontColor, fontSize: 22),
       pathImage: "assets/intro/intro4.png",
       backgroundColor: Colors.white,
     ));
   }
 
-  TextStyle titleStyle() => TextStyle(color: ApiConstants.mainFontColor, fontSize: 22, fontWeight: FontWeight.bold);
+  TextStyle titleStyle() => TextStyle(
+      color: ApiConstants.mainFontColor,
+      fontSize: 22,
+      fontWeight: FontWeight.bold);
 
   onPressedDone() {
     setSeenCheck();
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => new Home()));
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => new Home()));
   }
 
   onSkipPress() {
     setSeenCheck();
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => new Home()));
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => new Home()));
   }
 
   ButtonStyle myButtonStyle() {
