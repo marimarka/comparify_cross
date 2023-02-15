@@ -1,5 +1,7 @@
 import 'package:comparify_cross/pages/about_us_page.dart';
+import 'package:comparify_cross/pages/favorites_page.dart';
 import 'package:comparify_cross/pages/helpers/ad_helper.dart';
+import 'package:comparify_cross/pages/helpers/bottom.dart';
 import 'package:comparify_cross/pages/helpers/constants.dart';
 import 'package:comparify_cross/pages/helpers/product_card.dart';
 import 'package:comparify_cross/pages/scan_barcode_page.dart';
@@ -10,25 +12,32 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'helpers/multi_languages.dart';
 
 class Category extends StatefulWidget {
   final String categoriesName;
   final String imageUrl;
 
-  Category({required this.categoriesName, required this.imageUrl, Key? key})
+  const Category(
+      {required this.categoriesName, required this.imageUrl, Key? key})
       : super(key: key);
 
   @override
-  _CategoryState createState() => _CategoryState(categoriesName, imageUrl);
+  CategoryState createState() => CategoryState(categoriesName, imageUrl);
 }
 
-class _CategoryState extends State<Category> {
+class CategoryState extends State<Category> {
   final String categoriesName;
   final String imageUrl;
   InterstitialAd? _interstitialAd;
   InterstitialAd? _interstitialAdAndOpenStorePage;
 
-  int _selectedTab = 0;
+  bool _favorite = false;
+  List<String> favoriteList = [];
+
+  final int _selectedTab = 0;
 
   final _baseUrl =
       ApiConstants.baseUrl + ApiConstants.findByCategoryPageEndpoint;
@@ -43,6 +52,13 @@ class _CategoryState extends State<Category> {
 
   List productList = [];
 
+  void _preferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      favoriteList = prefs.getStringList("favorites") ?? [];
+    });
+  }
+
   void _loadMore() async {
     if (_hasNextPage == true &&
         _isFirstLoadRunning == false &&
@@ -56,9 +72,9 @@ class _CategoryState extends State<Category> {
 
       try {
         final categoriesNumber = getCategoryNumber(categoriesName);
-        final _skipRecords = _page * _limit;
-        final url = '$_baseUrl/$categoriesNumber/$_skipRecords/$_limit';
-        final res = await http.get(Uri.parse("$url"));
+        final skipRecords = _page * _limit;
+        final url = '$_baseUrl/$categoriesNumber/$skipRecords/$_limit';
+        final res = await http.get(Uri.parse(url));
 
         final List fetchedPosts = ApiService().parseProducts(res.body);
         if (fetchedPosts.isNotEmpty) {
@@ -75,9 +91,9 @@ class _CategoryState extends State<Category> {
           showDialog<String>(
             context: context,
             builder: (BuildContext context) => AlertDialog(
-              title: const Text('Kaut kas nogāja greizī'),
-              content: const Text(
-                  'Iespējams tagad mums ir problēmas dabūt datus! Lūdzu, mēģini vēlāk.'),
+              title: Text(MultiLanguages.of(context)!.translate("smthFailed")),
+              content: Text(
+                  MultiLanguages.of(context)!.translate("smthFailedMessage")),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.pop(context, 'OK'),
@@ -102,21 +118,20 @@ class _CategoryState extends State<Category> {
 
     try {
       final categoriesNumber = getCategoryNumber(categoriesName);
-      final _skipRecords = _page * _limit;
-      final url = '$_baseUrl/$categoriesNumber/$_skipRecords/$_limit';
+      final skipRecords = _page * _limit;
+      final url = '$_baseUrl/$categoriesNumber/$skipRecords/$_limit';
       final res = await http.get(Uri.parse(url));
       setState(() {
         productList = ApiService().parseProducts(res.body);
-        ;
       });
     } catch (err) {
       if (kDebugMode) {
         showDialog<String>(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-            title: const Text('Kaut kas nogāja greizī'),
-            content: const Text(
-                'Iespējams tagad mums ir problēmas dabūt datus! Lūdzu, mēģini vēlāk.'),
+            title: Text(MultiLanguages.of(context)!.translate("smthFailed")),
+            content: Text(
+                MultiLanguages.of(context)!.translate("smthFailedMessage")),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.pop(context, 'OK'),
@@ -133,13 +148,14 @@ class _CategoryState extends State<Category> {
     });
   }
 
-  _CategoryState(@required this.categoriesName, @required this.imageUrl);
+  CategoryState(this.categoriesName, this.imageUrl);
 
   late ScrollController _controller;
 
   @override
   void initState() {
     super.initState();
+    _preferences();
     _firstLoad();
     _loadInterstitialAd();
     _loadInterstitialAdAndStoreLinkPage();
@@ -157,25 +173,25 @@ class _CategoryState extends State<Category> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text(
-              this.categoriesName,
-              style: const TextStyle(color: ApiConstants.mainFontColor),
-            ),
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.white,
+            title: Text(MultiLanguages.of(context)!.translate(categoriesName),
+                style: const TextStyle(color: ApiConstants.appBarFontColor,
+                fontFamily: "Orkney", fontSize: 24, fontWeight: FontWeight.bold)),
+            backgroundColor: ApiConstants.buttonsAndMenuColor,
+            automaticallyImplyLeading: ApiConstants.showTopBar,
             actions: [
               IconButton(
                   onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => const SearchPage())),
                   icon: const ImageIcon(
                     AssetImage("assets/search.png"),
-                    color: ApiConstants.mainFontColor,
+                    color: ApiConstants.appBarFontColor,
                     size: 18,
                   ))
             ]),
         body: _isFirstLoadRunning
             ? const Center(
-                child: CircularProgressIndicator(color: ApiConstants.mainFontColor),
+                child: CircularProgressIndicator(
+                    color: ApiConstants.mainFontColor),
               )
             : Column(
                 children: [
@@ -184,57 +200,31 @@ class _CategoryState extends State<Category> {
                         itemCount: productList.length,
                         controller: _controller,
                         itemBuilder: (_, index) =>
-                            ProductCard(productList[index])),
+                            ProductCard(productList[index], favoriteList)),
                   ),
                   if (_isLoadMoreRunning == true)
                     const Padding(
                       padding: EdgeInsets.only(top: 10, bottom: 40),
                       child: Center(
-                        child: CircularProgressIndicator(color: ApiConstants.mainFontColor),
+                        child: CircularProgressIndicator(
+                            color: ApiConstants.mainFontColor),
                       ),
                     ),
                   if (_hasNextPage == false)
                     Container(
                       padding: const EdgeInsets.only(top: 10, bottom: 20),
-                      child: const Center(
-                        child: Text('Saraksta beigas'),
+                      child: Center(
+                        child: Text(
+                            MultiLanguages.of(context)!.translate("endOfList")),
                       ),
                     ),
                 ],
               ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedTab,
-          backgroundColor: Colors.white,
-          onTap: (index) => _changeTab(index),
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: const Color(0xFF0C46DD),
-          unselectedItemColor: Colors.grey,
-          items: const [
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage("assets/catalogs.png"),
-                  size: 18,
-                ),
-                label: "Preces"),
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage("assets/scanner.png"),
-                  size: 18,
-                ),
-                label: "Skeneris"),
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage("assets/store.png"),
-                  size: 18,
-                ),
-                label: "Veikali"),
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage("assets/comparify.png"),
-                  size: 18,
-                ),
-                label: "Comparify"),
-          ],
+        bottomNavigationBar: BottomMenu(
+          selectedTab: _selectedTab,
+          changeTab: (int value) {
+            _changeTab(value);
+          },
         ));
   }
 
@@ -252,10 +242,13 @@ class _CategoryState extends State<Category> {
       if (_interstitialAdAndOpenStorePage != null) {
         _interstitialAdAndOpenStorePage!.show();
       } else {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
-       }
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const StoreLinkPage()));
+      }
     } else if (index == 3) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => FavoritesPage()));
+    } else if (index == 4) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => AboutUsPage()));
     }
@@ -269,8 +262,10 @@ class _CategoryState extends State<Category> {
         onAdLoaded: (ad) {
           ad.fullScreenContentCallback = FullScreenContentCallback(
             onAdDismissedFullScreenContent: (ad) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => StoreLinkPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const StoreLinkPage()));
             },
           );
 
@@ -286,16 +281,18 @@ class _CategoryState extends State<Category> {
   }
 
   int getCategoryNumber(String name) {
-    if (name == 'Maize un konditoreja') return 1;
-    if (name == 'Piena produkti un olas') return 2;
-    if (name == 'Augļi un dārzeņi') return 3;
-    if (name == 'Gaļa, zivs un gatava kulinārija') return 4;
-    if (name == 'Bakaleja') return 5;
-    if (name == 'Saldēta pārtika') return 6;
-    if (name == 'Dzērieni') return 7;
-    if (name == 'Alkoholiskie dzērieni') return 8;
-    if (name == 'Zīdaiņu un bērnu preces') return 9;
-    if (name == 'Mājai, tīrīšanai un mājdzīvniekiem') return 11;
+    if (name == "breadCatalog") return 1;
+    if (name == "milkCatalog") return 2;
+    if (name == "vegetablesCatalog") {
+      return 3;
+    }
+    if (name == "meatCatalog") return 4;
+    if (name == "bacaley") return 5;
+    if (name == "iced") return 6;
+    if (name == "Drinks") return 7;
+    if (name == "alcoDrinks") return 8;
+    if (name == "babiesGoods") return 9;
+    if (name == "houseGoods") return 11;
     return 0;
   }
 
@@ -307,7 +304,7 @@ class _CategoryState extends State<Category> {
         onAdLoaded: (ad) {
           ad.fullScreenContentCallback = FullScreenContentCallback(
             onAdDismissedFullScreenContent: (ad) {
-              Navigator.pop(this.context);
+              Navigator.pop(context);
             },
           );
 

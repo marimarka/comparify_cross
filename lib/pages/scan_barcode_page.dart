@@ -1,5 +1,7 @@
-import 'package:comparify_cross/models/products_dto_v2.dart';
+import 'package:comparify_cross/models/products_dto_v3.dart';
 import 'package:comparify_cross/pages/about_us_page.dart';
+import 'package:comparify_cross/pages/favorites_page.dart';
+import 'package:comparify_cross/pages/helpers/bottom.dart';
 import 'package:comparify_cross/pages/helpers/constants.dart';
 import 'package:comparify_cross/pages/helpers/product_card.dart';
 import 'package:comparify_cross/pages/home.dart';
@@ -12,25 +14,28 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'helpers/ad_helper.dart';
+import 'helpers/multi_languages.dart';
 
 class ScanBarCodePage extends StatefulWidget {
   const ScanBarCodePage({Key? key}) : super(key: key);
 
   @override
-  _ScanBarCodePageState createState() => _ScanBarCodePageState();
+  ScanBarCodePageState createState() => ScanBarCodePageState();
 }
 
-class _ScanBarCodePageState extends State {
+class ScanBarCodePageState extends State {
   InterstitialAd? _interstitialAd;
   InterstitialAd? _interstitialAdAndOpenStorePage;
 
-  int _selectedTab = 1;
+  final int _selectedTab = 1;
 
   String _scanBarcode = 'Unknown';
   bool callDone = false;
-  List<ProductsDTOV2> foundProduct = [];
+  List<ProductsDTOV3> foundProduct = [];
+  List<String> favoriteList = [];
 
   Future<void> barcodeScan() async {
     setState(() {
@@ -55,7 +60,7 @@ class _ScanBarCodePageState extends State {
           "${ApiConstants.baseUrl}${ApiConstants.findByCodePageEndpoint}/${_scanBarcode}";
       final res = await http.get(Uri.parse("$url"));
 
-      final List<ProductsDTOV2> fetchedPosts =
+      final List<ProductsDTOV3> fetchedPosts =
           ApiService().parseProducts(res.body);
       if (fetchedPosts.isNotEmpty) {
         setState(() {
@@ -68,9 +73,9 @@ class _ScanBarCodePageState extends State {
         showDialog<String>(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-            title: const Text('Kaut kas nogāja greizī'),
-            content: const Text(
-                'Iespējams tagad mums ir problēmas dabūt datus! Lūdzu, mēģini vēlāk.'),
+            title: Text(MultiLanguages.of(context)!.translate("smthFailed")),
+            content: Text(
+                MultiLanguages.of(context)!.translate("smthFailedMessage")),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.pop(context, 'OK'),
@@ -86,9 +91,17 @@ class _ScanBarCodePageState extends State {
   @override
   void initState() {
     super.initState();
+    _preferences();
     _loadInterstitialAd();
     _loadInterstitialAdAndOpenStorePage();
     barcodeScan();
+  }
+
+  void _preferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      favoriteList = prefs.getStringList("favorites") ?? [];
+    });
   }
 
   @override
@@ -119,6 +132,9 @@ class _ScanBarCodePageState extends State {
             context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
       }
     } else if (index == 3) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => FavoritesPage()));
+    } else if (index == 4) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => AboutUsPage()));
     }
@@ -176,9 +192,10 @@ class _ScanBarCodePageState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: const Text("Comparify"),
-            backgroundColor: Colors.white,
-            automaticallyImplyLeading: false,
+            title: Text(MultiLanguages.of(context)!.translate("comparify"),
+                style: const TextStyle(color: ApiConstants.appBarFontColor)),
+            backgroundColor: ApiConstants.buttonsAndMenuColor,
+            automaticallyImplyLeading: ApiConstants.showTopBar,
             actions: [
               IconButton(
                   onPressed: () => Navigator.of(context).push(
@@ -197,21 +214,21 @@ class _ScanBarCodePageState extends State {
               )
             : !callDone
                 ? AlertDialog(
-                    title: const Text('Paziņojums'),
-                    content: const Text(
-                        'Lūdzu, noskenē kodu vai meklē pēc nosaukuma.'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (_) => const SearchPage())),
-                        child: const Text('Doties uz meklēšanu'),
-                      ),
-                      TextButton(
-                        onPressed: () => barcodeScan(),
-                        child: const Text('OK'),
-                      ),
-                    ],
+                    title: Text(MultiLanguages.of(context)!.translate("hey")),
+                    content: Text(
+                        MultiLanguages.of(context)!.translate("pleaseScan")),
+                    // actions: <Widget>[
+                    //   TextButton(
+                    //     onPressed: () => Navigator.of(context).push(
+                    //         MaterialPageRoute(
+                    //             builder: (_) => const SearchPage())),
+                    //     child: const Text('Doties uz meklēšanu'),
+                    //   ),
+                    //   TextButton(
+                    //     onPressed: () => barcodeScan(),
+                    //     child: const Text('OK'),
+                    //   ),
+                    // ],
                   )
                 : Column(
                     children: [
@@ -220,44 +237,15 @@ class _ScanBarCodePageState extends State {
                             itemCount: foundProduct.length,
                             // controller: _controller,
                             itemBuilder: (_, index) =>
-                                ProductCard(foundProduct[index])),
+                                ProductCard(foundProduct[index], favoriteList)),
                       ),
                     ],
                   ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.white,
-          currentIndex: _selectedTab,
-          onTap: (index) => _changeTab(index),
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: const Color(0xFF0C46DD),
-          unselectedItemColor: Colors.grey,
-          items: const [
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage("assets/catalogs.png"),
-                  // color: Colors.grey,
-                  size: 18,
-                ),
-                label: "Preces"),
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage("assets/scanner.png"),
-                  size: 18,
-                ),
-                label: "Skeneris"),
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage("assets/store.png"),
-                  size: 18,
-                ),
-                label: "Veikali"),
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage("assets/comparify.png"),
-                  size: 18,
-                ),
-                label: "Comparify"),
-          ],
+        bottomNavigationBar: BottomMenu(
+          selectedTab: _selectedTab,
+          changeTab: (int value) {
+            _changeTab(value);
+          },
         ));
   }
 }

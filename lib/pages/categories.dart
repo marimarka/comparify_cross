@@ -2,6 +2,8 @@ import 'package:comparify_cross/pages/category.dart';
 import 'package:comparify_cross/pages/helpers/constants.dart';
 import 'package:flutter/material.dart';
 
+import 'helpers/multi_languages.dart';
+
 class Categories extends StatefulWidget {
   const Categories({super.key});
 
@@ -28,30 +30,43 @@ class CategoriesState extends State<Categories> {
         crossAxisSpacing: 10,
         crossAxisCount: 2,
         children: [
-          SongbookCard(
-              'Maize un konditoreja', 'assets/categories/3d_maize.png'),
+          CatalogItemCard(
+              // MultiLanguages.of(context)!.translate("breadCatalog"),
+              "breadCatalog",
+              'assets/categories/3d_maize.png'),
           //1
-          SongbookCard(
-              'Piena produkti un olas', 'assets/categories/3d_piens.png'),
+          CatalogItemCard(
+              "milkCatalog",
+              'assets/categories/3d_piens.png'),
           //2
-          SongbookCard('Augļi un dārzeņi', 'assets/categories/3d_darzini.png'),
+          CatalogItemCard(
+           "vegetablesCatalog",
+              'assets/categories/3d_darzini.png'),
           //3
-          SongbookCard('Gaļa, zivs un gatava kulinārija',
+          CatalogItemCard(
+              "meatCatalog",
               'assets/categories/3d_gala.png'),
           //4
-          SongbookCard('Bakaleja', 'assets/categories/3d_bakaleja.png'),
+          CatalogItemCard(
+              "bacaley",
+              'assets/categories/3d_bakaleja.png'),
           //5
-          SongbookCard('Saldēta pārtika', 'assets/categories/3d_saldeti.png'),
+          CatalogItemCard(
+              "iced", 'assets/categories/3d_saldeti.png'),
           //6
-          SongbookCard('Dzērieni', 'assets/categories/3d_dzerieni.png'),
+          CatalogItemCard(
+              "drinks",
+              'assets/categories/3d_dzerieni.png'),
           //7
-          SongbookCard(
-              'Alkoholiskie dzērieni', 'assets/categories/3d_alko.png'),
+          CatalogItemCard("alcoDrinks",
+              'assets/categories/3d_alko.png'),
           //8
-          SongbookCard(
-              'Zīdaiņu un bērnu preces', 'assets/categories/3d_berniem.png'),
+          CatalogItemCard(
+              "babiesGoods",
+              'assets/categories/3d_berniem.png'),
           //9
-          SongbookCard('Mājai, tīrīšanai un mājdzīvniekiem',
+          CatalogItemCard(
+              "houseGoods",
               'assets/categories/3d_majai.png'),
           //11
           // SongbookCard('Vegāniem un veģetāriešiem'),//10
@@ -61,13 +76,13 @@ class CategoriesState extends State<Categories> {
   }
 }
 
-class SongbookCard extends StatelessWidget {
+class CatalogItemCard extends StatelessWidget {
   final SongBookWidgetStyle style = SongBookWidgetStyle();
 
   String categoriesName = '';
   String imageUrl = '';
 
-  SongbookCard(String categoriesName, String imageUrl) {
+  CatalogItemCard(String categoriesName, String imageUrl) {
     this.categoriesName = categoriesName;
     this.imageUrl = imageUrl;
   }
@@ -107,10 +122,13 @@ class SongbookCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
                     child: Text(
-                      categoriesName,
+                      MultiLanguages.of(context)!.translate(categoriesName),
                       textAlign: TextAlign.center,
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                          color: ApiConstants.mainFontColor, fontSize: 16),
+                          color: ApiConstants.mainFontColor,  fontSize: ApiConstants.mainFontSize,
+                      letterSpacing: 0.7, fontWeight: FontWeight.bold),
                     ),
                   )
                 ]))));

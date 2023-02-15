@@ -1,12 +1,16 @@
 import 'package:comparify_cross/pages/about_us_page.dart';
 import 'package:comparify_cross/pages/categories.dart';
+import 'package:comparify_cross/pages/favorites_page.dart';
 import 'package:comparify_cross/pages/helpers/ad_helper.dart';
+import 'package:comparify_cross/pages/helpers/bottom.dart';
 import 'package:comparify_cross/pages/helpers/constants.dart';
 import 'package:comparify_cross/pages/scan_barcode_page.dart';
 import 'package:comparify_cross/pages/search_page.dart';
 import 'package:comparify_cross/pages/store_link_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+
+import 'helpers/multi_languages.dart';
 
 class Home extends StatefulWidget {
   static String id = 'Home';
@@ -18,12 +22,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State {
-  int _selectedTab = 0;
+  final int _selectedTab = 0;
   InterstitialAd? _interstitialAd;
 
   final List _pages = [
     const Categories(),
     const ScanBarCodePage(),
+    StoreLinkPage(),
+    FavoritesPage(),
     AboutUsPage(),
   ];
 
@@ -52,6 +58,9 @@ class _HomeState extends State {
             context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
       }
     } else if (index == 3) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => FavoritesPage()));
+    } else if (index == 4) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => AboutUsPage()));
     }
@@ -84,72 +93,40 @@ class _HomeState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        title: Container(
-            width: 130,
-            height: 27,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: const Color(0xFF0C46DD)),
-            child: const Center(
-              child: Text(
-                "Comparify",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white, backgroundColor: Color(0xFF0C46DD),
-                fontSize: 16),
-                )
-            )
+        appBar: AppBar(
+          centerTitle: true,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Image.asset("assets/new_logo.png", width: 26, height:24),
+              Padding(
+                  padding: EdgeInsets.only(left: 4),
+                  child:  Text(MultiLanguages.of(context)!.translate("comparify"),
+                  style: const TextStyle(
+                      color: ApiConstants.nameFontColor,
+                      fontWeight: FontWeight.bold))),
+            ],
+          ),
+             backgroundColor: ApiConstants.mainBackgroundColor,
+          automaticallyImplyLeading: ApiConstants.showTopBar,
+          actions: [
+            IconButton(
+                onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const SearchPage())),
+                icon: const ImageIcon(
+                  AssetImage("assets/search.png"),
+                  color: ApiConstants.mainFontColor,
+                  size: 18,
+                ))
+          ],
         ),
-        actions: [
-          IconButton(
-              onPressed: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (_) => const SearchPage())),
-              icon: const ImageIcon(
-                AssetImage("assets/search.png"),
-                color: ApiConstants.mainFontColor,
-                size: 18,
-              ))
-        ],
-        centerTitle: true,
-      ),
-      body: _pages[_selectedTab],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedTab,
-        backgroundColor: Colors.white,
-        onTap: (index) => _changeTab(index),
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: const Color(0xFF0C46DD),
-        unselectedItemColor: Colors.grey,
-        items: const [
-          BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage("assets/catalogs.png"),
-                size: 18,
-              ),
-              label: "Preces"),
-          BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage("assets/scanner.png"),
-                size: 18,
-              ),
-              label: "Skeneris"),
-          BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage("assets/store.png"),
-                size: 18,
-              ),
-              label: "Veikali"),
-          BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage("assets/comparify.png"),
-                size: 18,
-              ),
-              label: "Comparify"),
-        ],
-      ),
-    );
+        body: _pages[_selectedTab],
+        bottomNavigationBar: BottomMenu(
+          selectedTab: _selectedTab,
+          changeTab: (int value) {
+            _changeTab(value);
+          },
+        ));
   }
 }

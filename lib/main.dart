@@ -1,6 +1,7 @@
-
+import 'package:comparify_cross/pages/helpers/multi_languages.dart';
 import 'package:comparify_cross/pages/intro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() async {
@@ -13,14 +14,68 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  MyAppState createState() => MyAppState();
+
+  static void setLocal(BuildContext context, Locale newLocale) {
+    MyAppState? state = context.findAncestorStateOfType<MyAppState>();
+    state!.changeLocale(newLocale);
+  }
+}
+
+class MyAppState extends State<MyApp> {
+  Locale locale = const Locale.fromSubtags(languageCode: 'lv');
+
+  void changeLocale(Locale locale) {
+    setState(() {
+      locale = locale;
+    });
+  }
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    final multiLanguages = MultiLanguages();
+    final localeKey = await multiLanguages.readLocaleKey();
+    if (localeKey == 'en') {
+      locale = const Locale("en", "EN");
+    } else if (localeKey == 'lv') {
+      locale = const Locale.fromSubtags(languageCode: "lv");
+    } else if (localeKey == 'ru') {
+      locale = const Locale.fromSubtags(languageCode: "ru");
+    }
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      supportedLocales: const [
+        Locale('en', 'EN'),
+        Locale('lv', 'LV'),
+        Locale('ru', 'RU')
+      ],
+      localizationsDelegates: [
+        MultiLanguages.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      locale: locale,
+      localeResolutionCallback: (locale, supportedLocales) {
+        for (var supportedLocaleLanguagle in supportedLocales) {
+          if (supportedLocaleLanguagle.languageCode == locale?.languageCode &&
+              supportedLocaleLanguagle.countryCode == locale?.countryCode) {
+            return supportedLocaleLanguagle;
+          }
+        }
+      },
+
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        fontFamily: "Roboto",
         // primaryColor: Colors.white,
         scaffoldBackgroundColor: const Color(0xFFF6F6F6),
         visualDensity: VisualDensity.adaptivePlatformDensity,

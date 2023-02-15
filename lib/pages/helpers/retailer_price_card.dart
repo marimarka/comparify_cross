@@ -1,4 +1,4 @@
-import 'package:comparify_cross/models/retailer_price_dto_v2.dart';
+import 'package:comparify_cross/models/retailer_price_dto_v3.dart';
 import 'package:comparify_cross/pages/helpers/constants.dart';
 import 'package:comparify_cross/pages/helpers/in_app_web_view.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +6,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:intl/intl.dart';
 
 class RetailerPriceCard extends StatefulWidget {
-  final RetailerPriceDTOV2 product;
+  final RetailerPriceDTOV3 product;
   final bool isFirst;
 
   final MyInAppBrowser browser = new MyInAppBrowser();
@@ -52,7 +52,7 @@ class MyInAppBrowser extends InAppBrowser {
 }
 
 class RetailerPriceCardState extends State<RetailerPriceCard> {
-  RetailerPriceDTOV2 product;
+  RetailerPriceDTOV3 product;
   bool isFirst;
 
   final currency = NumberFormat.currency(
@@ -98,13 +98,13 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
                       child: Text(product.retailerName,
                           style: const TextStyle(
                               color: ApiConstants.mainFontColor, fontSize: 16))),
-              Padding(
-                  padding: const EdgeInsets.only(top: 2),
-                  child: product.retailerPrice != '-'
-                      ? Text('Atjaunots: ' + product.retailerLastUpdate,
-                          style: const TextStyle(
-                              color: Colors.black26, fontSize: 12))
-                      : const Text("")),
+              // Padding(
+              //     padding: const EdgeInsets.only(top: 2),
+              //     child: product.retailerPrice != '-'
+              //         ? Text('Atjaunots: ' + product.retailerLastUpdate,
+              //             style: const TextStyle(
+              //                 color: Colors.black26, fontSize: 12))
+              //         : const Text("")),
               isFirst == true
                   ? Padding(
                       padding: const EdgeInsets.only(right: 10),
@@ -139,14 +139,14 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
                                 style: const TextStyle(
                                     color: ApiConstants.mainFontColor,
                                     fontSize: 16))),
-                    Padding(
-                        padding: const EdgeInsets.only(top: 2),
-                        child: product.retailerPrice != '-'
-                            ? Text(
-                                'Atjaunots: ' + product.retailerLastUpdate,
-                                style: const TextStyle(
-                                    color: Colors.black26, fontSize: 12))
-                            : const Text("")),
+                    // Padding(
+                    //     padding: const EdgeInsets.only(top: 2),
+                    //     child: product.retailerPrice != '-'
+                    //         ? Text(
+                    //             'Atjaunots: ' + product.retailerLastUpdate,
+                    //             style: const TextStyle(
+                    //                 color: Colors.black26, fontSize: 12))
+                    //         : const Text("")),
                     isFirst == true
                         ? Padding(
                             padding: const EdgeInsets.only(right: 10),

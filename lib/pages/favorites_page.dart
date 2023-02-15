@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:comparify_cross/pages/favorites_page.dart';
 import 'package:comparify_cross/pages/helpers/ad_helper.dart';
 import 'package:comparify_cross/pages/helpers/bottom.dart';
 import 'package:comparify_cross/pages/helpers/constants.dart';
@@ -12,20 +11,21 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'about_us_page.dart';
 import 'helpers/multi_languages.dart';
 
-class AboutUsPage extends StatefulWidget {
-  AboutUsPage({Key? key}) : super(key: key);
+class FavoritesPage extends StatefulWidget {
+  FavoritesPage({Key? key}) : super(key: key);
 
   @override
-  _AboutUsState createState() => _AboutUsState();
+  _FavoritesState createState() => _FavoritesState();
 }
 
-class _AboutUsState extends State<AboutUsPage> {
+class _FavoritesState extends State<FavoritesPage> {
   InterstitialAd? _interstitialAd;
   InterstitialAd? _interstitialAdAndOpenStorePage;
 
-  final int _selectedTab = 4;
+  int _selectedTab = 3;
 
   @override
   void initState() {
@@ -57,12 +57,13 @@ class _AboutUsState extends State<AboutUsPage> {
         _interstitialAdAndOpenStorePage?.show();
       } else {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const StoreLinkPage()));
+            context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
       }
     } else if (index == 3) {
+    } else if (index == 4) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => FavoritesPage()));
-    } else if (index == 4) {}
+          context, MaterialPageRoute(builder: (context) => AboutUsPage()));
+    }
   }
 
   void _loadInterstitialAd() {
@@ -98,7 +99,7 @@ class _AboutUsState extends State<AboutUsPage> {
           ad.fullScreenContentCallback = FullScreenContentCallback(
             onAdDismissedFullScreenContent: (ad) {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const StoreLinkPage()));
+                  MaterialPageRoute(builder: (context) => StoreLinkPage()));
             },
           );
 
@@ -117,46 +118,6 @@ class _AboutUsState extends State<AboutUsPage> {
   Widget build(BuildContext context) {
     dynamic url;
 
-    final playStorelogoSection = Padding(
-        padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
-        child: SizedBox(
-          height: 25,
-          width: 25,
-          child: FittedBox(
-              fit: BoxFit.contain, child: Image.asset("assets/comparify.png")),
-        ));
-    final sharelogoSection = Padding(
-        padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
-        child: SizedBox(
-          height: 25,
-          width: 25,
-          child: FittedBox(
-              fit: BoxFit.contain, child: Image.asset("assets/share.png")),
-        ));
-    final contactUsLogoSection = Padding(
-        padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
-        child: SizedBox(
-          height: 25,
-          width: 25,
-          child: FittedBox(
-              fit: BoxFit.contain, child: Image.asset("assets/contact_us.png")),
-        ));
-    final fbLogoSection = Padding(
-        padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
-        child: SizedBox(
-          height: 25,
-          width: 25,
-          child: FittedBox(
-              fit: BoxFit.contain, child: Image.asset("assets/fb.png")),
-        ));
-    final instaLogoSection = Padding(
-        padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
-        child: SizedBox(
-          height: 25,
-          width: 25,
-          child: FittedBox(
-              fit: BoxFit.contain, child: Image.asset("assets/insta.png")),
-        ));
     final tiktokLogoSection = Padding(
         padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
         child: SizedBox(
@@ -166,28 +127,7 @@ class _AboutUsState extends State<AboutUsPage> {
               fit: BoxFit.contain, child: Image.asset("assets/tiktok.png")),
         ));
 
-    Widget playStoreTextSection = Expanded(
-      child: Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: Padding(
-              padding: const EdgeInsets.only(bottom: 10, left: 10),
-              child: Text(
-                MultiLanguages.of(context)!.translate("rateUs"),
-                style: const TextStyle(
-                    color: ApiConstants.mainFontColor, fontSize: 20),
-              ))),
-    );
-    Widget shareTextSection = Expanded(
-      child: Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: Padding(
-              padding: const EdgeInsets.only(bottom: 10, left: 10),
-              child: Text(
-                MultiLanguages.of(context)!.translate("shareApp"),
-                style: const TextStyle(
-                    color: ApiConstants.mainFontColor, fontSize: 20),
-              ))),
-    );
+
     if (Platform.isAndroid || Platform.isIOS) {
       final appId =
           Platform.isAndroid ? 'com.emmea.comparify' : 'YOUR_IOS_APP_ID';
@@ -198,49 +138,49 @@ class _AboutUsState extends State<AboutUsPage> {
       );
     }
 
-    Widget contactUsTextSection = Expanded(
+    const contactUsTextSection = Expanded(
       child: Padding(
-          padding: const EdgeInsets.only(top: 8),
+          padding: EdgeInsets.only(top: 8),
           child: Padding(
-              padding: const EdgeInsets.only(bottom: 10, left: 10),
+              padding: EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
-                MultiLanguages.of(context)!.translate("contactUs"),
+                'Contact Us',
                 style:
-                    const TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
 
-    Widget fbTextSection = Expanded(
+    const fbTextSection = Expanded(
       child: Padding(
-          padding: const EdgeInsets.only(top: 8),
+          padding: EdgeInsets.only(top: 8),
           child: Padding(
-              padding: const EdgeInsets.only(bottom: 10, left: 10),
+              padding: EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
-                MultiLanguages.of(context)!.translate('likeUsOnFacebook'),
+                'Like us on Facebook',
                 style:
-                    const TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
-    Widget instaTextSection = Expanded(
+    const instaTextSection = Expanded(
       child: Padding(
-          padding: const EdgeInsets.only(top: 8),
+          padding: EdgeInsets.only(top: 8),
           child: Padding(
-              padding: const EdgeInsets.only(bottom: 10, left: 10),
+              padding: EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
-                MultiLanguages.of(context)!.translate("followUsOnInstagram"),
+                'Follow us on Instagram',
                 style:
-                    const TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
-    Widget tiktokTextSection = Expanded(
+    const tiktokTextSection = Expanded(
       child: Padding(
-          padding: const EdgeInsets.only(top: 8),
+          padding: EdgeInsets.only(top: 8),
           child: Padding(
-              padding: const EdgeInsets.only(bottom: 10, left: 10),
+              padding: EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
-                MultiLanguages.of(context)!.translate("tiktok"),
+                'TikTok: Comparify_lv',
                 style:
-                    const TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     return Scaffold(
@@ -249,22 +189,6 @@ class _AboutUsState extends State<AboutUsPage> {
                 style: const TextStyle(color: ApiConstants.appBarFontColor)),
             backgroundColor: ApiConstants.buttonsAndMenuColor,
             automaticallyImplyLeading: ApiConstants.showTopBar),
-
-            // title: Container(
-            //     width: 25,
-            //     height: 10,
-            //     decoration: BoxDecoration(
-            //         borderRadius: BorderRadius.circular(4),
-            //         color: ApiConstants.mainBackgroundColor),
-            //     child: Text(
-            //       MultiLanguages.of(context)!.translate("comparify"),
-            //       style: const TextStyle(
-            //           // color: ApiConstants.mainFontColor,
-            //           backgroundColor: ApiConstants.buttonsAndMenuColor),
-            //     )),
-            // automaticallyImplyLeading: ApiConstants.showTopBar,
-            // backgroundColor: ApiConstants.buttonsAndMenuColor
-        // ),
         body: Builder(builder: (BuildContext context) {
           return Container(
               alignment: Alignment.center,
@@ -275,43 +199,43 @@ class _AboutUsState extends State<AboutUsPage> {
                       image: AssetImage("assets/logo.png"),
                       height: 150,
                     ),
-                    SizedBox(
+                    const SizedBox(
                         height: 80,
                         child: Text(
-                            MultiLanguages.of(context)!.translate("aboutTeam"),
-                            style: const TextStyle(
+                            "    We ar developer family which realized some day that we need to compare prices. "
+                            "So started implement such application. Hope it helps you to save money.",
+                            style: TextStyle(
                                 height: 1.5,
                                 fontSize: 16,
                                 color: ApiConstants.mainFontColor))),
-                    const Divider(
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const SizedBox(
+                        height: 95,
+                        child: Text(
+                            "    Мы семья разработчиков, которая однажды поняла, что нам нужно сравнивать цены. "
+                            "Поэтому мы начали реализовывать такое приложение. Надеюсь, она поможет вам сэкономить деньги.",
+                            style: TextStyle(
+                                height: 1.5,
+                                fontSize: 16,
+                                color: ApiConstants.mainFontColor))),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const SizedBox(
+                      height: 95,
+                      child: Text(
+                          "    Mēs esam izstrādātāju ģimene, kas kādu dienu saprata, ka mums ir jāsalīdzina cenas. "
+                          "Tāpēc sākam izstrādāt šādu aplikāciju. Cerams, ka tā palīdzēs jums ietaupīt naudu.",
+                          style: TextStyle(
+                              height: 1.5,
+                              fontSize: 16,
+                              color: ApiConstants.mainFontColor)),
+                    ),
+                  const Divider(
                       color: Colors.grey,
                     ),
-                    InkWell(
-                        onTap: () => Share.share(MultiLanguages.of(context)!
-                            .translate("shareLinkAndroid")),
-                        child: Row(children: <Widget>[
-                          sharelogoSection,
-                          shareTextSection
-                        ])),
-                    const Divider(
-                      color: Colors.grey,
-                    ),
-                    InkWell(
-                        onTap: () => launchUrl(url),
-                        child: Row(children: <Widget>[
-                          playStorelogoSection,
-                          playStoreTextSection
-                        ])),
-                    const Divider(
-                      color: Colors.grey,
-                    ),
-                    const SizedBox(height: 2),
-                    InkWell(
-                        onTap: () => _sendEmail(),
-                        child: Row(children: <Widget>[
-                          contactUsLogoSection,
-                          contactUsTextSection
-                        ])),
                     const Divider(
                       color: Colors.grey,
                     ),
@@ -319,7 +243,7 @@ class _AboutUsState extends State<AboutUsPage> {
                     InkWell(
                         onTap: () => _loadFB(),
                         child: Row(
-                            children: <Widget>[fbLogoSection, fbTextSection])),
+                            children: <Widget>[fbTextSection])),
                     const Divider(
                       color: Colors.grey,
                     ),
@@ -328,7 +252,6 @@ class _AboutUsState extends State<AboutUsPage> {
                         onTap: () => launchUrl(Uri.parse(
                             'https://www.instagram.com/_u/comparify.lv')),
                         child: Row(children: <Widget>[
-                          instaLogoSection,
                           instaTextSection
                         ])),
                     const Divider(
@@ -348,6 +271,7 @@ class _AboutUsState extends State<AboutUsPage> {
         }),
         bottomNavigationBar: BottomMenu(
           selectedTab: _selectedTab,
+          // onClicked: onClicked,
           changeTab: (int value) {
             _changeTab(value);
           },
@@ -372,24 +296,6 @@ class _AboutUsState extends State<AboutUsPage> {
       }
     } catch (e) {
       await launch(fallbackUrl);
-    }
-  }
-
-  void _sendEmail() async {
-    if (Platform.isIOS) {
-      final url = Uri(
-        scheme: 'mailto',
-        path: 'marina.paberzze@gmail.com',
-        query: 'subject=Comparify user email',
-      );
-      if (await canLaunchUrl(url)) {
-        launchUrl(url);
-      } else {
-        print(MultiLanguages.of(context)!.translate("cantLaunch") +
-            url!.toString());
-      }
-    } else {
-      launchUrl(Uri.parse("mailto:marina.paberzze@gmail.com"));
     }
   }
 }

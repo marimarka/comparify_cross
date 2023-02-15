@@ -32,18 +32,10 @@ class IntroState extends State<Intro> {
 
       Navigator.of(context).pushReplacement(
           new MaterialPageRoute(builder: (context) => new Home()));
-
-      // print("1");
-      // return Home.id;
     } else {
       await prefs.setBool('seen', true);
       Navigator.of(context).pushReplacement(
           new MaterialPageRoute(builder: (context) => new Intro()));
-
-      // print("2");
-      // // Set the flag to true at the end of onboarding screen if everything is successfull and so I am commenting it out
-      // await prefs.setBool('seen', true);
-      // return Intro.id;
     }
   }
 
@@ -101,8 +93,7 @@ class IntroState extends State<Intro> {
       title: "Esam priecīgi redzēt Tevi!",
       styleTitle: titleStyle(),
       description:
-          "Mēs esam izstrādātāju ģimene, kas kādu dienu saprata, ka mums ir jāsalīdzina cenas. "
-          "Tāpēc sākam izstrādāt šādu aplikāciju.\n \n Ticam, ka tā palīdzēs jums ietaupīt naudu.",
+          "Mēs esam izstrādātāju ģimene, kas kādu dienu saprata, ka mums ir jāsalīdzina cenas. Tāpēc sākam izstrādāt šādu aplikāciju.\n \n Ticam, ka tā palīdzēs jums ietaupīt naudu.",
       styleDescription:
           TextStyle(color: ApiConstants.mainFontColor, fontSize: 22),
       pathImage: "assets/intro/intro1.png",
@@ -112,13 +103,7 @@ class IntroState extends State<Intro> {
       title: "Preču katalogs",
       styleTitle: titleStyle(),
       description:
-          "Preces ir sadalītas kategorijās. Nospiežot uz vajadzīgo kategoriju, redzēsi produktus. "
-          "Skrollē zemāk un ielādāsies vairāk. Mums ir vairāk nekā 1000 preču cenas, ko vari salīdzināt trijos veikalos.\n "
-          "Vari izmantot meklēšanu, lai ātrāk atrastu sev vajadzīgo preci.\n\n"
-          " Kad redzi sev piemērotāku cenu, nospiež uz veikalu un pievieno grozā šo preci. "
-          " Veikalā ielogojies, lai tavs grozs būtu gatavs pirkuma noformēšanai. \n\n"
-          "Atgriezies Comparify, lai turpinātu pildīt grozu ar precēm pēc visizdevīgākām cenām.\n\n"
-          "Ilgi spiežot uz * pie veikala, uzzināsi iespējamo cenas atšķirību ar veikalu.",
+          "Preces ir sadalītas kategorijās. Nospiežot uz vajadzīgo kategoriju, redzēsi produktus. Skrollē zemāk un ielādāsies vairāk. Mums ir vairāk nekā 1000 preču cenas, ko vari salīdzināt trijos veikalos.\n Vari izmantot meklēšanu, lai ātrāk atrastu sev vajadzīgo preci.\n\n Kad redzi sev piemērotāku cenu, nospiež uz veikalu un pievieno grozā šo preci. Veikalā ielogojies, lai tavs grozs būtu gatavs pirkuma noformēšanai. \n\n Atgriezies Comparify, lai turpinātu pildīt grozu ar precēm pēc visizdevīgākām cenām.\n\n Ilgi spiežot uz * pie veikala, uzzināsi iespējamo cenas atšķirību ar veikalu.",
       styleDescription:
           TextStyle(color: ApiConstants.mainFontColor, fontSize: 22),
       pathImage: "assets/intro/intro2.png",
@@ -128,8 +113,7 @@ class IntroState extends State<Intro> {
       title: "Skeneris",
       styleTitle: titleStyle(),
       description:
-          "Ja gribi atrast cenu konkrētai precei, ko turi rokās, noskenē barkodu, "
-          "un redzēsi cenas, ko vari salīdzināt trijos veikalos. \n Mums ir ap 500 preces ar barkodu.",
+          "Ja gribi atrast cenu konkrētai precei, ko turi rokās, noskenē barkodu, un redzēsi cenas, ko vari salīdzināt trijos veikalos. \n Mums ir ap 500 preces ar barkodu.",
       styleDescription:
           TextStyle(color: ApiConstants.mainFontColor, fontSize: 22),
       pathImage: "assets/intro/intro3.png",
@@ -139,9 +123,7 @@ class IntroState extends State<Intro> {
       title: "Veikali",
       styleTitle: titleStyle(),
       description:
-          "Kad esi piepildījis grozus ar precēm pēc izdevīgākām cenām, "
-          "vari ieiet veikalā, lai noformētu pirkumu. Ceram uz tavu atgriešanu mūsu Comparify aplikācijā.\n\n"
-          "#Taupamkopaa",
+          "Kad esi piepildījis grozus ar precēm pēc izdevīgākām cenām, vari ieiet veikalā, lai noformētu pirkumu. Ceram uz tavu atgriešanu mūsu Comparify aplikācijā.\n\n #Taupamkopaa",
       styleDescription:
           TextStyle(color: ApiConstants.mainFontColor, fontSize: 22),
       pathImage: "assets/intro/intro4.png",
@@ -149,7 +131,7 @@ class IntroState extends State<Intro> {
     ));
   }
 
-  TextStyle titleStyle() => TextStyle(
+  TextStyle titleStyle() => const TextStyle(
       color: ApiConstants.mainFontColor,
       fontSize: 22,
       fontWeight: FontWeight.bold);

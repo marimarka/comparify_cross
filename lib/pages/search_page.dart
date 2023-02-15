@@ -1,8 +1,10 @@
 import 'dart:async';
 
-import 'package:comparify_cross/models/products_dto_v2.dart';
+import 'package:comparify_cross/models/products_dto_v3.dart';
 import 'package:comparify_cross/pages/about_us_page.dart';
+import 'package:comparify_cross/pages/favorites_page.dart';
 import 'package:comparify_cross/pages/helpers/ad_helper.dart';
+import 'package:comparify_cross/pages/helpers/bottom.dart';
 import 'package:comparify_cross/pages/helpers/constants.dart';
 import 'package:comparify_cross/pages/helpers/product_card.dart';
 import 'package:comparify_cross/pages/home.dart';
@@ -13,30 +15,36 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'helpers/multi_languages.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
 
   @override
-  _SearchPageState createState() => _SearchPageState();
+  SearchPageState createState() => SearchPageState();
 }
 
-class _SearchPageState extends State {
+class SearchPageState extends State {
   BannerAd? _bannerAd;
   InterstitialAd? _interstitialAd;
   InterstitialAd? _interstitialAdAndOpenStorePage;
 
-  List<ProductsDTOV2> productList = [];
-  Timer searchOnStoppedTyping = new Timer(const Duration(seconds: 2), () {});
+  List<ProductsDTOV3> productList = [];
+  Timer searchOnStoppedTyping = Timer(const Duration(seconds: 2), () {});
   bool _isSearchRunning = false;
 
-  List<ProductsDTOV2> _foundProducts = [];
+  final List<ProductsDTOV3> _foundProducts = [];
+  List<String> favoriteList = [];
 
   final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
     _controller.text = '';
+    _preferences();
+
     BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
       request: const AdRequest(),
@@ -58,6 +66,14 @@ class _SearchPageState extends State {
     _loadInterstitialAdAndCategoryPage();
   }
 
+
+  void _preferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      favoriteList = prefs.getStringList("favorites") ?? [];
+    });
+  }
+
   @override
   void dispose() {
     _bannerAd?.dispose();
@@ -72,8 +88,8 @@ class _SearchPageState extends State {
     if (searchOnStoppedTyping != null) {
       setState(() => searchOnStoppedTyping.cancel());
     }
-    setState(() =>
-        searchOnStoppedTyping = new Timer(duration, () => _loadMore(value)));
+    setState(
+        () => searchOnStoppedTyping = Timer(duration, () => _loadMore(value)));
   }
 
   void _loadMore(String name) async {
@@ -85,10 +101,10 @@ class _SearchPageState extends State {
 
     try {
       final url =
-          "${ApiConstants.baseUrl}${ApiConstants.findByNamePageEndpoint}/${name}";
-      final res = await http.get(Uri.parse("$url"));
+          "${ApiConstants.baseUrl}${ApiConstants.findByNamePageEndpoint}/$name";
+      final res = await http.get(Uri.parse(url));
 
-      final List<ProductsDTOV2> fetchedPosts =
+      final List<ProductsDTOV3> fetchedPosts =
           ApiService().parseProducts(res.body);
       if (fetchedPosts.isNotEmpty) {
         setState(() {
@@ -100,9 +116,9 @@ class _SearchPageState extends State {
         showDialog<String>(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-            title: const Text('Kaut kas nogāja greizī'),
-            content: const Text(
-                'Iespējams tagad mums ir problēmas dabūt datus! Lūdzu, mēģini vēlāk.'),
+            title: Text(MultiLanguages.of(context)!.translate("smthFailed")),
+            content: Text(
+                MultiLanguages.of(context)!.translate("smthFailedMessage")),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.pop(context, 'OK'),
@@ -134,10 +150,13 @@ class _SearchPageState extends State {
       if (_interstitialAdAndOpenStorePage != null) {
         _interstitialAdAndOpenStorePage?.show();
       } else {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => StoreLinkPage()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const StoreLinkPage()));
       }
     } else if (index == 3) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => FavoritesPage()));
+    } else if (index == 4) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => AboutUsPage()));
     }
@@ -145,14 +164,14 @@ class _SearchPageState extends State {
 
   @override
   Widget build(BuildContext context) {
-    int _selectedTab = 0;
+    int selectedTab = 0;
 
     return Scaffold(
         appBar: AppBar(
-            title:
-                const Text('Comparify', style: TextStyle(color: ApiConstants.mainFontColor)),
-            backgroundColor: Colors.white,
-            automaticallyImplyLeading: false),
+            title: Text(MultiLanguages.of(context)!.translate("comparify"),
+                style: const TextStyle(color: ApiConstants.appBarFontColor)),
+            backgroundColor: ApiConstants.buttonsAndMenuColor,
+            automaticallyImplyLeading: ApiConstants.showTopBar),
         body: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
@@ -180,7 +199,10 @@ class _SearchPageState extends State {
                   ),
                   prefixIcon: const IconButton(
                     onPressed: null,
-                    icon: ImageIcon(AssetImage("assets/search.png")),
+                    icon: ImageIcon(
+                      AssetImage("assets/search.png"),
+                      color: ApiConstants.mainFontColor,
+                    ),
                   ),
                   suffixIcon: _controller.text.isNotEmpty
                       ? IconButton(
@@ -198,55 +220,29 @@ class _SearchPageState extends State {
                     ? ListView.builder(
                         itemCount: _foundProducts.length,
                         itemBuilder: (context, index) =>
-                            ProductCard(_foundProducts[index]))
-                    : const Text(
-                        'Nav meklēšanas rezultāta',
-                        style: TextStyle(fontSize: 24, color: Colors.black45),
+                            ProductCard(_foundProducts[index], favoriteList))
+                    : Text(
+                        MultiLanguages.of(context)!.translate("noResult"),
+                        style: const TextStyle(
+                            fontSize: 16, color: ApiConstants.mainFontColor),
                       ),
               ),
               if (_isSearchRunning == true)
                 const Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 40),
                   child: Center(
-                    child: CircularProgressIndicator(color: ApiConstants.mainFontColor),
+                    child: CircularProgressIndicator(
+                        color: ApiConstants.mainFontColor),
                   ),
                 ),
             ],
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.white,
-          currentIndex: _selectedTab,
-          onTap: (index) => _changeTab(index),
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: const Color(0xFF0C46DD),
-          unselectedItemColor: Colors.grey,
-          items: const [
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage("assets/catalogs.png"),
-                  size: 18,
-                ),
-                label: "Preces"),
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage("assets/scanner.png"),
-                  size: 18,
-                ),
-                label: "Skeneris"),
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage("assets/store.png"),
-                  size: 18,
-                ),
-                label: "Veikali"),
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage("assets/comparify.png"),
-                  size: 18,
-                ),
-                label: "Comparify"),
-          ],
+        bottomNavigationBar: BottomMenu(
+          selectedTab: selectedTab,
+          changeTab: (int value) {
+            _changeTab(value);
+          },
         ));
   }
 
@@ -290,8 +286,10 @@ class _SearchPageState extends State {
         onAdLoaded: (ad) {
           ad.fullScreenContentCallback = FullScreenContentCallback(
             onAdDismissedFullScreenContent: (ad) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => StoreLinkPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const StoreLinkPage()));
             },
           );
 
