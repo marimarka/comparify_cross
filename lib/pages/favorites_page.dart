@@ -5,6 +5,7 @@ import 'package:comparify_cross/pages/helpers/bottom.dart';
 import 'package:comparify_cross/pages/helpers/constants.dart';
 import 'package:comparify_cross/pages/home.dart';
 import 'package:comparify_cross/pages/scan_barcode_page.dart';
+import 'package:comparify_cross/pages/search_page.dart';
 import 'package:comparify_cross/pages/store_link_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -185,10 +186,21 @@ class _FavoritesState extends State<FavoritesPage> {
     );
     return Scaffold(
         appBar: AppBar(
-            title: Text(MultiLanguages.of(context)!.translate("comparify"),
-                style: const TextStyle(color: ApiConstants.appBarFontColor)),
+            title: Text(MultiLanguages.of(context)!.translate("favorites"),
+                style: const TextStyle(color: ApiConstants.appBarFontColor,
+                    fontFamily: "Orkney", fontSize: 24, fontWeight: FontWeight.bold)),
             backgroundColor: ApiConstants.buttonsAndMenuColor,
-            automaticallyImplyLeading: ApiConstants.showTopBar),
+            automaticallyImplyLeading: ApiConstants.showTopBar,
+            actions: [
+              IconButton(
+                  onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const SearchPage())),
+                  icon: const ImageIcon(
+                    AssetImage("assets/search.png"),
+                    color: ApiConstants.appBarFontColor,
+                    size: 18,
+                  ))
+            ]),
         body: Builder(builder: (BuildContext context) {
           return Container(
               alignment: Alignment.center,

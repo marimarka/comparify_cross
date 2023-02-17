@@ -12,14 +12,18 @@ class ApiConstants {
   // static String findByCategoryPageEndpoint = '/searchproductbycategoryv3function';
 
   static const double mainFontSize = 12;
+  static const double productCardFontSize = 14;
 
   static const Color mainFontColor = Color(0xFF23336D);
+  static const Color favoriteColor = Color(0xFFD81A0E);
   static const Color appBarFontColor = Color(0xFFFDFDFD);
   static const Color nameFontColor = Color(0xFF0000A0);
   static const Color mainBackgroundColor = Color(0xFFFDFDFD);
   static const Color buttonsAndMenuColor = Color(0xFF0C46DD);
   static const Color bottomMenuColor = Color(0xFFFFFFFF);
   static const Color unselectedBottomMenuColor = Color(0xFF828282);
+  static const Color retailerPriceBackgroundColor = Color(0xFFECF2FF);
+  static const Color bestPriceFontColor = Color(0xFF11934D);
 
   static const bool showTopBar = true;
 }

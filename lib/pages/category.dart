@@ -197,10 +197,12 @@ class CategoryState extends State<Category> {
                 children: [
                   Expanded(
                     child: ListView.builder(
+                        key: const Key('items'),
                         itemCount: productList.length,
                         controller: _controller,
                         itemBuilder: (_, index) =>
-                            ProductCard(productList[index], favoriteList)),
+                            ProductCard(productList[index], favoriteList,
+                                key: Key(productList[index].id.toString()))),
                   ),
                   if (_isLoadMoreRunning == true)
                     const Padding(

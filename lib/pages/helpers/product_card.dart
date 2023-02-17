@@ -9,7 +9,7 @@ class ProductCard extends StatefulWidget {
   final ProductsDTOV3 product;
   final List<String> favoriteList;
 
-  ProductCard(this.product, this.favoriteList);
+  ProductCard(this.product, this.favoriteList, {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -88,19 +88,21 @@ class ProductCardState extends State<ProductCard> {
                 product.productName,
                 style: const TextStyle(
                     fontSize: 14,
+                    fontFamily: "Roboto",
+                    fontWeight: FontWeight.w500,
                     color: ApiConstants.mainFontColor,
                     height: 1.6),
               ))),
     );
 
-    var favorit = favoriteList.contains(product.id);
+    var favorit = favoriteList.contains(product.id.toString());
     final favoriteSection = Padding(
         padding: const EdgeInsets.only(
           right: 4,
         ),
         child: IconButton(
           icon: Image.asset(
-            favorit ? 'assets/favorite_filled.png' : 'assets/favorits.png',
+            favorit ? 'assets/favorite_liked.png' : 'assets/favorits.png',
           ),
           iconSize: 30,
           onPressed: () {
@@ -111,7 +113,9 @@ class ProductCardState extends State<ProductCard> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
-        child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+        child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -119,19 +123,30 @@ class ProductCardState extends State<ProductCard> {
               Expanded(flex: 6, child: nameSection),
               Expanded(flex: 1, child: favoriteSection)
             ]
-
             // <Widget>[imageSection, nameSection, likeSection],
           ),
-          Expanded(
-            child: ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                // itemCount: product.retailersItems.length,
-                itemCount: retailerPriceList.length,
-                itemBuilder: (_, index) =>
-                    RetailerPriceCard(retailerPriceList[index], index == 0)),
-            // RetailerPriceCard(product.retailersItems[index], index == 0)),
-          )
+
+          Row(
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(flex: 3, child: RetailerPriceCard(retailerPriceList[0], true)),
+                Expanded(flex: 3, child: RetailerPriceCard(retailerPriceList[1], false)),
+                Expanded(flex: 4, child: RetailerPriceCard(retailerPriceList[2], false))
+              ]
+            // <Widget>[imageSection, nameSection, likeSection],
+          ),
+
+          // Expanded(
+          //   child: ListView.builder(
+          //       scrollDirection: Axis.horizontal,
+          //       physics: const NeverScrollableScrollPhysics(),
+          //       shrinkWrap: true,
+          //       // itemCount: product.retailersItems.length,
+          //       itemCount: retailerPriceList.length,
+          //       itemBuilder: (_, index) =>
+          //           RetailerPriceCard(retailerPriceList[index], index == 0)),
+          //   // RetailerPriceCard(product.retailersItems[index], index == 0)),
+          // )
         ]));
   }
 

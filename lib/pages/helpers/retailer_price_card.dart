@@ -67,55 +67,50 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
 
   @override
   Widget build(BuildContext context) {
-    final logoSection = Padding(
+    final tooltipSection = Padding(
         padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
         child: SizedBox(
-          height: 25,
-          width: 25,
+          height: 10,
+          width: 10,
           child: FittedBox(
               fit: BoxFit.contain,
-              child:
-                  product.retailerName == 'Barbora' &&
-                          product.retailerPrice != '-'
-                      ? const TooltipSample()
-                      : const Text('')
-              ),
+              child: product.retailerName == 'Barbora' &&
+                      product.retailerPrice != '-'
+                  ? const TooltipSample()
+                  : const Text('')),
         ));
 
     final nameAndPriceSection = product.retailerPrice == '-'
         ? Expanded(
-            child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               isFirst == true
                   ? Padding(
-                      padding: const EdgeInsets.only(left: 3),
+                      padding: const EdgeInsets.only(left: 0),
                       child: Text(product.retailerName,
                           style: const TextStyle(
-                              color: Color(0xFF0C46DD), fontSize: 16)))
+                              color: ApiConstants.bestPriceFontColor,
+                              fontSize: ApiConstants.productCardFontSize)))
                   : Padding(
-                      padding: const EdgeInsets.only(left: 3),
+                      padding: const EdgeInsets.only(left: 0),
                       child: Text(product.retailerName,
                           style: const TextStyle(
-                              color: ApiConstants.mainFontColor, fontSize: 16))),
-              // Padding(
-              //     padding: const EdgeInsets.only(top: 2),
-              //     child: product.retailerPrice != '-'
-              //         ? Text('Atjaunots: ' + product.retailerLastUpdate,
-              //             style: const TextStyle(
-              //                 color: Colors.black26, fontSize: 12))
-              //         : const Text("")),
+                              color: ApiConstants.mainFontColor,
+                              fontSize: ApiConstants.productCardFontSize))),
               isFirst == true
                   ? Padding(
-                      padding: const EdgeInsets.only(right: 10),
+                      padding: const EdgeInsets.only(right: 0),
                       child: Text(getFormattedPrice(product.retailerPrice),
                           style: const TextStyle(
-                              color: Color(0xFF0C46DD), fontSize: 16)))
+                              color: ApiConstants.mainFontColor,
+                              fontSize: ApiConstants.productCardFontSize)))
                   : Padding(
-                      padding: const EdgeInsets.only(right: 10),
+                      padding: const EdgeInsets.only(right: 0),
                       child: Text(getFormattedPrice(product.retailerPrice),
                           style: const TextStyle(
-                              color: ApiConstants.mainFontColor, fontSize: 16)))
+                              color: ApiConstants.mainFontColor,
+                              fontSize: ApiConstants.productCardFontSize)))
             ],
           ))
         : Expanded(
@@ -124,70 +119,52 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
                     builder: (_) => InAppWebViewPage(
                         title: product.retailerName,
                         uri: product.retailerUrl))),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     isFirst == true
                         ? Padding(
-                            padding: const EdgeInsets.only(left: 3),
+                            padding: const EdgeInsets.only(left: 0),
                             child: Text(product.retailerName,
                                 style: const TextStyle(
-                                    color: Color(0xFF0C46DD), fontSize: 16)))
+                                    color: ApiConstants.bestPriceFontColor,
+                                    fontSize:
+                                        ApiConstants.productCardFontSize)))
                         : Padding(
-                            padding: const EdgeInsets.only(left: 3),
+                            padding: const EdgeInsets.only(left: 0),
                             child: Text(product.retailerName,
                                 style: const TextStyle(
                                     color: ApiConstants.mainFontColor,
-                                    fontSize: 16))),
-                    // Padding(
-                    //     padding: const EdgeInsets.only(top: 2),
-                    //     child: product.retailerPrice != '-'
-                    //         ? Text(
-                    //             'Atjaunots: ' + product.retailerLastUpdate,
-                    //             style: const TextStyle(
-                    //                 color: Colors.black26, fontSize: 12))
-                    //         : const Text("")),
+                                    fontSize:
+                                        ApiConstants.productCardFontSize))),
                     isFirst == true
                         ? Padding(
-                            padding: const EdgeInsets.only(right: 10),
+                            padding: const EdgeInsets.only(right: 0),
                             child: Text(
                                 getFormattedPrice(product.retailerPrice),
                                 style: const TextStyle(
-                                    color: Color(0xFF0C46DD), fontSize: 16)))
+                                    color: ApiConstants.bestPriceFontColor,
+                                    fontSize:
+                                        ApiConstants.productCardFontSize)))
                         : Padding(
-                            padding: const EdgeInsets.only(right: 10),
+                            padding: const EdgeInsets.only(right: 0),
                             child: Text(
                                 getFormattedPrice(product.retailerPrice),
                                 style: const TextStyle(
                                     color: ApiConstants.mainFontColor,
-                                    fontSize: 16)))
+                                    fontSize:
+                                        ApiConstants.productCardFontSize)))
                   ],
                 )),
           );
     return Container(
-        margin: const EdgeInsets.only(left: 10, right: 10),
+        // margin: const EdgeInsets.only(left: 8, bottom: 8),
         child: Container(
-          child: RetailerPriceRow(
-            logoSection: logoSection,
+          child: RetailerPriceColumn(
+            logoSection: tooltipSection,
             nameAndPriceSection: nameAndPriceSection,
           ),
         ));
-    // child: product.retailerPrice == '-'
-    //     ? Container(
-    //     child: RetailerPriceRow(
-    //         logoSection: logoSection,
-    //         nameAndPriceSection: nameAndPriceSection))
-    //     : InkWell(
-    //     onTap: () =>
-    //         Navigator.of(context).push(MaterialPageRoute(
-    //             builder: (_) =>
-    //                 InAppWebViewPage(
-    //                     title: product.retailerName,
-    //                     uri: product.retailerUrl))),
-    //     // launch(product.retailerUrl),
-    //     child: RetailerPriceRow(
-    //         logoSection: logoSection,
-    //         nameAndPriceSection: nameAndPriceSection)));
   }
 
   String getFormattedPrice(String price) {
@@ -207,16 +184,14 @@ class TooltipSample extends StatelessWidget {
       message: 'Neattēlo Paldies kartes individuāla piedāvājuma atlaides',
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        gradient: const LinearGradient(
-            colors: <Color>[Colors.white, Colors.black12]),
+        gradient:
+            const LinearGradient(colors: <Color>[Colors.white, Colors.black12]),
       ),
       height: 50,
       padding: const EdgeInsets.all(8.0),
       preferBelow: false,
-      textStyle: const TextStyle(
-        fontSize: 18,
-        color: ApiConstants.mainFontColor
-      ),
+      textStyle:
+          const TextStyle(fontSize: 18, color: ApiConstants.mainFontColor),
       showDuration: const Duration(seconds: 3),
       waitDuration: const Duration(seconds: 1),
       child: const Text(
@@ -227,8 +202,8 @@ class TooltipSample extends StatelessWidget {
   }
 }
 
-class RetailerPriceRow extends StatelessWidget {
-  const RetailerPriceRow({
+class RetailerPriceColumn extends StatelessWidget {
+  const RetailerPriceColumn({
     Key? key,
     required this.logoSection,
     required this.nameAndPriceSection,
@@ -239,11 +214,15 @@ class RetailerPriceRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        color: const Color(0xFFF8F9F9),
-        child: Row(children: <Widget>[logoSection, nameAndPriceSection]));
+    return Container(
+        width: 100,
+        height: 100,
+        child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            color: ApiConstants.retailerPriceBackgroundColor,
+            child:
+                Column(children: <Widget>[logoSection, nameAndPriceSection])));
   }
 }

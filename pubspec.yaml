@@ -114,6 +114,7 @@ flutter:
     - assets/share.png
     - assets/no_image.png
     - assets/favorits.png
+    - assets/favorite_liked.png
     - assets/new_logo.png
 
     # To add assets to your application, add an assets section, like this:
