@@ -29,7 +29,7 @@ class MultiLanguages {
 
   void setLocale(BuildContext context, Locale locale) async {
     keepLocaleKey(locale.languageCode);
-    print("key language");
+    print("key language" + locale.languageCode);
 
     MyApp.setLocal(context, locale);
   }

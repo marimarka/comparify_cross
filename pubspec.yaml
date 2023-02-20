@@ -69,7 +69,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/logo.png"
+  image_path: "assets/new_logo.png"
 
 # The following section is specific to Flutter packages.
 flutter:
@@ -115,7 +115,11 @@ flutter:
     - assets/no_image.png
     - assets/favorits.png
     - assets/favorite_liked.png
+    - assets/favorite_bold.png
     - assets/new_logo.png
+    - assets/full_logo.png
+    - assets/go_futher.png
+    - assets/favorite_saved.png
 
     # To add assets to your application, add an assets section, like this:
   # assets:

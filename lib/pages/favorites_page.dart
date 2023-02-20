@@ -1,16 +1,19 @@
-import 'dart:io';
+import 'dart:convert';
 
+import 'package:comparify_cross/models/favorite_dto_v3.dart';
 import 'package:comparify_cross/pages/helpers/ad_helper.dart';
 import 'package:comparify_cross/pages/helpers/bottom.dart';
 import 'package:comparify_cross/pages/helpers/constants.dart';
+import 'package:comparify_cross/pages/helpers/product_card.dart';
 import 'package:comparify_cross/pages/home.dart';
 import 'package:comparify_cross/pages/scan_barcode_page.dart';
-import 'package:comparify_cross/pages/search_page.dart';
 import 'package:comparify_cross/pages/store_link_page.dart';
+import 'package:comparify_cross/services/api_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'about_us_page.dart';
 import 'helpers/multi_languages.dart';
@@ -26,13 +29,143 @@ class _FavoritesState extends State<FavoritesPage> {
   InterstitialAd? _interstitialAd;
   InterstitialAd? _interstitialAdAndOpenStorePage;
 
+  List<String> favoriteList = [];
+
+  late ScrollController _controller;
+
+  bool _isFirstLoadRunning = false;
+  bool _hasNextPage = true;
+  bool _isLoadMoreRunning = false;
+
+  final _baseUrl = ApiConstants.baseUrl + ApiConstants.findByIds;
+
+  int _page = 0;
+
+  final int _limit = 10;
+
   int _selectedTab = 3;
+
+  List favoriteProductList = [];
+
+  void _loadMore() async {
+    if (_hasNextPage == true &&
+        _isFirstLoadRunning == false &&
+        _isLoadMoreRunning == false &&
+        _controller.position.extentAfter < 300) {
+      setState(() {
+        _isLoadMoreRunning = true;
+      });
+
+      _page += 1;
+
+      try {
+        final url = _baseUrl;
+        List<int> productIds = [];
+        favoriteList.forEach((element) {
+          productIds.add(int.parse(element));
+        });
+        print('limits: ' + _limit.toString() + ' page: ' + _page.toString());
+        FavoriteDTOV3 favoriteDTOV3 = FavoriteDTOV3(
+            productIds: productIds, size: _limit, page: _page * _limit);
+        var body = json.encode(favoriteDTOV3);
+
+        var response = await http.post(Uri.parse(url),
+            headers: {"Content-Type": "application/json"}, body: body);
+
+        final List fetchedPosts = ApiService().parseProducts(response.body);
+        if (fetchedPosts.isNotEmpty) {
+          setState(() {
+            favoriteProductList.addAll(fetchedPosts);
+          });
+        } else {
+          setState(() {
+            _hasNextPage = false;
+          });
+        }
+      } catch (err) {
+        if (kDebugMode) {
+          showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: Text(MultiLanguages.of(context)!.translate("smthFailed")),
+              content: Text(
+                  MultiLanguages.of(context)!.translate("smthFailedMessage")),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context, 'OK'),
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          );
+        }
+      }
+
+      setState(() {
+        _isLoadMoreRunning = false;
+      });
+    }
+  }
+
+  void _firstLoad() async {
+    setState(() {
+      _isFirstLoadRunning = true;
+    });
+
+    try {
+      // final skipRecords = _page * _limit;
+      // // final url = '$_baseUrl/$skipRecords/$_limit';
+      final url = _baseUrl;
+      List<int> productIds = [];
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        favoriteList = prefs.getStringList("favorites") ?? [];
+      });
+
+      favoriteList.forEach((element) {
+        productIds.add(int.parse(element));
+      });
+      FavoriteDTOV3 favoriteDTOV3 =
+          FavoriteDTOV3(productIds: productIds, size: _limit, page: 0);
+      var body = json.encode(favoriteDTOV3);
+
+      var response = await http.post(Uri.parse(url),
+          headers: {"Content-Type": "application/json"}, body: body);
+      setState(() {
+        favoriteProductList = ApiService().parseProducts(response.body);
+      });
+    } catch (err) {
+      if (kDebugMode) {
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: Text(MultiLanguages.of(context)!.translate("smthFailed")),
+            content: Text(
+                MultiLanguages.of(context)!.translate("smthFailedMessage")),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'OK'),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+    }
+
+    setState(() {
+      _isFirstLoadRunning = false;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     _loadInterstitialAd();
     _loadInterstitialAdAndOpenStorePage();
+    _firstLoad();
+    _controller = ScrollController()..addListener(_loadMore);
   }
 
   @override
@@ -117,197 +250,57 @@ class _FavoritesState extends State<FavoritesPage> {
 
   @override
   Widget build(BuildContext context) {
-    dynamic url;
-
-    final tiktokLogoSection = Padding(
-        padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
-        child: SizedBox(
-          height: 25,
-          width: 25,
-          child: FittedBox(
-              fit: BoxFit.contain, child: Image.asset("assets/tiktok.png")),
-        ));
-
-
-    if (Platform.isAndroid || Platform.isIOS) {
-      final appId =
-          Platform.isAndroid ? 'com.emmea.comparify' : 'YOUR_IOS_APP_ID';
-      url = Uri.parse(
-        Platform.isAndroid
-            ? "market://details?id=$appId"
-            : "https://apps.apple.com/app/id$appId",
-      );
-    }
-
-    const contactUsTextSection = Expanded(
-      child: Padding(
-          padding: EdgeInsets.only(top: 8),
-          child: Padding(
-              padding: EdgeInsets.only(bottom: 10, left: 10),
-              child: Text(
-                'Contact Us',
-                style:
-                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
-              ))),
-    );
-
-    const fbTextSection = Expanded(
-      child: Padding(
-          padding: EdgeInsets.only(top: 8),
-          child: Padding(
-              padding: EdgeInsets.only(bottom: 10, left: 10),
-              child: Text(
-                'Like us on Facebook',
-                style:
-                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
-              ))),
-    );
-    const instaTextSection = Expanded(
-      child: Padding(
-          padding: EdgeInsets.only(top: 8),
-          child: Padding(
-              padding: EdgeInsets.only(bottom: 10, left: 10),
-              child: Text(
-                'Follow us on Instagram',
-                style:
-                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
-              ))),
-    );
-    const tiktokTextSection = Expanded(
-      child: Padding(
-          padding: EdgeInsets.only(top: 8),
-          child: Padding(
-              padding: EdgeInsets.only(bottom: 10, left: 10),
-              child: Text(
-                'TikTok: Comparify_lv',
-                style:
-                    TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
-              ))),
-    );
     return Scaffold(
         appBar: AppBar(
-            title: Text(MultiLanguages.of(context)!.translate("favorites"),
-                style: const TextStyle(color: ApiConstants.appBarFontColor,
-                    fontFamily: "Orkney", fontSize: 24, fontWeight: FontWeight.bold)),
-            backgroundColor: ApiConstants.buttonsAndMenuColor,
-            automaticallyImplyLeading: ApiConstants.showTopBar,
-            actions: [
-              IconButton(
-                  onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const SearchPage())),
-                  icon: const ImageIcon(
-                    AssetImage("assets/search.png"),
-                    color: ApiConstants.appBarFontColor,
-                    size: 18,
-                  ))
-            ]),
-        body: Builder(builder: (BuildContext context) {
-          return Container(
-              alignment: Alignment.center,
-              child: ListView(children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    const Image(
-                      image: AssetImage("assets/logo.png"),
-                      height: 150,
+          centerTitle: false,
+          title: Text(MultiLanguages.of(context)!.translate("favorites"),
+              style: const TextStyle(
+                  color: ApiConstants.appBarFontColor,
+                  fontFamily: "Roboto",
+                  fontSize: ApiConstants.titleFontSize,
+                  fontWeight: FontWeight.w700)),
+          backgroundColor: ApiConstants.buttonsAndMenuColor,
+          automaticallyImplyLeading: ApiConstants.showTopBar,
+        ),
+        body: _isFirstLoadRunning
+            ? const Center(
+                child: CircularProgressIndicator(
+                    color: ApiConstants.buttonsAndMenuColor))
+            : Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                        key: const Key('items'),
+                        itemCount: favoriteProductList.length,
+                        controller: _controller,
+                        itemBuilder: (_, index) => ProductCard(
+                            favoriteProductList[index], favoriteList,
+                            key:
+                                Key(favoriteProductList[index].id.toString()))),
+                  ),
+                  if (_isLoadMoreRunning == true)
+                    const Padding(
+                      padding: EdgeInsets.only(top: 10, bottom: 40),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                            color: ApiConstants.buttonsAndMenuColor),
+                      ),
                     ),
-                    const SizedBox(
-                        height: 80,
+                  if (_hasNextPage == false)
+                    Container(
+                      padding: const EdgeInsets.only(top: 10, bottom: 20),
+                      child: Center(
                         child: Text(
-                            "    We ar developer family which realized some day that we need to compare prices. "
-                            "So started implement such application. Hope it helps you to save money.",
-                            style: TextStyle(
-                                height: 1.5,
-                                fontSize: 16,
-                                color: ApiConstants.mainFontColor))),
-                    const SizedBox(
-                      height: 5,
+                            MultiLanguages.of(context)!.translate("endOfList")),
+                      ),
                     ),
-                    const SizedBox(
-                        height: 95,
-                        child: Text(
-                            "    Мы семья разработчиков, которая однажды поняла, что нам нужно сравнивать цены. "
-                            "Поэтому мы начали реализовывать такое приложение. Надеюсь, она поможет вам сэкономить деньги.",
-                            style: TextStyle(
-                                height: 1.5,
-                                fontSize: 16,
-                                color: ApiConstants.mainFontColor))),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    const SizedBox(
-                      height: 95,
-                      child: Text(
-                          "    Mēs esam izstrādātāju ģimene, kas kādu dienu saprata, ka mums ir jāsalīdzina cenas. "
-                          "Tāpēc sākam izstrādāt šādu aplikāciju. Cerams, ka tā palīdzēs jums ietaupīt naudu.",
-                          style: TextStyle(
-                              height: 1.5,
-                              fontSize: 16,
-                              color: ApiConstants.mainFontColor)),
-                    ),
-                  const Divider(
-                      color: Colors.grey,
-                    ),
-                    const Divider(
-                      color: Colors.grey,
-                    ),
-                    const SizedBox(height: 2),
-                    InkWell(
-                        onTap: () => _loadFB(),
-                        child: Row(
-                            children: <Widget>[fbTextSection])),
-                    const Divider(
-                      color: Colors.grey,
-                    ),
-                    const SizedBox(height: 2),
-                    InkWell(
-                        onTap: () => launchUrl(Uri.parse(
-                            'https://www.instagram.com/_u/comparify.lv')),
-                        child: Row(children: <Widget>[
-                          instaTextSection
-                        ])),
-                    const Divider(
-                      color: Colors.grey,
-                    ),
-                    const SizedBox(height: 2),
-                    InkWell(
-                        onTap: () => launchUrl(
-                            Uri.parse('https://www.tiktok.com/@comparify_lv')),
-                        child: Row(children: <Widget>[
-                          tiktokLogoSection,
-                          tiktokTextSection
-                        ]))
-                  ],
-                )
-              ]));
-        }),
+                ],
+              ),
         bottomNavigationBar: BottomMenu(
           selectedTab: _selectedTab,
-          // onClicked: onClicked,
           changeTab: (int value) {
             _changeTab(value);
           },
         ));
-  }
-
-  void _loadFB() async {
-    String fbProtocolUrl;
-    if (Platform.isIOS) {
-      fbProtocolUrl = 'fb://profile/comparify.lv';
-    } else {
-      fbProtocolUrl = 'fb://page/comparify.lv';
-    }
-
-    String fallbackUrl = 'https://www.facebook.com/comparify.lv';
-
-    try {
-      bool launched = await launch(fbProtocolUrl, forceWebView: false);
-
-      if (!launched) {
-        await launch(fallbackUrl, forceWebView: false);
-      }
-    } catch (e) {
-      await launch(fallbackUrl);
-    }
   }
 }

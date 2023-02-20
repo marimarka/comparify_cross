@@ -1,6 +1,7 @@
 import 'package:comparify_cross/models/retailer_price_dto_v3.dart';
 import 'package:comparify_cross/pages/helpers/constants.dart';
 import 'package:comparify_cross/pages/helpers/in_app_web_view.dart';
+import 'package:comparify_cross/pages/helpers/multi_languages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:intl/intl.dart';
@@ -74,104 +75,91 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
           width: 10,
           child: FittedBox(
               fit: BoxFit.contain,
-              child: product.retailerName == 'Barbora' &&
-                      product.retailerPrice != '-'
+              child: product.retailerId == 1
                   ? const TooltipSample()
                   : const Text('')),
         ));
 
-    final nameAndPriceSection = product.retailerPrice == '-'
-        ? Expanded(
-            child: Column(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              isFirst == true
-                  ? Padding(
-                      padding: const EdgeInsets.only(left: 0),
-                      child: Text(product.retailerName,
-                          style: const TextStyle(
-                              color: ApiConstants.bestPriceFontColor,
-                              fontSize: ApiConstants.productCardFontSize)))
-                  : Padding(
-                      padding: const EdgeInsets.only(left: 0),
-                      child: Text(product.retailerName,
-                          style: const TextStyle(
-                              color: ApiConstants.mainFontColor,
-                              fontSize: ApiConstants.productCardFontSize))),
-              isFirst == true
-                  ? Padding(
-                      padding: const EdgeInsets.only(right: 0),
-                      child: Text(getFormattedPrice(product.retailerPrice),
-                          style: const TextStyle(
-                              color: ApiConstants.mainFontColor,
-                              fontSize: ApiConstants.productCardFontSize)))
-                  : Padding(
-                      padding: const EdgeInsets.only(right: 0),
-                      child: Text(getFormattedPrice(product.retailerPrice),
-                          style: const TextStyle(
-                              color: ApiConstants.mainFontColor,
-                              fontSize: ApiConstants.productCardFontSize)))
-            ],
-          ))
-        : Expanded(
-            child: InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => InAppWebViewPage(
-                        title: product.retailerName,
-                        uri: product.retailerUrl))),
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    isFirst == true
-                        ? Padding(
-                            padding: const EdgeInsets.only(left: 0),
-                            child: Text(product.retailerName,
-                                style: const TextStyle(
-                                    color: ApiConstants.bestPriceFontColor,
-                                    fontSize:
-                                        ApiConstants.productCardFontSize)))
-                        : Padding(
-                            padding: const EdgeInsets.only(left: 0),
-                            child: Text(product.retailerName,
-                                style: const TextStyle(
-                                    color: ApiConstants.mainFontColor,
-                                    fontSize:
-                                        ApiConstants.productCardFontSize))),
-                    isFirst == true
-                        ? Padding(
-                            padding: const EdgeInsets.only(right: 0),
-                            child: Text(
-                                getFormattedPrice(product.retailerPrice),
-                                style: const TextStyle(
-                                    color: ApiConstants.bestPriceFontColor,
-                                    fontSize:
-                                        ApiConstants.productCardFontSize)))
-                        : Padding(
-                            padding: const EdgeInsets.only(right: 0),
-                            child: Text(
-                                getFormattedPrice(product.retailerPrice),
-                                style: const TextStyle(
-                                    color: ApiConstants.mainFontColor,
-                                    fontSize:
-                                        ApiConstants.productCardFontSize)))
-                  ],
-                )),
-          );
+    final nameSection = SizedBox(
+        height: 20,
+        width: 180,
+        child: Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+                padding: const EdgeInsets.only(left: 3),
+                child: Text(getRetailerName(product.retailerId),
+                    style: TextStyle(
+                        color: isFirst
+                            ? ApiConstants.bestPriceFontColor
+                            : ApiConstants.mainFontColor,
+                        fontSize: ApiConstants.productCardFontSize,
+                        fontWeight:
+                            isFirst ? FontWeight.w500 : FontWeight.w400)))));
+    final priceSection = SizedBox(
+      width: 41,
+      height: 20,
+      child: Align(
+          alignment: Alignment.centerRight,
+          // child: Padding(
+          //     padding: const EdgeInsets.only(left: 10),
+          child: Text(getFormattedPrice(product.retailerPrice),
+              style: TextStyle(
+                  color: isFirst
+                      ? ApiConstants.bestPriceFontColor
+                      : ApiConstants.mainFontColor,
+                  fontSize: ApiConstants.productCardFontSize,
+                  fontWeight: isFirst ? FontWeight.w500 : FontWeight.w400))),
+      // )
+    );
+    final buyActionSection = Expanded(
+      child: InkWell(
+          onTap: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => InAppWebViewPage(
+                  title: getRetailerName(product.retailerId),
+                  uri: product.retailerUrl))),
+          child: Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                  padding: const EdgeInsets.only(left: 3, right: 24),
+                  child: Text(MultiLanguages.of(context)!.translate("toBuy"),
+                      style: TextStyle(
+                          color: isFirst
+                              ? ApiConstants.bestPriceFontColor
+                              : ApiConstants.mainFontColor,
+                          fontSize: ApiConstants.productCardFontSize,
+                          fontWeight:
+                              isFirst ? FontWeight.w500 : FontWeight.w400))))),
+    );
     return Container(
-        // margin: const EdgeInsets.only(left: 8, bottom: 8),
+        margin: const EdgeInsets.only(left: 10, right: 10),
         child: Container(
-          child: RetailerPriceColumn(
-            logoSection: tooltipSection,
-            nameAndPriceSection: nameAndPriceSection,
-          ),
-        ));
+            child: RetailerPriceRow(
+          tooltipSection: tooltipSection,
+          nameSection: nameSection,
+          priceSection: priceSection,
+          buyActionSection: buyActionSection,
+          // ),
+        )));
   }
 
-  String getFormattedPrice(String price) {
-    if (double.tryParse(price) != null) {
-      return currency.format(double.parse(price)) + currency.currencySymbol;
+  String getFormattedPrice(double price) {
+    return currency.format(price) + currency.currencySymbol;
+  }
+
+  String getRetailerName(int retailerId) {
+    if (retailerId == 1) {
+      return 'Barbora';
     }
-    return price;
+    if (retailerId == 2) {
+      return "Rimi";
+    }
+    if (retailerId == 3) {
+      return "Citro";
+    }
+    if (retailerId == 4) {
+      return "PienaVeikals";
+    }
+    return "";
   }
 }
 
@@ -202,27 +190,39 @@ class TooltipSample extends StatelessWidget {
   }
 }
 
-class RetailerPriceColumn extends StatelessWidget {
-  const RetailerPriceColumn({
+class RetailerPriceRow extends StatelessWidget {
+  const RetailerPriceRow({
     Key? key,
-    required this.logoSection,
-    required this.nameAndPriceSection,
+    required this.tooltipSection,
+    required this.nameSection,
+    required this.priceSection,
+    required this.buyActionSection,
   }) : super(key: key);
 
-  final Padding logoSection;
-  final Expanded nameAndPriceSection;
+  final Padding tooltipSection;
+  final SizedBox nameSection;
+  final SizedBox priceSection;
+  final Expanded buyActionSection;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: 100,
-        height: 100,
-        child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            color: ApiConstants.retailerPriceBackgroundColor,
-            child:
-                Column(children: <Widget>[logoSection, nameAndPriceSection])));
+    return Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        color: ApiConstants.retailerPriceBackgroundColor,
+        shadowColor: Colors.transparent,
+        elevation: 0,
+        child: SizedBox(
+          height: 24,
+          width: 304,
+          child: Row(children: <Widget>[
+            tooltipSection, nameSection, priceSection, buyActionSection
+            // Expanded(flex: 1, child: tooltipSection),
+            // Expanded(flex: 5, child: nameSection),
+            // Expanded(flex: 2, child: priceSection),
+            // Expanded(flex: 2, child: buyActionSection),
+          ]),
+        ));
   }
 }

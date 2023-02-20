@@ -56,8 +56,8 @@ class _AboutUsState extends State<AboutUsPage> {
       if (_interstitialAdAndOpenStorePage != null) {
         _interstitialAdAndOpenStorePage?.show();
       } else {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const StoreLinkPage()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const StoreLinkPage()));
       }
     } else if (index == 3) {
       Navigator.push(
@@ -97,8 +97,10 @@ class _AboutUsState extends State<AboutUsPage> {
         onAdLoaded: (ad) {
           ad.fullScreenContentCallback = FullScreenContentCallback(
             onAdDismissedFullScreenContent: (ad) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const StoreLinkPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const StoreLinkPage()));
             },
           );
 
@@ -205,8 +207,8 @@ class _AboutUsState extends State<AboutUsPage> {
               padding: const EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
                 MultiLanguages.of(context)!.translate("contactUs"),
-                style:
-                    const TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                style: const TextStyle(
+                    color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
 
@@ -217,8 +219,8 @@ class _AboutUsState extends State<AboutUsPage> {
               padding: const EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
                 MultiLanguages.of(context)!.translate('likeUsOnFacebook'),
-                style:
-                    const TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                style: const TextStyle(
+                    color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     Widget instaTextSection = Expanded(
@@ -228,8 +230,8 @@ class _AboutUsState extends State<AboutUsPage> {
               padding: const EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
                 MultiLanguages.of(context)!.translate("followUsOnInstagram"),
-                style:
-                    const TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                style: const TextStyle(
+                    color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     Widget tiktokTextSection = Expanded(
@@ -239,109 +241,145 @@ class _AboutUsState extends State<AboutUsPage> {
               padding: const EdgeInsets.only(bottom: 10, left: 10),
               child: Text(
                 MultiLanguages.of(context)!.translate("tiktok"),
-                style:
-                    const TextStyle(color: ApiConstants.mainFontColor, fontSize: 20),
+                style: const TextStyle(
+                    color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
     return Scaffold(
         appBar: AppBar(
+            centerTitle: false,
             title: Text(MultiLanguages.of(context)!.translate("comparify"),
-                style: const TextStyle(color: ApiConstants.appBarFontColor)),
+                style: const TextStyle(
+                    color: ApiConstants.appBarFontColor,
+                    fontFamily: "Roboto",
+                    fontSize: ApiConstants.titleFontSize,
+                    fontWeight: FontWeight.w700)),
             backgroundColor: ApiConstants.buttonsAndMenuColor,
             automaticallyImplyLeading: ApiConstants.showTopBar),
-
-            // title: Container(
-            //     width: 25,
-            //     height: 10,
-            //     decoration: BoxDecoration(
-            //         borderRadius: BorderRadius.circular(4),
-            //         color: ApiConstants.mainBackgroundColor),
-            //     child: Text(
-            //       MultiLanguages.of(context)!.translate("comparify"),
-            //       style: const TextStyle(
-            //           // color: ApiConstants.mainFontColor,
-            //           backgroundColor: ApiConstants.buttonsAndMenuColor),
-            //     )),
-            // automaticallyImplyLeading: ApiConstants.showTopBar,
-            // backgroundColor: ApiConstants.buttonsAndMenuColor
-        // ),
         body: Builder(builder: (BuildContext context) {
           return Container(
               alignment: Alignment.center,
               child: ListView(children: <Widget>[
                 Column(
                   children: <Widget>[
-                    const Image(
-                      image: AssetImage("assets/logo.png"),
-                      height: 150,
-                    ),
+                    const Padding(
+                        padding: EdgeInsets.only(top: 25, left: 25, right: 25),
+                        child: Image(
+                          image: AssetImage("assets/full_logo.png"),
+                          height: 25,
+                        )),
                     SizedBox(
-                        height: 80,
-                        child: Text(
-                            MultiLanguages.of(context)!.translate("aboutTeam"),
-                            style: const TextStyle(
-                                height: 1.5,
-                                fontSize: 16,
-                                color: ApiConstants.mainFontColor))),
-                    const Divider(
-                      color: Colors.grey,
-                    ),
-                    InkWell(
-                        onTap: () => Share.share(MultiLanguages.of(context)!
-                            .translate("shareLinkAndroid")),
+                        child: Padding(
+                            padding: EdgeInsets.all(20),
+                            child: Text(
+                                MultiLanguages.of(context)!
+                                    .translate("aboutTeam"),
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    height: 1.5,
+                                    fontSize: 16,
+                                    color: ApiConstants.mainFontColor)))),
+                    // const Padding(padding: EdgeInsets.only(left: 20, right: 20),
+                    // child: Divider(
+                    //   color: Colors.grey,
+                    // )),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Row(children: <Widget>[
                           sharelogoSection,
-                          shareTextSection
+                          shareTextSection,
+                          InkWell(
+                              onTap: () => Share.share(
+                                  MultiLanguages.of(context)!
+                                      .translate("shareLinkAndroid")),
+                              child: const ImageIcon(
+                                  AssetImage("assets/go_futher.png")))
                         ])),
-                    const Divider(
-                      color: Colors.grey,
+                    const Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: Colors.grey,
+                        )),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: Row(children: <Widget>[
+                        playStorelogoSection,
+                        playStoreTextSection,
+                        InkWell(
+                            onTap: () => launchUrl(url),
+                            child: const ImageIcon(
+                                AssetImage("assets/go_futher.png")))
+                      ]),
                     ),
-                    InkWell(
-                        onTap: () => launchUrl(url),
-                        child: Row(children: <Widget>[
-                          playStorelogoSection,
-                          playStoreTextSection
-                        ])),
-                    const Divider(
-                      color: Colors.grey,
-                    ),
+                    const Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: Colors.grey,
+                        )),
                     const SizedBox(height: 2),
-                    InkWell(
-                        onTap: () => _sendEmail(),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Row(children: <Widget>[
                           contactUsLogoSection,
-                          contactUsTextSection
+                          contactUsTextSection,
+                          InkWell(
+                              onTap: () => _sendEmail(),
+                              child: const ImageIcon(
+                                  AssetImage("assets/go_futher.png")))
                         ])),
-                    const Divider(
-                      color: Colors.grey,
-                    ),
-                    const SizedBox(height: 2),
-                    InkWell(
-                        onTap: () => _loadFB(),
-                        child: Row(
-                            children: <Widget>[fbLogoSection, fbTextSection])),
-                    const Divider(
-                      color: Colors.grey,
-                    ),
-                    const SizedBox(height: 2),
-                    InkWell(
-                        onTap: () => launchUrl(Uri.parse(
-                            'https://www.instagram.com/_u/comparify.lv')),
+                    const Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: Colors.grey,
+                        )),
+                    // const SizedBox(height: 2),
+                    Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Row(children: <Widget>[
+                          fbLogoSection,
+                          fbTextSection,
+                          InkWell(
+                              onTap: () => _loadFB(),
+                              child: const ImageIcon(
+                                  AssetImage("assets/go_futher.png")))
+                        ])),
+                    const Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: Colors.grey,
+                        )),
+                    Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
                         child: Row(children: <Widget>[
                           instaLogoSection,
-                          instaTextSection
+                          instaTextSection,
+                          InkWell(
+                              onTap: () => launchUrl(Uri.parse(
+                                  'https://www.instagram.com/_u/comparify.lv')),
+                              child: const ImageIcon(
+                                  AssetImage("assets/go_futher.png")))
                         ])),
-                    const Divider(
-                      color: Colors.grey,
-                    ),
-                    const SizedBox(height: 2),
-                    InkWell(
-                        onTap: () => launchUrl(
-                            Uri.parse('https://www.tiktok.com/@comparify_lv')),
+                    const Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: Colors.grey,
+                        )),
+                    Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
                         child: Row(children: <Widget>[
                           tiktokLogoSection,
-                          tiktokTextSection
-                        ]))
+                          tiktokTextSection,
+                          InkWell(
+                              onTap: () => launchUrl(Uri.parse(
+                                  'https://www.tiktok.com/@comparify_lv')),
+                              child: const ImageIcon(
+                                  AssetImage("assets/go_futher.png")))
+                        ])),
+                    const Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: Colors.grey,
+                        )),
                   ],
                 )
               ]));
@@ -386,7 +424,7 @@ class _AboutUsState extends State<AboutUsPage> {
         launchUrl(url);
       } else {
         print(MultiLanguages.of(context)!.translate("cantLaunch") +
-            url!.toString());
+            url.toString());
       }
     } else {
       launchUrl(Uri.parse("mailto:marina.paberzze@gmail.com"));

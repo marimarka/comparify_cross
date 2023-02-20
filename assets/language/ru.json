@@ -1,7 +1,8 @@
 {
-  "preces" : "Товары",
-  "skenerins": "Сканер",
-  "veikali": "Магазины",
+  "items" : "Товары",
+  "scanner": "Сканер",
+  "stores": "Магазины",
+  "createOrder" : "Noformē pirkumus: ",
   "favorites": "Мои товары",
   "comparify": "Comparify",
   "likeUsOnFacebook": "Like us on Facebook",
@@ -28,5 +29,10 @@
   "smthFailedMessage": "Iespējams tagad mums ir problēmas dabūt datus! Lūdzu, mēģini vēlāk.",
   "hey": "Hej",
   "pleaseScan": "Lūdzu, noskenē kodu vai meklē preci pēc nosaukuma",
-  "noResult": "Ieraksti preces nosaukumu"
+  "noResult": "Ieraksti preces nosaukumu",
+  "toBuy": "Купить",
+  "chooseLanguage": "Select Language",
+  "latvian": "Latviešu",
+  "russian": "Русский",
+  "english": "English"
 }

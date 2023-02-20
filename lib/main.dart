@@ -1,5 +1,5 @@
+import 'package:comparify_cross/pages/choose_language_page.dart';
 import 'package:comparify_cross/pages/helpers/multi_languages.dart';
-import 'package:comparify_cross/pages/intro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -31,7 +31,7 @@ class MyAppState extends State<MyApp> {
 
   void changeLocale(Locale locale) {
     setState(() {
-      locale = locale;
+      this.locale = locale;
     });
   }
 
@@ -80,7 +80,7 @@ class MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: const Color(0xFFF6F6F6),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Intro(), //Home(),
+      home: ChooseLanguagePage(),// Intro(), //Home(),
     );
   }
 }

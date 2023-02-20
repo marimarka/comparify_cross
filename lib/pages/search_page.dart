@@ -66,7 +66,6 @@ class SearchPageState extends State {
     _loadInterstitialAdAndCategoryPage();
   }
 
-
   void _preferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -168,8 +167,13 @@ class SearchPageState extends State {
 
     return Scaffold(
         appBar: AppBar(
+            centerTitle: false,
             title: Text(MultiLanguages.of(context)!.translate("comparify"),
-                style: const TextStyle(color: ApiConstants.appBarFontColor)),
+                style: const TextStyle(
+                    color: ApiConstants.appBarFontColor,
+                    fontFamily: "Roboto",
+                    fontSize: ApiConstants.titleFontSize,
+                    fontWeight: FontWeight.w700)),
             backgroundColor: ApiConstants.buttonsAndMenuColor,
             automaticallyImplyLeading: ApiConstants.showTopBar),
         body: Padding(
@@ -216,23 +220,25 @@ class SearchPageState extends State {
                 height: 5,
               ),
               Expanded(
-                child: _foundProducts.isNotEmpty
-                    ? ListView.builder(
-                        itemCount: _foundProducts.length,
-                        itemBuilder: (context, index) =>
-                            ProductCard(_foundProducts[index], favoriteList))
-                    : Text(
-                        MultiLanguages.of(context)!.translate("noResult"),
-                        style: const TextStyle(
-                            fontSize: 16, color: ApiConstants.mainFontColor),
-                      ),
-              ),
+                  child: _foundProducts.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: _foundProducts.length,
+                          itemBuilder: (context, index) =>
+                              ProductCard(_foundProducts[index], favoriteList))
+                      : Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            MultiLanguages.of(context)!.translate("noResult"),
+                            style: const TextStyle(
+                                fontSize: 16,
+                                color: ApiConstants.mainFontColor),
+                          ))),
               if (_isSearchRunning == true)
                 const Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 40),
                   child: Center(
                     child: CircularProgressIndicator(
-                        color: ApiConstants.mainFontColor),
+                        color: ApiConstants.buttonsAndMenuColor),
                   ),
                 ),
             ],

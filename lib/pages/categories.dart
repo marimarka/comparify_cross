@@ -35,39 +35,24 @@ class CategoriesState extends State<Categories> {
               "breadCatalog",
               'assets/categories/3d_maize.png'),
           //1
-          CatalogItemCard(
-              "milkCatalog",
-              'assets/categories/3d_piens.png'),
+          CatalogItemCard("milkCatalog", 'assets/categories/3d_piens.png'),
           //2
           CatalogItemCard(
-           "vegetablesCatalog",
-              'assets/categories/3d_darzini.png'),
+              "vegetablesCatalog", 'assets/categories/3d_darzini.png'),
           //3
-          CatalogItemCard(
-              "meatCatalog",
-              'assets/categories/3d_gala.png'),
+          CatalogItemCard("meatCatalog", 'assets/categories/3d_gala.png'),
           //4
-          CatalogItemCard(
-              "bacaley",
-              'assets/categories/3d_bakaleja.png'),
+          CatalogItemCard("bacaley", 'assets/categories/3d_bakaleja.png'),
           //5
-          CatalogItemCard(
-              "iced", 'assets/categories/3d_saldeti.png'),
+          CatalogItemCard("iced", 'assets/categories/3d_saldeti.png'),
           //6
-          CatalogItemCard(
-              "drinks",
-              'assets/categories/3d_dzerieni.png'),
+          CatalogItemCard("drinks", 'assets/categories/3d_dzerieni.png'),
           //7
-          CatalogItemCard("alcoDrinks",
-              'assets/categories/3d_alko.png'),
+          CatalogItemCard("alcoDrinks", 'assets/categories/3d_alko.png'),
           //8
-          CatalogItemCard(
-              "babiesGoods",
-              'assets/categories/3d_berniem.png'),
+          CatalogItemCard("babiesGoods", 'assets/categories/3d_berniem.png'),
           //9
-          CatalogItemCard(
-              "houseGoods",
-              'assets/categories/3d_majai.png'),
+          CatalogItemCard("houseGoods", 'assets/categories/3d_majai.png'),
           //11
           // SongbookCard('Vegāniem un veģetāriešiem'),//10
         ],
@@ -127,8 +112,10 @@ class CatalogItemCard extends StatelessWidget {
                       softWrap: false,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                          color: ApiConstants.mainFontColor,  fontSize: ApiConstants.mainFontSize,
-                      letterSpacing: 0.7, fontWeight: FontWeight.bold),
+                          color: ApiConstants.mainFontColor,
+                          fontSize: ApiConstants.mainFontSize,
+                          letterSpacing: 0.7,
+                          fontWeight: FontWeight.bold),
                     ),
                   )
                 ]))));
@@ -138,8 +125,8 @@ class CatalogItemCard extends StatelessWidget {
     return Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => Category(
-                categoriesName: this.categoriesName, imageUrl: this.imageUrl)));
+            builder: (context) =>
+                Category(categoriesName: categoriesName, imageUrl: imageUrl)));
   }
 }
 

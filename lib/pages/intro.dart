@@ -52,7 +52,7 @@ class IntroState extends State<Intro> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child:
-                  CircularProgressIndicator(color: ApiConstants.mainFontColor),
+                  CircularProgressIndicator(color: ApiConstants.buttonsAndMenuColor),
             );
           } else {
             return IntroSlider(

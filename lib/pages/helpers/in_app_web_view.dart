@@ -19,14 +19,26 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.title,
-          style: const TextStyle(color: ApiConstants.mainFontColor),
-        ),
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: true,
-        leading: const BackButton(color: ApiConstants.mainFontColor),
-      ),
+          centerTitle: false,
+          title: Text(widget.title,
+              style: const TextStyle(
+                  color: ApiConstants.appBarFontColor,
+                  fontFamily: "Roboto",
+                  fontSize: ApiConstants.titleFontSize,
+                  fontWeight: FontWeight.w700)),
+          backgroundColor: ApiConstants.buttonsAndMenuColor,
+          automaticallyImplyLeading: ApiConstants.showTopBar),
+
+
+      // AppBar(
+      //   title: Text(
+      //     widget.title,
+      //     style: const TextStyle(color: ApiConstants.mainFontColor),
+      //   ),
+      //   backgroundColor: Colors.white,
+      //   automaticallyImplyLeading: true,
+      //   leading: const BackButton(color: ApiConstants.mainFontColor),
+      // ),
       body: Container(
         child: IndexedStack(
           index: _stackIndex,
@@ -58,7 +70,7 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
             const Center(
               // height: 50,
               child:
-                  CircularProgressIndicator(color: ApiConstants.mainFontColor),
+                  CircularProgressIndicator(color: ApiConstants.buttonsAndMenuColor),
             ),
           ],
         ),

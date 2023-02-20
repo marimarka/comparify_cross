@@ -83,22 +83,26 @@ class StoreLinkState extends State<StoreLinkPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            centerTitle: false,
             title: Text(MultiLanguages.of(context)!.translate("stores"),
-                style: const TextStyle(color: ApiConstants.appBarFontColor)),
+                style: const TextStyle(
+                    color: ApiConstants.appBarFontColor,
+                    fontFamily: "Roboto",
+                    fontSize: ApiConstants.titleFontSize,
+                    fontWeight: FontWeight.w700)),
             backgroundColor: ApiConstants.buttonsAndMenuColor,
             automaticallyImplyLeading: ApiConstants.showTopBar),
         body: Builder(builder: (BuildContext context) {
           return Container(
             alignment: Alignment.center,
             child: ListView(children: <Widget>[
-              const SizedBox(
-                  height: 40,
-                  child: Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: Text("Noformē pirkumus: ",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: ApiConstants.mainFontColor)))),
+              Padding(
+                  padding: const EdgeInsets.all(20), //
+                  child: Text(
+                      MultiLanguages.of(context)!.translate("createOrder"),
+                      style: const TextStyle(
+                          fontSize: ApiConstants.titleFontSize,
+                          color: ApiConstants.mainFontColor))),
               InkWell(
                   onTap: () => launchUrl(
                       Uri.parse("https://www.barbora.lv/grozs"),

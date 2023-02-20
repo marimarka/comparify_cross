@@ -1,13 +1,19 @@
 class RetailerPriceDTOV3 {
-  final String retailerName;
+  final int retailerId;
   final String retailerUrl;
-  final String retailerPrice;
-  final String retailerLastUpdate;
+  final double retailerPrice;
+
+  // final String retailerLastUpdate;
 
   RetailerPriceDTOV3(
-      {required this.retailerName,
+      {required this.retailerId,
       required this.retailerUrl,
-      required this.retailerPrice,
-      required this.retailerLastUpdate
-      });
+      required this.retailerPrice});
+
+  factory RetailerPriceDTOV3.fromJson(Map<String, dynamic> json) {
+    return RetailerPriceDTOV3(
+        retailerId: json['retailerId'],
+        retailerUrl: json['retailerUrl'],
+        retailerPrice: json['retailerPrice']);
+  }
 }

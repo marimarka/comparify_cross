@@ -2,6 +2,7 @@
   "items" : "Preces",
   "scanner": "Skeneris",
   "stores": "Veikali",
+  "createOrder" : "Noformē pirkumus: ",
   "favorites": "Manas preces",
   "comparify": "Comparify",
   "likeUsOnFacebook": "Like us on Facebook",
@@ -28,5 +29,10 @@
   "smthFailedMessage": "Iespējams tagad mums ir problēmas dabūt datus! Lūdzu, mēģini vēlāk.",
   "hey": "Hej",
   "pleaseScan": "Lūdzu, noskenē kodu vai meklē preci pēc nosaukuma",
-  "noResult": "Ieraksti preces nosaukumu"
+  "noResult": "Ieraksti preces nosaukumu",
+  "toBuy": "Pirkt",
+  "chooseLanguage": "Select Language",
+  "latvian": "Latviešu",
+  "russian": "Русский",
+  "english": "English"
 }

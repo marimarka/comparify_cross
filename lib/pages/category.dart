@@ -34,7 +34,6 @@ class CategoryState extends State<Category> {
   InterstitialAd? _interstitialAd;
   InterstitialAd? _interstitialAdAndOpenStorePage;
 
-  bool _favorite = false;
   List<String> favoriteList = [];
 
   final int _selectedTab = 0;
@@ -173,9 +172,11 @@ class CategoryState extends State<Category> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            centerTitle: false,
             title: Text(MultiLanguages.of(context)!.translate(categoriesName),
                 style: const TextStyle(color: ApiConstants.appBarFontColor,
-                fontFamily: "Orkney", fontSize: 24, fontWeight: FontWeight.bold)),
+                fontFamily: "Roboto", fontSize: ApiConstants.titleFontSize,
+                fontWeight: FontWeight.w700)),
             backgroundColor: ApiConstants.buttonsAndMenuColor,
             automaticallyImplyLeading: ApiConstants.showTopBar,
             actions: [
@@ -191,7 +192,7 @@ class CategoryState extends State<Category> {
         body: _isFirstLoadRunning
             ? const Center(
                 child: CircularProgressIndicator(
-                    color: ApiConstants.mainFontColor),
+                    color: ApiConstants.buttonsAndMenuColor),
               )
             : Column(
                 children: [
@@ -209,7 +210,7 @@ class CategoryState extends State<Category> {
                       padding: EdgeInsets.only(top: 10, bottom: 40),
                       child: Center(
                         child: CircularProgressIndicator(
-                            color: ApiConstants.mainFontColor),
+                            color: ApiConstants.buttonsAndMenuColor),
                       ),
                     ),
                   if (_hasNextPage == false)

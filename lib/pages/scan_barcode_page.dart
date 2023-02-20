@@ -192,8 +192,13 @@ class ScanBarCodePageState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            centerTitle: false,
             title: Text(MultiLanguages.of(context)!.translate("comparify"),
-                style: const TextStyle(color: ApiConstants.appBarFontColor)),
+                style: const TextStyle(
+                    color: ApiConstants.appBarFontColor,
+                    fontFamily: "Roboto",
+                    fontSize: ApiConstants.titleFontSize,
+                    fontWeight: FontWeight.w700)),
             backgroundColor: ApiConstants.buttonsAndMenuColor,
             automaticallyImplyLeading: ApiConstants.showTopBar,
             actions: [
@@ -209,7 +214,7 @@ class ScanBarCodePageState extends State {
         body: foundProduct.isEmpty && callDone
             ? const Center(
                 child: CircularProgressIndicator(
-                  color: ApiConstants.mainFontColor,
+                  color: ApiConstants.buttonsAndMenuColor,
                 ),
               )
             : !callDone

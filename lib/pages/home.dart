@@ -1,5 +1,6 @@
 import 'package:comparify_cross/pages/about_us_page.dart';
 import 'package:comparify_cross/pages/categories.dart';
+import 'package:comparify_cross/pages/choose_language_page.dart';
 import 'package:comparify_cross/pages/favorites_page.dart';
 import 'package:comparify_cross/pages/helpers/ad_helper.dart';
 import 'package:comparify_cross/pages/helpers/bottom.dart';
@@ -99,16 +100,17 @@ class _HomeState extends State {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Image.asset("assets/new_logo.png", width: 26, height:24),
+              Image.asset("assets/new_logo.png", width: 26, height: 24),
               Padding(
                   padding: EdgeInsets.only(left: 4),
-                  child:  Text(MultiLanguages.of(context)!.translate("comparify"),
-                  style: const TextStyle(
-                      color: ApiConstants.nameFontColor,
-                      fontWeight: FontWeight.bold))),
+                  child: Text(
+                      MultiLanguages.of(context)!.translate("comparify"),
+                      style: const TextStyle(
+                          color: ApiConstants.nameFontColor,
+                          fontWeight: FontWeight.bold))),
             ],
           ),
-             backgroundColor: ApiConstants.mainBackgroundColor,
+          backgroundColor: ApiConstants.mainBackgroundColor,
           automaticallyImplyLeading: ApiConstants.showTopBar,
           actions: [
             IconButton(
@@ -118,6 +120,22 @@ class _HomeState extends State {
                   AssetImage("assets/search.png"),
                   color: ApiConstants.mainFontColor,
                   size: 18,
+                )),
+            Theme(
+                data: Theme.of(context).copyWith(
+                    textTheme: TextTheme().apply(bodyColor: ApiConstants.mainFontColor),
+                    dividerColor: ApiConstants.mainFontColor,
+                    iconTheme: IconThemeData(color: ApiConstants.mainFontColor)),
+                child: PopupMenuButton<int>(
+                  color: ApiConstants.mainBackgroundColor,
+                  itemBuilder: (context) => [
+                    PopupMenuItem<int>(
+                        value: 0,
+                        child: Text(MultiLanguages.of(context)!
+                            .translate("chooseLanguage"),
+                        style: TextStyle(color: ApiConstants.mainFontColor),)),
+                  ],
+                  onSelected: (item) => selectedItem(context, item),
                 ))
           ],
         ),
@@ -128,5 +146,23 @@ class _HomeState extends State {
             _changeTab(value);
           },
         ));
+  }
+
+  void selectedItem(BuildContext context, item) {
+    switch (item) {
+      case 0:
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => ChooseLanguagePage()));
+        break;
+      // case 1:
+      //   print("Privacy Clicked");
+      //   break;
+      // case 2:
+      //   print("User Logged out");
+      //   Navigator.of(context).pushAndRemoveUntil(
+      //       MaterialPageRoute(builder: (context) => LoginPage()),
+      //           (route) => false);
+      //   break;
+    }
   }
 }
