@@ -1,12 +1,16 @@
-import 'package:comparify_cross/pages/choose_language_page.dart';
+import 'package:comparify_cross/pages/first_choose_language_page.dart';
+import 'package:comparify_cross/pages/helpers/constants.dart';
 import 'package:comparify_cross/pages/helpers/multi_languages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:upgrader/upgrader.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
+
+  // await Upgrader.clearSavedSettings(); // REMOVE this for release builds
 
   // if (Platform.isAndroid) {
   //   await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
@@ -53,34 +57,32 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      supportedLocales: const [
-        Locale('en', 'EN'),
-        Locale('lv', 'LV'),
-        Locale('ru', 'RU')
-      ],
-      localizationsDelegates: [
-        MultiLanguages.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate
-      ],
-      locale: locale,
-      localeResolutionCallback: (locale, supportedLocales) {
-        for (var supportedLocaleLanguagle in supportedLocales) {
-          if (supportedLocaleLanguagle.languageCode == locale?.languageCode &&
-              supportedLocaleLanguagle.countryCode == locale?.countryCode) {
-            return supportedLocaleLanguagle;
+        supportedLocales: const [
+          Locale('en', 'EN'),
+          Locale('lv', 'LV'),
+          Locale('ru', 'RU')
+        ],
+        localizationsDelegates: [
+          MultiLanguages.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate
+        ],
+        locale: locale,
+        localeResolutionCallback: (locale, supportedLocales) {
+          for (var supportedLocaleLanguagle in supportedLocales) {
+            if (supportedLocaleLanguagle.languageCode == locale?.languageCode &&
+                supportedLocaleLanguagle.countryCode == locale?.countryCode) {
+              return supportedLocaleLanguagle;
+            }
           }
-        }
-      },
-
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: "Roboto",
-        // primaryColor: Colors.white,
-        scaffoldBackgroundColor: const Color(0xFFF6F6F6),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: ChooseLanguagePage(),// Intro(), //Home(),
-    );
+        },
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: "Roboto",
+          // primaryColor: Colors.white,
+          scaffoldBackgroundColor: ApiConstants.mainBackgroundColor,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: UpgradeAlert(child: FirstChooseLanguagePage()));
   }
 }

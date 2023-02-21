@@ -59,12 +59,12 @@ class _FavoritesState extends State<FavoritesPage> {
       _page += 1;
 
       try {
+
         final url = _baseUrl;
         List<int> productIds = [];
         favoriteList.forEach((element) {
           productIds.add(int.parse(element));
         });
-        print('limits: ' + _limit.toString() + ' page: ' + _page.toString());
         FavoriteDTOV3 favoriteDTOV3 = FavoriteDTOV3(
             productIds: productIds, size: _limit, page: _page * _limit);
         var body = json.encode(favoriteDTOV3);
@@ -108,55 +108,60 @@ class _FavoritesState extends State<FavoritesPage> {
   }
 
   void _firstLoad() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _isFirstLoadRunning = true;
+      favoriteList = prefs.getStringList("favorites") ?? [];
     });
-
-    try {
-      // final skipRecords = _page * _limit;
-      // // final url = '$_baseUrl/$skipRecords/$_limit';
-      final url = _baseUrl;
-      List<int> productIds = [];
-
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (favoriteList.isNotEmpty) {
       setState(() {
-        favoriteList = prefs.getStringList("favorites") ?? [];
+        _isFirstLoadRunning = true;
       });
 
-      favoriteList.forEach((element) {
-        productIds.add(int.parse(element));
-      });
-      FavoriteDTOV3 favoriteDTOV3 =
-          FavoriteDTOV3(productIds: productIds, size: _limit, page: 0);
-      var body = json.encode(favoriteDTOV3);
+      try {
+        // final skipRecords = _page * _limit;
+        // // final url = '$_baseUrl/$skipRecords/$_limit';
+        final url = _baseUrl;
+        List<int> productIds = [];
 
-      var response = await http.post(Uri.parse(url),
-          headers: {"Content-Type": "application/json"}, body: body);
-      setState(() {
-        favoriteProductList = ApiService().parseProducts(response.body);
-      });
-    } catch (err) {
-      if (kDebugMode) {
-        showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-            title: Text(MultiLanguages.of(context)!.translate("smthFailed")),
-            content: Text(
-                MultiLanguages.of(context)!.translate("smthFailedMessage")),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context, 'OK'),
-                child: const Text('OK'),
-              ),
-            ],
-          ),
-        );
+
+        favoriteList.forEach((element) {
+          productIds.add(int.parse(element));
+        });
+        FavoriteDTOV3 favoriteDTOV3 =
+        FavoriteDTOV3(productIds: productIds, size: _limit, page: 0);
+        var body = json.encode(favoriteDTOV3);
+
+        var response = await http.post(Uri.parse(url),
+            headers: {"Content-Type": "application/json"}, body: body);
+        setState(() {
+          favoriteProductList = ApiService().parseProducts(response.body);
+        });
+      } catch (err) {
+        if (kDebugMode) {
+          showDialog<String>(
+            context: context,
+            builder: (BuildContext context) =>
+                AlertDialog(
+                  title: Text(
+                      MultiLanguages.of(context)!.translate("smthFailed")),
+                  content: Text(
+                      MultiLanguages.of(context)!.translate(
+                          "smthFailedMessage")),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'OK'),
+                      child: const Text('OK'),
+                    ),
+                  ],
+                ),
+          );
+        }
       }
-    }
 
-    setState(() {
-      _isFirstLoadRunning = false;
-    });
+      setState(() {
+        _isFirstLoadRunning = false;
+      });
+    }
   }
 
   @override

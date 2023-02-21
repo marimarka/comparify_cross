@@ -1,4 +1,5 @@
 import 'package:comparify_cross/pages/helpers/constants.dart';
+import 'package:comparify_cross/pages/helpers/multi_languages.dart';
 import 'package:comparify_cross/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
@@ -46,13 +47,14 @@ class IntroState extends State<Intro> {
 
   @override
   Widget build(BuildContext context) {
+    createIntros();
     return FutureBuilder(
         future: checkFirstSeen(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child:
-                  CircularProgressIndicator(color: ApiConstants.buttonsAndMenuColor),
+              child: CircularProgressIndicator(
+                  color: ApiConstants.buttonsAndMenuColor),
             );
           } else {
             return IntroSlider(
@@ -89,46 +91,6 @@ class IntroState extends State<Intro> {
   @override
   void initState() {
     super.initState();
-    listSlides.add(ContentConfig(
-      title: "Esam priecīgi redzēt Tevi!",
-      styleTitle: titleStyle(),
-      description:
-          "Mēs esam izstrādātāju ģimene, kas kādu dienu saprata, ka mums ir jāsalīdzina cenas. Tāpēc sākam izstrādāt šādu aplikāciju.\n \n Ticam, ka tā palīdzēs jums ietaupīt naudu.",
-      styleDescription:
-          TextStyle(color: ApiConstants.mainFontColor, fontSize: 22),
-      pathImage: "assets/intro/intro1.png",
-      backgroundColor: Colors.white,
-    ));
-    listSlides.add(ContentConfig(
-      title: "Preču katalogs",
-      styleTitle: titleStyle(),
-      description:
-          "Preces ir sadalītas kategorijās. Nospiežot uz vajadzīgo kategoriju, redzēsi produktus. Skrollē zemāk un ielādāsies vairāk. Mums ir vairāk nekā 1000 preču cenas, ko vari salīdzināt trijos veikalos.\n Vari izmantot meklēšanu, lai ātrāk atrastu sev vajadzīgo preci.\n\n Kad redzi sev piemērotāku cenu, nospiež uz veikalu un pievieno grozā šo preci. Veikalā ielogojies, lai tavs grozs būtu gatavs pirkuma noformēšanai. \n\n Atgriezies Comparify, lai turpinātu pildīt grozu ar precēm pēc visizdevīgākām cenām.\n\n Ilgi spiežot uz * pie veikala, uzzināsi iespējamo cenas atšķirību ar veikalu.",
-      styleDescription:
-          TextStyle(color: ApiConstants.mainFontColor, fontSize: 22),
-      pathImage: "assets/intro/intro2.png",
-      backgroundColor: Colors.white,
-    ));
-    listSlides.add(ContentConfig(
-      title: "Skeneris",
-      styleTitle: titleStyle(),
-      description:
-          "Ja gribi atrast cenu konkrētai precei, ko turi rokās, noskenē barkodu, un redzēsi cenas, ko vari salīdzināt trijos veikalos. \n Mums ir ap 500 preces ar barkodu.",
-      styleDescription:
-          TextStyle(color: ApiConstants.mainFontColor, fontSize: 22),
-      pathImage: "assets/intro/intro3.png",
-      backgroundColor: Colors.white,
-    ));
-    listSlides.add(ContentConfig(
-      title: "Veikali",
-      styleTitle: titleStyle(),
-      description:
-          "Kad esi piepildījis grozus ar precēm pēc izdevīgākām cenām, vari ieiet veikalā, lai noformētu pirkumu. Ceram uz tavu atgriešanu mūsu Comparify aplikācijā.\n\n #Taupamkopaa",
-      styleDescription:
-          TextStyle(color: ApiConstants.mainFontColor, fontSize: 22),
-      pathImage: "assets/intro/intro4.png",
-      backgroundColor: Colors.white,
-    ));
   }
 
   TextStyle titleStyle() => const TextStyle(
@@ -154,5 +116,48 @@ class IntroState extends State<Intro> {
       foregroundColor: MaterialStateProperty.all<Color>(activeColor),
       backgroundColor: MaterialStateProperty.all<Color>(inactiveColor),
     );
+  }
+
+  void createIntros(){
+     listSlides.add(ContentConfig(
+      title: MultiLanguages.of(context)!.translate("intro1Title"),
+      styleTitle: titleStyle(),
+      description: MultiLanguages.of(context)!.translate("intro1Text"),
+      styleDescription: const TextStyle(
+          color: ApiConstants.mainFontColor,
+          fontSize: ApiConstants.languageFontSize),
+      pathImage: "assets/intro/intro1.png",
+      backgroundColor: ApiConstants.mainBackgroundColor,
+    ));
+    listSlides.add(ContentConfig(
+      title: MultiLanguages.of(context)!.translate("intro2Title"),
+      styleTitle: titleStyle(),
+      description: MultiLanguages.of(context)!.translate("intro2Text"),
+      styleDescription: const TextStyle(
+          color: ApiConstants.mainFontColor,
+          fontSize: ApiConstants.languageFontSize),
+      pathImage: "assets/intro/intro2.png",
+      backgroundColor: ApiConstants.mainBackgroundColor,
+    ));
+    listSlides.add(ContentConfig(
+      title: MultiLanguages.of(context)!.translate("intro3Title"),
+      styleTitle: titleStyle(),
+      description: MultiLanguages.of(context)!.translate("intro3Text"),
+      styleDescription: const TextStyle(
+          color: ApiConstants.mainFontColor,
+          fontSize: ApiConstants.languageFontSize),
+      pathImage: "assets/intro/intro3.png",
+      backgroundColor: ApiConstants.mainBackgroundColor,
+    ));
+    listSlides.add(ContentConfig(
+      title: MultiLanguages.of(context)!.translate("intro4Title"),
+      styleTitle: titleStyle(),
+      description: MultiLanguages.of(context)!.translate("intro4Text"),
+      styleDescription: const TextStyle(
+          color: ApiConstants.mainFontColor,
+          fontSize: ApiConstants.languageFontSize),
+      pathImage: "assets/intro/intro4.png",
+      backgroundColor: ApiConstants.mainBackgroundColor,
+    ));
   }
 }

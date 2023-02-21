@@ -73,8 +73,7 @@ class ProductCardState extends State<ProductCard> {
         ),
         child: IconButton(
           icon: Image.asset(
-            favorite ? 'assets/favorite_saved.png' :
-            'assets/favorite_bold.png',
+            favorite ? 'assets/favorite_saved.png' : 'assets/favorite_bold.png',
             color: ApiConstants.buttonsAndMenuColor,
           ),
           iconSize: 30,
@@ -122,6 +121,8 @@ class ProductCardState extends State<ProductCard> {
 
   @override
   Widget build(BuildContext context) {
-    return productCard;
+    return Padding(
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
+        child: productCard);
   }
 }

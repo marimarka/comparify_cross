@@ -89,7 +89,7 @@ class StoreLinkState extends State<StoreLinkPage> {
                     color: ApiConstants.appBarFontColor,
                     fontFamily: "Roboto",
                     fontSize: ApiConstants.titleFontSize,
-                    fontWeight: FontWeight.w700)),
+                    fontWeight: FontWeight.w600)),
             backgroundColor: ApiConstants.buttonsAndMenuColor,
             automaticallyImplyLeading: ApiConstants.showTopBar),
         body: Builder(builder: (BuildContext context) {
@@ -97,66 +97,85 @@ class StoreLinkState extends State<StoreLinkPage> {
             alignment: Alignment.center,
             child: ListView(children: <Widget>[
               Padding(
-                  padding: const EdgeInsets.all(20), //
+                  padding: const EdgeInsets.only(top: 16, left: 16), //
                   child: Text(
                       MultiLanguages.of(context)!.translate("createOrder"),
                       style: const TextStyle(
                           fontSize: ApiConstants.titleFontSize,
                           color: ApiConstants.mainFontColor))),
-              InkWell(
-                  onTap: () => launchUrl(
-                      Uri.parse("https://www.barbora.lv/grozs"),
-                      mode: LaunchMode.externalApplication),
-                  child: Container(
-                      height: 100,
-                      width: double.infinity,
-                      child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: const Padding(
-                              padding: EdgeInsets.only(top: 40),
-                              child: Text('Barbora veikalā',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: ApiConstants.mainFontColor,
-                                      fontSize: 20)))))),
-              const SizedBox(height: 2),
-              InkWell(
-                  onTap: () => launchUrl(
-                      Uri.parse("https://www.rimi.lv/e-veikals/lv/checkout"),
-                      mode: LaunchMode.externalApplication),
-                  child: Container(
-                      height: 150,
-                      width: double.infinity,
-                      child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Image.asset("assets/store_rimi_logo.png"),
-                          )))),
-              const SizedBox(height: 2),
-              InkWell(
-                onTap: () => launchUrl(
-                    Uri.parse(
-                        "https://pienaveikals.lv/index.php?route=checkout/cart"),
-                    mode: LaunchMode.externalApplication),
-                child: Container(
-                    height: 100,
-                    width: double.infinity,
-                    child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: const Padding(
-                            padding: EdgeInsets.only(top: 40),
-                            child: Text('PienaVeikals veikalā',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: ApiConstants.mainFontColor,
-                                    fontSize: 20))))),
+              Padding(
+                  padding: EdgeInsets.all(16),
+                  child: InkWell(
+                      onTap: () => launchUrl(
+                          Uri.parse("https://www.barbora.lv/grozs"),
+                          mode: LaunchMode.externalApplication),
+                      child: Container(
+                          height: 130,
+                          width: double.infinity,
+                          child: Card(
+                              color: ApiConstants.bottomMenuColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 49, bottom: 49),
+                                  child: Text(
+                                      MultiLanguages.of(context)!
+                                          .translate("barboraStore"),
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          color: ApiConstants.mainFontColor,
+                                          fontSize: ApiConstants.titleFontSize,
+                                          fontWeight: FontWeight.w500))))))),
+              const SizedBox(height: 4),
+              Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16),
+                  child: InkWell(
+                      onTap: () => launchUrl(
+                          Uri.parse(
+                              "https://www.rimi.lv/e-veikals/lv/checkout"),
+                          mode: LaunchMode.externalApplication),
+                      child: Container(
+                          height: 130,
+                          width: double.infinity,
+                          child: Card(
+                              color: ApiConstants.bottomMenuColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(20),
+                                child:
+                                    Image.asset("assets/store_rimi_logo.png"),
+                              ))))),
+              const SizedBox(height: 4),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+                child: InkWell(
+                    onTap: () => launchUrl(
+                        Uri.parse(
+                            "https://pienaveikals.lv/index.php?route=checkout/cart"),
+                        mode: LaunchMode.externalApplication),
+                    child: Container(
+                        height: 130,
+                        width: double.infinity,
+                        child: Card(
+                            color: ApiConstants.bottomMenuColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 49, bottom: 49),
+                                child: Text(
+                                    MultiLanguages.of(context)!
+                                        .translate("pienaveikalsStore"),
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        color: ApiConstants.mainFontColor,
+                                        fontSize: ApiConstants.titleFontSize,
+                                        fontWeight: FontWeight.w500)))))),
               ),
             ]),
           );

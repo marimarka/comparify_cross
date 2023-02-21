@@ -22,9 +22,10 @@ class MultiLanguages {
     await prefs.setString("localeKey", localeKey);
   }
 
-  Future<String> readLocaleKey() async {
+  Future<String?> readLocaleKey() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString("localeKey") ?? "lv";
+    // return prefs.getString("localeKey") ?? "lv";
+    return prefs.getString("localeKey");
   }
 
   void setLocale(BuildContext context, Locale locale) async {

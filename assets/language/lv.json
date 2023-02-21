@@ -34,5 +34,17 @@
   "chooseLanguage": "Izvēlies valodu",
   "latvian": "Latviešu",
   "russian": "Русский",
-  "english": "English"
+  "english": "English",
+  "barboraStore": "Barbora veikalā",
+  "pienaveikalsStore": "PienaVeikals veikalā",
+
+  "intro1Title": "Esam priecīgi redzēt Tevi!",
+  "intro1Text": "Mēs esam izstrādātāju ģimene, kas kādu dienu saprata, ka mums ir jāsalīdzina cenas. Tāpēc sākam izstrādāt šādu aplikāciju.\\n \\n Ticam, ka tā palīdzēs jums ietaupīt naudu.",
+  "intro2Title": "Preces",
+  "intro2Text": "Preces ir sadalītas kategorijās. Nospiežot uz vajadzīgo kategoriju, redzēsi produktus. Skrollē zemāk un ielādāsies vairāk. Mums ir vairāk nekā 1000 preču cenas, ko vari salīdzināt trijos veikalos.\n Vari izmantot meklēšanu, lai ātrāk atrastu sev vajadzīgo preci.\n\n Veikalā ielogojies, lai tavs grozs būtu gatavs pirkuma noformēšanai. \n\n Atgriezies Comparify, lai turpinātu pildīt grozu ar precēm pēc visizdevīgākām cenām.\n\n Ilgi spiežot uz * pie veikala, uzzināsi iespējamo cenas atšķirību ar veikalu.",
+  "intro3Title": "Skeneris",
+  "intro3Text": "Ja gribi atrast cenu konkrētai precei, ko turi rokās, noskenē barkodu, un redzēsi cenas, ko vari salīdzināt trijos veikalos. \n Mums ir ap 500 preces ar barkodu.",
+  "intro4Title": "Veikali",
+  "intro4Text": "Kad esi piepildījis grozus ar precēm pēc izdevīgākām cenām, vari ieiet veikalā, lai noformētu pirkumu. Ceram uz tavu atgriešanu mūsu Comparify aplikācijā.\n\n #Taupamkopaa"
+
 }

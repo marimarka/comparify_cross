@@ -1,9 +1,9 @@
 {
-  "items": "Goods",
+  "items": "Products",
   "scanner": "Scanner",
-  "stores": "Shopd",
+  "stores": "Shops",
   "createOrder" : "Process purchases: ",
-  "favorites": "My goods",
+  "favorites": "My products",
   "comparify": "Comparify",
   "likeUsOnFacebook": "Like us on Facebook",
   "shareApp": "Share app",
@@ -34,5 +34,17 @@
   "chooseLanguage": "Select Language",
   "latvian": "Latviešu",
   "russian": "Русский",
-  "english": "English"
+  "english": "English",
+  "barboraStore": "Barbora shop",
+  "pienaveikalsStore": "Barbora shop",
+
+
+  "intro1Title": "Welcome",
+  "intro1Text": "We are a family of developers who one day realized that we need to compare prices. That's why we started developing this application.\n \n We hope it will help you save money.",
+  "intro2Title": "Catalog",
+  "intro2Text": "The products are divided into categories. Click on the desired category and you will see the products. Scroll down and more will load. We have more than 1000 products prices that you can compare in three stores.\n You can use the search to find the product you need faster .\n\n Log in to the store so that your basket is ready to complete the purchase. \n\n Return to Comparify to continue filling the basket with products at the best prices.\n \n By long pressing on * near the store, you will find out the possible price difference with the store.",
+  "intro3Title": "Scanner",
+  "intro3Text": "If you want to find the price of a specific product that you are holding, scan the barcode and you will see prices that you can compare in three stores. \n We have around 500 products with a barcode.",
+  "intro4Title": "Shops",
+  "intro4Text": "When you have filled your baskets with products at better prices, you can enter the store to complete your purchase. We look forward to your return to our Comparify application.\n\n #Taupamkopaa"
 }

@@ -1,22 +1,76 @@
 
 import 'package:comparify_cross/pages/helpers/constants.dart';
-import 'package:comparify_cross/pages/home.dart';
+import 'package:comparify_cross/pages/intro.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'helpers/multi_languages.dart';
 
-class ChooseLanguagePage extends StatefulWidget {
-  ChooseLanguagePage({Key? key}) : super(key: key);
+class FirstChooseLanguagePage extends StatefulWidget {
+  FirstChooseLanguagePage({Key? key}) : super(key: key);
 
   @override
   _ChooseLanguageState createState() => _ChooseLanguageState();
 }
 
-class _ChooseLanguageState extends State<ChooseLanguagePage> {
+class _ChooseLanguageState extends State<FirstChooseLanguagePage> {
   MultiLanguages multiLanguages = MultiLanguages();
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+  }
+
+  Future checkFirstSeen() async {
+    var locale = await multiLanguages.readLocaleKey();
+    // await await prefs.setString('localeKey', "");
+    bool languageSet = locale != null && locale != "";
+    // print(languageSet);
+    if (languageSet) {
+      Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => new Intro()));
+
+    } else {
+      // Navigator.of(context).pushReplacement(
+      //     new MaterialPageRoute(builder: (context) => new FirstChooseLanguagePage()));
+    }
+    // else {
+      // await prefs.setBool('seen', true);
+      // Navigator.of(context).pushReplacement(
+      //     new MaterialPageRoute(builder: (context) => new ChooseLanguagePage()));
+    // }
+  }
+
+  Future setSeenCheck() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+     await prefs.setString('localeKey', "");
+  }
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: checkFirstSeen(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child:
+              CircularProgressIndicator(
+                  color: ApiConstants.buttonsAndMenuColor),
+            );
+          } else {
+            return createChooseLanguagePage();
+          }
+        });
+  }
+
+  Widget createChooseLanguagePage() {
     Widget latvianTextSection = Expanded(
       child: Padding(
           padding: const EdgeInsets.only(top: 8),
@@ -78,7 +132,8 @@ class _ChooseLanguageState extends State<ChooseLanguagePage> {
                           multiLanguages.setLocale(
                               context, const Locale("lv", "LV"));
                           Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => Home()));
+                              MaterialPageRoute(builder: (context) => Intro()));
+                          ;
                           // }
                         },
                         child: const ImageIcon(
@@ -97,7 +152,7 @@ class _ChooseLanguageState extends State<ChooseLanguagePage> {
                         multiLanguages.setLocale(
                             context, const Locale("ru", "RU"));
                         Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => Home()));
+                            MaterialPageRoute(builder: (context) => Intro()));
                       },
                       child: const ImageIcon(AssetImage("assets/go_futher.png"),
                           color: ApiConstants.mainFontColor))
@@ -115,7 +170,7 @@ class _ChooseLanguageState extends State<ChooseLanguagePage> {
                           multiLanguages.setLocale(
                               context, const Locale("en", "EN"));
                           Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => Home()));
+                              MaterialPageRoute(builder: (context) => Intro()));
                         },
                         child: const ImageIcon(
                             AssetImage("assets/go_futher.png"),

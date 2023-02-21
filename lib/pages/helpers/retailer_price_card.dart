@@ -82,11 +82,11 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
 
     final nameSection = SizedBox(
         height: 20,
-        width: 180,
+        width: 220,
         child: Align(
             alignment: Alignment.centerLeft,
-            child: Padding(
-                padding: const EdgeInsets.only(left: 3),
+            // child: Padding(
+            //     padding: const EdgeInsets.only(left: 3),
                 child: Text(getRetailerName(product.retailerId),
                     style: TextStyle(
                         color: isFirst
@@ -94,7 +94,9 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
                             : ApiConstants.mainFontColor,
                         fontSize: ApiConstants.productCardFontSize,
                         fontWeight:
-                            isFirst ? FontWeight.w500 : FontWeight.w400)))));
+                            isFirst ? FontWeight.w500 : FontWeight.w400)))
+    // )
+    );
     final priceSection = SizedBox(
       width: 41,
       height: 20,
@@ -120,7 +122,7 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
           child: Align(
               alignment: Alignment.centerRight,
               child: Padding(
-                  padding: const EdgeInsets.only(left: 3, right: 24),
+                  padding: const EdgeInsets.only(left: 3, right: 12),
                   child: Text(MultiLanguages.of(context)!.translate("toBuy"),
                       style: TextStyle(
                           color: isFirst
