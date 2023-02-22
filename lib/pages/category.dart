@@ -292,7 +292,7 @@ class CategoryState extends State<Category> {
     if (name == "meatCatalog") return 4;
     if (name == "bacaley") return 5;
     if (name == "iced") return 6;
-    if (name == "Drinks") return 7;
+    if (name == "drinks") return 7;
     if (name == "alcoDrinks") return 8;
     if (name == "babiesGoods") return 9;
     if (name == "houseGoods") return 11;
