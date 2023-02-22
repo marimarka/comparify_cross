@@ -1,13 +1,13 @@
-import 'package:comparify_cross/models/products_dto_v3.dart';
-import 'package:comparify_cross/pages/about_us_page.dart';
-import 'package:comparify_cross/pages/favorites_page.dart';
-import 'package:comparify_cross/pages/helpers/bottom.dart';
-import 'package:comparify_cross/pages/helpers/constants.dart';
-import 'package:comparify_cross/pages/helpers/product_card.dart';
-import 'package:comparify_cross/pages/home.dart';
-import 'package:comparify_cross/pages/search_page.dart';
-import 'package:comparify_cross/pages/store_link_page.dart';
-import 'package:comparify_cross/services/api_service.dart';
+import 'package:comparify/models/products_dto_v3.dart';
+import 'package:comparify/pages/about_us_page.dart';
+import 'package:comparify/pages/favorites_page.dart';
+import 'package:comparify/pages/helpers/bottom.dart';
+import 'package:comparify/pages/helpers/constants.dart';
+import 'package:comparify/pages/helpers/product_card.dart';
+import 'package:comparify/pages/home.dart';
+import 'package:comparify/pages/search_page.dart';
+import 'package:comparify/pages/store_link_page.dart';
+import 'package:comparify/services/api_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -60,8 +60,7 @@ class ScanBarCodePageState extends State {
           "${ApiConstants.baseUrl}${ApiConstants.findByCodePageEndpoint}/${_scanBarcode}";
       final res = await http.get(Uri.parse("$url"));
 
-      final List<ProductsDTOV3> fetchedPosts =
-          ApiService().parseProducts(res.body);
+      final List<ProductsDTOV3> fetchedPosts = ApiService().parseProducts(res.body);
       if (fetchedPosts.isNotEmpty) {
         setState(() {
           foundProduct.add(fetchedPosts[0]);

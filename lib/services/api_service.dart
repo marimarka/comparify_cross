@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:comparify_cross/pages/helpers/constants.dart';
-import 'package:comparify_cross/models/products_dto_v3.dart';
+import 'package:comparify/pages/helpers/constants.dart';
+import 'package:comparify/models/products_dto_v3.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {

@@ -1,6 +1,6 @@
 
-import 'package:comparify_cross/pages/helpers/constants.dart';
-import 'package:comparify_cross/pages/intro.dart';
+import 'package:comparify/pages/helpers/constants.dart';
+import 'package:comparify/pages/intro.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

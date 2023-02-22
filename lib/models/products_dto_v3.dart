@@ -1,5 +1,5 @@
 
-import 'package:comparify_cross/models/retailer_price_dto_v3.dart';
+import 'package:comparify/models/retailer_price_dto_v3.dart';
 
 class ProductsDTOV3 {
   final int id;

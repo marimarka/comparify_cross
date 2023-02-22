@@ -1,6 +1,6 @@
-import 'package:comparify_cross/models/products_dto_v3.dart';
-import 'package:comparify_cross/pages/helpers/constants.dart';
-import 'package:comparify_cross/pages/helpers/retailer_price_card.dart';
+import 'package:comparify/models/products_dto_v3.dart';
+import 'package:comparify/pages/helpers/constants.dart';
+import 'package:comparify/pages/helpers/retailer_price_card.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

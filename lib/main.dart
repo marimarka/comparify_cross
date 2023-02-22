@@ -1,6 +1,6 @@
-import 'package:comparify_cross/pages/first_choose_language_page.dart';
-import 'package:comparify_cross/pages/helpers/constants.dart';
-import 'package:comparify_cross/pages/helpers/multi_languages.dart';
+import 'package:comparify/pages/first_choose_language_page.dart';
+import 'package:comparify/pages/helpers/constants.dart';
+import 'package:comparify/pages/helpers/multi_languages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';

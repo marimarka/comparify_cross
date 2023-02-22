@@ -1,7 +1,7 @@
-import 'package:comparify_cross/models/retailer_price_dto_v3.dart';
-import 'package:comparify_cross/pages/helpers/constants.dart';
-import 'package:comparify_cross/pages/helpers/in_app_web_view.dart';
-import 'package:comparify_cross/pages/helpers/multi_languages.dart';
+import 'package:comparify/models/retailer_price_dto_v3.dart';
+import 'package:comparify/pages/helpers/constants.dart';
+import 'package:comparify/pages/helpers/in_app_web_view.dart';
+import 'package:comparify/pages/helpers/multi_languages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:intl/intl.dart';

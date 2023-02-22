@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:comparify_cross/pages/favorites_page.dart';
-import 'package:comparify_cross/pages/helpers/ad_helper.dart';
-import 'package:comparify_cross/pages/helpers/bottom.dart';
-import 'package:comparify_cross/pages/helpers/constants.dart';
-import 'package:comparify_cross/pages/home.dart';
-import 'package:comparify_cross/pages/scan_barcode_page.dart';
-import 'package:comparify_cross/pages/store_link_page.dart';
+import 'package:comparify/pages/favorites_page.dart';
+import 'package:comparify/pages/helpers/ad_helper.dart';
+import 'package:comparify/pages/helpers/bottom.dart';
+import 'package:comparify/pages/helpers/constants.dart';
+import 'package:comparify/pages/home.dart';
+import 'package:comparify/pages/scan_barcode_page.dart';
+import 'package:comparify/pages/store_link_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:share_plus/share_plus.dart';

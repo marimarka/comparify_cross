@@ -1,5 +1,5 @@
-import 'package:comparify_cross/pages/helpers/constants.dart';
-import 'package:comparify_cross/pages/helpers/multi_languages.dart';
+import 'package:comparify/pages/helpers/constants.dart';
+import 'package:comparify/pages/helpers/multi_languages.dart';
 import 'package:flutter/material.dart';
 
 class BottomMenu extends StatelessWidget {

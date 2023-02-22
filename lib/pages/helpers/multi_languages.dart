@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:comparify_cross/main.dart';
+import 'package:comparify/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
