@@ -38,7 +38,7 @@ class ProductCardState extends State<ProductCard> {
         child: Padding(
           padding: const EdgeInsets.only(top: 10, left: 8),
           child: FittedBox(
-            fit: BoxFit.fill,
+            fit: BoxFit.contain,
             child: Image.network(
               product.productImageUrl,
               errorBuilder: (context, exception, stackTrace) {

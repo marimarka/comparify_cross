@@ -79,12 +79,11 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
                   ? const TooltipSample()
                   : const Text('')),
         ));
-
     final nameSection = SizedBox(
         height: 20,
-        width: 220,
-        child: Align(
-            alignment: Alignment.centerLeft,
+        width: MediaQuery.of(context).size.width*0.5,
+        // child: Align(
+        //     alignment: Alignment.centerLeft,
             // child: Padding(
             //     padding: const EdgeInsets.only(left: 3),
                 child: Text(getRetailerName(product.retailerId),
@@ -94,26 +93,29 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
                             : ApiConstants.mainFontColor,
                         fontSize: ApiConstants.productCardFontSize,
                         fontWeight:
-                            isFirst ? FontWeight.w500 : FontWeight.w400)))
+                            isFirst ? FontWeight.w500 : FontWeight.w400))
+    // )
     // )
     );
-    final priceSection = SizedBox(
-      width: 41,
-      height: 20,
-      child: Align(
-          alignment: Alignment.centerRight,
-          // child: Padding(
-          //     padding: const EdgeInsets.only(left: 10),
-          child: Text(getFormattedPrice(product.retailerPrice),
-              style: TextStyle(
-                  color: isFirst
-                      ? ApiConstants.bestPriceFontColor
-                      : ApiConstants.mainFontColor,
-                  fontSize: ApiConstants.productCardFontSize,
-                  fontWeight: isFirst ? FontWeight.w500 : FontWeight.w400))),
-      // )
-    );
-    final buyActionSection = Expanded(
+    // final priceSection = Padding(
+    //   padding: const EdgeInsets.only(left: 10, right: 0),
+    //   // child: Align(
+    //   //     alignment: Alignment.centerRight,
+    //   //     child: Padding(
+    //   //         padding: const EdgeInsets.only(left: 20),
+    //       child:
+    // Text(,
+    //           style: TextStyle(
+    //               color: isFirst
+    //                   ? ApiConstants.bestPriceFontColor
+    //                   : ApiConstants.mainFontColor,
+    //               fontSize: ApiConstants.productCardFontSize,
+    //               fontWeight: isFirst ? FontWeight.w500 : FontWeight.w400)
+    //       )
+    // // ),
+    //   // )
+    // );
+    final buyActionSection =  Expanded(
       child: InkWell(
           onTap: () => Navigator.of(context).push(MaterialPageRoute(
               builder: (_) => InAppWebViewPage(
@@ -123,7 +125,7 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
               alignment: Alignment.centerRight,
               child: Padding(
                   padding: const EdgeInsets.only(left: 3, right: 12),
-                  child: Text(MultiLanguages.of(context)!.translate("toBuy"),
+                  child: Text("${getFormattedPrice(product.retailerPrice)}   ${MultiLanguages.of(context)!.translate("toBuy")}",
                       style: TextStyle(
                           color: isFirst
                               ? ApiConstants.bestPriceFontColor
@@ -131,15 +133,23 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
                           fontSize: ApiConstants.productCardFontSize,
                           fontWeight:
                               isFirst ? FontWeight.w500 : FontWeight.w400))))),
+    // )
     );
+    // final pricebuySection = SizedBox(
+    //   height: 20,
+    //     width: MediaQuery.of(context).size.width*0.3,
+    //     child: Row(
+    //         children: <Widget>[ priceSection, buyActionSection
+    //         ])
+    // );
     return Container(
-        margin: const EdgeInsets.only(left: 10, right: 10),
+        margin: const EdgeInsets.only(left: 10, right: 2),
         child: Container(
             child: RetailerPriceRow(
           tooltipSection: tooltipSection,
           nameSection: nameSection,
-          priceSection: priceSection,
-          buyActionSection: buyActionSection,
+          // priceSection: priceSection,
+          priceBuyActionSection: buyActionSection,
           // ),
         )));
   }
@@ -197,14 +207,14 @@ class RetailerPriceRow extends StatelessWidget {
     Key? key,
     required this.tooltipSection,
     required this.nameSection,
-    required this.priceSection,
-    required this.buyActionSection,
+    // required this.priceSection,
+    required this.priceBuyActionSection,
   }) : super(key: key);
 
   final Padding tooltipSection;
   final SizedBox nameSection;
-  final SizedBox priceSection;
-  final Expanded buyActionSection;
+  // final SizedBox priceSection;
+  final Expanded priceBuyActionSection;
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +229,7 @@ class RetailerPriceRow extends StatelessWidget {
           height: 24,
           width: 304,
           child: Row(children: <Widget>[
-            tooltipSection, nameSection, priceSection, buyActionSection
+            tooltipSection, nameSection, priceBuyActionSection
             // Expanded(flex: 1, child: tooltipSection),
             // Expanded(flex: 5, child: nameSection),
             // Expanded(flex: 2, child: priceSection),
