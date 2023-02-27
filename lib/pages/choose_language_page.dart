@@ -1,4 +1,3 @@
-
 import 'package:comparify/pages/helpers/constants.dart';
 import 'package:comparify/pages/home.dart';
 import 'package:flutter/material.dart';
@@ -70,57 +69,53 @@ class _ChooseLanguageState extends State<ChooseLanguagePage> {
                           color: ApiConstants.mainFontColor))),
               Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Row(children: <Widget>[
-                    latvianTextSection,
-                    InkWell(
-                        onTap: () {
-                          // if (await multiLanguages.readLocaleKey() == "lv") {
-                          multiLanguages.setLocale(
-                              context, const Locale("lv", "LV"));
-                          Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => Home()));
-                          // }
-                        },
-                        child: const ImageIcon(
-                            AssetImage("assets/go_futher.png"),
-                            color: ApiConstants.mainFontColor))
-                  ])),
-              const Divider(
-                color: Colors.grey,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Row(children: <Widget>[
-                  russianTextSection,
-                  InkWell(
+                  child: InkWell(
                       onTap: () {
                         multiLanguages.setLocale(
-                            context, const Locale("ru", "RU"));
+                            context, const Locale("lv", "LV"));
                         Navigator.of(context).push(
                             MaterialPageRoute(builder: (context) => Home()));
                       },
-                      child: const ImageIcon(AssetImage("assets/go_futher.png"),
-                          color: ApiConstants.mainFontColor))
-                ]),
-              ),
+                      child: Row(children: <Widget>[
+                        latvianTextSection,
+                        const ImageIcon(AssetImage("assets/go_futher.png"),
+                            color: ApiConstants.mainFontColor)
+                      ]))),
               const Divider(
                 color: Colors.grey,
               ),
               Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Row(children: <Widget>[
-                    englishTextSection,
-                    InkWell(
-                        onTap: () {
-                          multiLanguages.setLocale(
-                              context, const Locale("en", "EN"));
-                          Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => Home()));
-                        },
-                        child: const ImageIcon(
-                            AssetImage("assets/go_futher.png"),
-                            color: ApiConstants.mainFontColor))
-                  ])),
+                  child: InkWell(
+                    onTap: () {
+                      multiLanguages.setLocale(
+                          context, const Locale("ru", "RU"));
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => Home()));
+                    },
+                    child: Row(children: <Widget>[
+                      russianTextSection,
+                      const ImageIcon(AssetImage("assets/go_futher.png"),
+                          color: ApiConstants.mainFontColor)
+                    ]),
+                  )),
+              const Divider(
+                color: Colors.grey,
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: InkWell(
+                      onTap: () {
+                        multiLanguages.setLocale(
+                            context, const Locale("en", "EN"));
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => Home()));
+                      },
+                      child: Row(children: <Widget>[
+                        englishTextSection,
+                        const ImageIcon(AssetImage("assets/go_futher.png"),
+                            color: ApiConstants.mainFontColor)
+                      ]))),
               const Divider(
                 color: Colors.grey,
               )

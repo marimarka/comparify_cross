@@ -1,6 +1,5 @@
-
+import 'package:comparify/pages/first_intro.dart';
 import 'package:comparify/pages/helpers/constants.dart';
-import 'package:comparify/pages/intro.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,7 +15,6 @@ class FirstChooseLanguagePage extends StatefulWidget {
 class _ChooseLanguageState extends State<FirstChooseLanguagePage> {
   MultiLanguages multiLanguages = MultiLanguages();
 
-
   @override
   void initState() {
     super.initState();
@@ -25,32 +23,20 @@ class _ChooseLanguageState extends State<FirstChooseLanguagePage> {
   @override
   void dispose() {
     super.dispose();
-
   }
 
   Future checkFirstSeen() async {
     var locale = await multiLanguages.readLocaleKey();
-    // await await prefs.setString('localeKey', "");
     bool languageSet = locale != null && locale != "";
-    // print(languageSet);
     if (languageSet) {
       Navigator.of(context).pushReplacement(
-          new MaterialPageRoute(builder: (context) => new Intro()));
-
-    } else {
-      // Navigator.of(context).pushReplacement(
-      //     new MaterialPageRoute(builder: (context) => new FirstChooseLanguagePage()));
+          new MaterialPageRoute(builder: (context) => new FirstIntro()));
     }
-    // else {
-      // await prefs.setBool('seen', true);
-      // Navigator.of(context).pushReplacement(
-      //     new MaterialPageRoute(builder: (context) => new ChooseLanguagePage()));
-    // }
   }
 
   Future setSeenCheck() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-     await prefs.setString('localeKey', "");
+    await prefs.setString('localeKey', "");
   }
 
   @override
@@ -60,8 +46,7 @@ class _ChooseLanguageState extends State<FirstChooseLanguagePage> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child:
-              CircularProgressIndicator(
+              child: CircularProgressIndicator(
                   color: ApiConstants.buttonsAndMenuColor),
             );
           } else {
@@ -124,58 +109,55 @@ class _ChooseLanguageState extends State<FirstChooseLanguagePage> {
                           color: ApiConstants.mainFontColor))),
               Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Row(children: <Widget>[
-                    latvianTextSection,
-                    InkWell(
-                        onTap: () {
-                          // if (await multiLanguages.readLocaleKey() == "lv") {
-                          multiLanguages.setLocale(
-                              context, const Locale("lv", "LV"));
-                          Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => Intro()));
-                          ;
-                          // }
-                        },
-                        child: const ImageIcon(
-                            AssetImage("assets/go_futher.png"),
-                            color: ApiConstants.mainFontColor))
-                  ])),
+                  child: InkWell(
+                      onTap: () {
+                        multiLanguages.setLocale(
+                            context, const Locale("lv", "LV"));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => FirstIntro()));
+                        ;
+                        // }
+                      },
+                      child: Row(children: <Widget>[
+                        latvianTextSection,
+                        const ImageIcon(AssetImage("assets/go_futher.png"),
+                            color: ApiConstants.mainFontColor)
+                      ]))),
               const Divider(
                 color: Colors.grey,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Row(children: <Widget>[
-                  russianTextSection,
-                  InkWell(
-                      onTap: () {
-                        multiLanguages.setLocale(
-                            context, const Locale("ru", "RU"));
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => Intro()));
-                      },
-                      child: const ImageIcon(AssetImage("assets/go_futher.png"),
-                          color: ApiConstants.mainFontColor))
-                ]),
+                child: InkWell(
+                    onTap: () {
+                      multiLanguages.setLocale(
+                          context, const Locale("ru", "RU"));
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => FirstIntro()));
+                    },
+                    child: Row(children: <Widget>[
+                      russianTextSection,
+                      const ImageIcon(AssetImage("assets/go_futher.png"),
+                          color: ApiConstants.mainFontColor)
+                    ])),
               ),
               const Divider(
                 color: Colors.grey,
               ),
               Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Row(children: <Widget>[
-                    englishTextSection,
-                    InkWell(
-                        onTap: () {
-                          multiLanguages.setLocale(
-                              context, const Locale("en", "EN"));
-                          Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => Intro()));
-                        },
-                        child: const ImageIcon(
-                            AssetImage("assets/go_futher.png"),
-                            color: ApiConstants.mainFontColor))
-                  ])),
+                  child: InkWell(
+                      onTap: () {
+                        multiLanguages.setLocale(
+                            context, const Locale("en", "EN"));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => FirstIntro()));
+                      },
+                      child: Row(children: <Widget>[
+                        englishTextSection,
+                        const ImageIcon(AssetImage("assets/go_futher.png"),
+                            color: ApiConstants.mainFontColor)
+                      ]))),
               const Divider(
                 color: Colors.grey,
               )

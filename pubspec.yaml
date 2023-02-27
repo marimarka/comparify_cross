@@ -122,11 +122,12 @@ flutter:
     - assets/full_logo.png
     - assets/go_futher.png
     - assets/favorite_saved.png
-
-    # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+    - assets/new_long_logo.png
+    - assets/logo_lang.png
+    - assets/logo_share.png
+    - assets/logo_info.png
+    - assets/logo_rate.png
+    - assets/logo_contact.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

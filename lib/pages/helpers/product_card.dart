@@ -47,22 +47,27 @@ class ProductCardState extends State<ProductCard> {
             ),
           ),
         ));
-
+    double unitHeightValue = MediaQuery.of(context).size.width;
+    const double multiplier = 0.04;
     final nameSection = SizedBox(
       height: 94,
       width: 172,
+
+        // FittedBox(
+        //   fit: BoxFit.fitWidth,
+          // fit: BoxFit.scaleDown,
       child: Align(
           alignment: Alignment.topLeft,
           child: Padding(
               padding: const EdgeInsets.only(top: 10, left: 8),
               child: Text(
                 product.productName,
-                style: const TextStyle(
-                    fontSize: 14,
+                style: TextStyle(
+                    // fontSize: 14,
+                    fontSize: multiplier * unitHeightValue,
                     fontFamily: "Roboto",
                     fontWeight: FontWeight.w500,
-                    color: ApiConstants.mainFontColor,
-                    height: 1.6),
+                    color: ApiConstants.mainFontColor),
               ))),
     );
 
@@ -101,7 +106,11 @@ class ProductCardState extends State<ProductCard> {
                     shrinkWrap: true,
                     itemCount: product.retailersItems.length,
                     itemBuilder: (_, index) => RetailerPriceCard(
-                        product.retailersItems[index], index == 0)),
+                        product.retailersItems[index],
+                        index == 0 && (product.retailersItems.length < 2
+                            ? true
+                            : product.retailersItems[index].retailerPrice !=
+                                product.retailersItems[1].retailerPrice))),
               )
             ])));
   }
@@ -121,8 +130,11 @@ class ProductCardState extends State<ProductCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
-        child: productCard);
+    return Container(
+      width: MediaQuery.of(context).size.width,// * 0.85,
+      child: Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
+          child: productCard)
+    );
   }
 }

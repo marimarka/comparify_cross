@@ -3,16 +3,18 @@ import 'package:comparify/pages/helpers/multi_languages.dart';
 import 'package:comparify/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Intro extends StatefulWidget {
+class FirstIntro extends StatefulWidget {
+  static String id = 'Intro';
 
   @override
   State<StatefulWidget> createState() {
-    return IntroState();
+    return FirstIntroState();
   }
 }
 
-class IntroState extends State<Intro> {
+class FirstIntroState extends State<FirstIntro> {
   List<ContentConfig> listSlides = [];
 
   Color activeColor = Colors.white;
@@ -23,38 +25,67 @@ class IntroState extends State<Intro> {
 
   double sizeIndicator = 10;
 
+  Future checkFirstSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _seen = (prefs.getBool('seen') ?? false);
+    print(_seen);
+    if (_seen) {
+
+      Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => new Home()));
+    } else {
+      await prefs.setBool('seen', true);
+      Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => new FirstIntro()));
+    }
+  }
+
+  Future setSeenCheck() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('seen', true);
+  }
+
   @override
   Widget build(BuildContext context) {
     createIntros();
-    return Container(
-      child: IntroSlider(
-          listContentConfig: listSlides,
-          skipButtonStyle: myButtonStyle(),
-          doneButtonStyle: myButtonStyle(),
-          nextButtonStyle: myButtonStyle(),
-          onSkipPress: onSkipPress,
-          onDonePress: onPressedDone,
-          indicatorConfig: IndicatorConfig(
-            sizeIndicator: sizeIndicator,
-            indicatorWidget: Container(
-              width: sizeIndicator,
-              height: 10,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: indicatorInactiveColor),
-            ),
-            activeIndicatorWidget: Container(
-              width: sizeIndicator + 15,
-              height: 10,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: indicatorActiveColor),
-            ),
-            spaceBetweenIndicator: 15,
-            typeIndicatorAnimation: TypeIndicatorAnimation.sliding,
-          ),
-        )
-    );
+    return FutureBuilder(
+        future: checkFirstSeen(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(
+                  color: ApiConstants.buttonsAndMenuColor),
+            );
+          } else {
+            return IntroSlider(
+              listContentConfig: listSlides,
+              skipButtonStyle: myButtonStyle(),
+              doneButtonStyle: myButtonStyle(),
+              nextButtonStyle: myButtonStyle(),
+              onSkipPress: onSkipPress,
+              onDonePress: onPressedDone,
+              indicatorConfig: IndicatorConfig(
+                sizeIndicator: sizeIndicator,
+                indicatorWidget: Container(
+                  width: sizeIndicator,
+                  height: 10,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: indicatorInactiveColor),
+                ),
+                activeIndicatorWidget: Container(
+                  width: sizeIndicator + 15,
+                  height: 10,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: indicatorActiveColor),
+                ),
+                spaceBetweenIndicator: 15,
+                typeIndicatorAnimation: TypeIndicatorAnimation.sliding,
+              ),
+            );
+          }
+        });
   }
 
   @override
@@ -68,11 +99,13 @@ class IntroState extends State<Intro> {
       fontWeight: FontWeight.bold);
 
   onPressedDone() {
+    setSeenCheck();
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (context) => new Home()));
   }
 
   onSkipPress() {
+    setSeenCheck();
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (context) => new Home()));
   }

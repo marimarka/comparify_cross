@@ -23,6 +23,7 @@ class ApiConstants {
   static const Color unselectedBottomMenuColor = Color(0xFF828282);
   static const Color retailerPriceBackgroundColor = Color(0xFFECF2FF);
   static const Color bestPriceFontColor = Color(0xFF11934D);
+  static const Color tooltipBackgroundColor = Color(0xFFFBFBFF);
 
   static const bool showTopBar = true;
 }

@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:comparify/pages/choose_language_page.dart';
 import 'package:comparify/pages/favorites_page.dart';
 import 'package:comparify/pages/helpers/ad_helper.dart';
 import 'package:comparify/pages/helpers/bottom.dart';
 import 'package:comparify/pages/helpers/constants.dart';
 import 'package:comparify/pages/home.dart';
+import 'package:comparify/pages/intro.dart';
 import 'package:comparify/pages/scan_barcode_page.dart';
 import 'package:comparify/pages/store_link_page.dart';
 import 'package:flutter/material.dart';
@@ -119,13 +121,29 @@ class _AboutUsState extends State<AboutUsPage> {
   Widget build(BuildContext context) {
     dynamic url;
 
+    final languagelogoSection = Padding(
+        padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
+        child: SizedBox(
+          height: 25,
+          width: 25,
+          child: FittedBox(
+              fit: BoxFit.contain, child: Image.asset("assets/logo_lang.png")),
+        ));
+    final infologoSection = Padding(
+        padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
+        child: SizedBox(
+          height: 25,
+          width: 25,
+          child: FittedBox(
+              fit: BoxFit.contain, child: Image.asset("assets/logo_info.png")),
+        ));
     final playStorelogoSection = Padding(
         padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
         child: SizedBox(
           height: 25,
           width: 25,
           child: FittedBox(
-              fit: BoxFit.contain, child: Image.asset("assets/comparify.png")),
+              fit: BoxFit.contain, child: Image.asset("assets/logo_rate.png")),
         ));
     final sharelogoSection = Padding(
         padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
@@ -133,7 +151,7 @@ class _AboutUsState extends State<AboutUsPage> {
           height: 25,
           width: 25,
           child: FittedBox(
-              fit: BoxFit.contain, child: Image.asset("assets/share.png")),
+              fit: BoxFit.contain, child: Image.asset("assets/logo_share.png")),
         ));
     final contactUsLogoSection = Padding(
         padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
@@ -141,7 +159,7 @@ class _AboutUsState extends State<AboutUsPage> {
           height: 25,
           width: 25,
           child: FittedBox(
-              fit: BoxFit.contain, child: Image.asset("assets/contact_us.png")),
+              fit: BoxFit.contain, child: Image.asset("assets/logo_contact.png")),
         ));
     final fbLogoSection = Padding(
         padding: const EdgeInsets.only(bottom: 5, left: 5, top: 5),
@@ -179,6 +197,28 @@ class _AboutUsState extends State<AboutUsPage> {
                     color: ApiConstants.mainFontColor, fontSize: 20),
               ))),
     );
+    Widget languageTextSection = Expanded(
+      child: Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Padding(
+              padding: const EdgeInsets.only(bottom: 10, left: 10),
+              child: Text(
+                MultiLanguages.of(context)!.translate("chooseLanguage"),
+                style: const TextStyle(
+                    color: ApiConstants.mainFontColor, fontSize: 20),
+              ))),
+    );
+    Widget infoTextSection = Expanded(
+      child: Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Padding(
+              padding: const EdgeInsets.only(bottom: 10, left: 10),
+              child: Text(
+                MultiLanguages.of(context)!.translate("howToUse"),
+                style: const TextStyle(
+                    color: ApiConstants.mainFontColor, fontSize: 20),
+              ))),
+    );
     Widget shareTextSection = Expanded(
       child: Padding(
           padding: const EdgeInsets.only(top: 8),
@@ -192,7 +232,7 @@ class _AboutUsState extends State<AboutUsPage> {
     );
     if (Platform.isAndroid || Platform.isIOS) {
       final appId =
-          Platform.isAndroid ? 'com.emmea.comparify' : 'YOUR_IOS_APP_ID';
+          Platform.isAndroid ? 'com.emmea.comparify' : '1665844023';
       url = Uri.parse(
         Platform.isAndroid
             ? "market://details?id=$appId"
@@ -263,10 +303,10 @@ class _AboutUsState extends State<AboutUsPage> {
                 Column(
                   children: <Widget>[
                     const Padding(
-                        padding: EdgeInsets.only(top: 25, left: 25, right: 25),
+                        padding: EdgeInsets.only(top: 15, left: 15, right: 15),
                         child: Image(
-                          image: AssetImage("assets/full_logo.png"),
-                          height: 25,
+                          image: AssetImage("assets/new_long_logo.png"),
+                          height: 30,
                         )),
                     SizedBox(
                         child: Padding(
@@ -279,10 +319,85 @@ class _AboutUsState extends State<AboutUsPage> {
                                     height: 1.5,
                                     fontSize: 16,
                                     color: ApiConstants.mainFontColor)))),
-                    // const Padding(padding: EdgeInsets.only(left: 20, right: 20),
-                    // child: Divider(
-                    //   color: Colors.grey,
-                    // )),
+                    Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Row(children: <Widget>[
+                          fbLogoSection,
+                          fbTextSection,
+                          InkWell(
+                              onTap: () => _loadFB(),
+                              child: const ImageIcon(
+                                  AssetImage("assets/go_futher.png")))
+                        ])),
+                    const Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: Colors.grey,
+                        )),
+                    Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Row(children: <Widget>[
+                          instaLogoSection,
+                          instaTextSection,
+                          InkWell(
+                              onTap: () => launchUrl(Uri.parse(
+                                  'https://www.instagram.com/_u/comparify.lv')),
+                              child: const ImageIcon(
+                                  AssetImage("assets/go_futher.png")))
+                        ])),
+                    const Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: Colors.grey,
+                        )),
+                    Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Row(children: <Widget>[
+                          tiktokLogoSection,
+                          tiktokTextSection,
+                          InkWell(
+                              onTap: () => launchUrl(Uri.parse(
+                                  'https://www.tiktok.com/@comparify_lv')),
+                              child: const ImageIcon(
+                                  AssetImage("assets/go_futher.png")))
+                        ])),
+                    const Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: Colors.grey,
+                        )),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Row(children: <Widget>[
+                          languagelogoSection,
+                          languageTextSection,
+                          InkWell(
+                              onTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => ChooseLanguagePage())),
+                              child: const ImageIcon(
+                                  AssetImage("assets/go_futher.png")))
+                        ])),
+                    const Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: Colors.grey,
+                        )),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Row(children: <Widget>[
+                          infologoSection,
+                          infoTextSection,
+                          InkWell(
+                              onTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => Intro())),
+                              child: const ImageIcon(
+                                  AssetImage("assets/go_futher.png")))
+                        ])),
+                    const Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: Colors.grey,
+                        )),
                     Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Row(children: <Widget>[
@@ -333,53 +448,6 @@ class _AboutUsState extends State<AboutUsPage> {
                           color: Colors.grey,
                         )),
                     // const SizedBox(height: 2),
-                    Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: Row(children: <Widget>[
-                          fbLogoSection,
-                          fbTextSection,
-                          InkWell(
-                              onTap: () => _loadFB(),
-                              child: const ImageIcon(
-                                  AssetImage("assets/go_futher.png")))
-                        ])),
-                    const Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: Divider(
-                          color: Colors.grey,
-                        )),
-                    Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: Row(children: <Widget>[
-                          instaLogoSection,
-                          instaTextSection,
-                          InkWell(
-                              onTap: () => launchUrl(Uri.parse(
-                                  'https://www.instagram.com/_u/comparify.lv')),
-                              child: const ImageIcon(
-                                  AssetImage("assets/go_futher.png")))
-                        ])),
-                    const Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: Divider(
-                          color: Colors.grey,
-                        )),
-                    Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: Row(children: <Widget>[
-                          tiktokLogoSection,
-                          tiktokTextSection,
-                          InkWell(
-                              onTap: () => launchUrl(Uri.parse(
-                                  'https://www.tiktok.com/@comparify_lv')),
-                              child: const ImageIcon(
-                                  AssetImage("assets/go_futher.png")))
-                        ])),
-                    const Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: Divider(
-                          color: Colors.grey,
-                        )),
                   ],
                 )
               ]));

@@ -174,9 +174,11 @@ class CategoryState extends State<Category> {
         appBar: AppBar(
             centerTitle: false,
             title: Text(MultiLanguages.of(context)!.translate(categoriesName),
-                style: const TextStyle(color: ApiConstants.appBarFontColor,
-                fontFamily: "Roboto", fontSize: ApiConstants.titleFontSize,
-                fontWeight: FontWeight.w700)),
+                style: const TextStyle(
+                    color: ApiConstants.appBarFontColor,
+                    fontFamily: "Roboto",
+                    fontSize: ApiConstants.titleFontSize,
+                    fontWeight: FontWeight.w700)),
             backgroundColor: ApiConstants.buttonsAndMenuColor,
             automaticallyImplyLeading: ApiConstants.showTopBar,
             actions: [
@@ -194,41 +196,48 @@ class CategoryState extends State<Category> {
                 child: CircularProgressIndicator(
                     color: ApiConstants.buttonsAndMenuColor),
               )
-            : Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                        key: const Key('items'),
-                        itemCount: productList.length,
-                        controller: _controller,
-                        itemBuilder: (_, index) =>
-                            ProductCard(productList[index], favoriteList,
-                                key: Key(productList[index].id.toString()))),
-                  ),
-                  if (_isLoadMoreRunning == true)
-                    const Padding(
-                      padding: EdgeInsets.only(top: 10, bottom: 40),
-                      child: Center(
-                        child: CircularProgressIndicator(
-                            color: ApiConstants.buttonsAndMenuColor),
-                      ),
+            : RefreshIndicator(
+                onRefresh: _pullRefresh,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                          key: const Key('items'),
+                          itemCount: productList.length,
+                          controller: _controller,
+                          itemBuilder: (_, index) => ProductCard(
+                              productList[index], favoriteList,
+                              key: Key(productList[index].id.toString()))),
                     ),
-                  if (_hasNextPage == false)
-                    Container(
-                      padding: const EdgeInsets.only(top: 10, bottom: 20),
-                      child: Center(
-                        child: Text(
-                            MultiLanguages.of(context)!.translate("endOfList")),
+                    if (_isLoadMoreRunning == true)
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10, bottom: 40),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                              color: ApiConstants.buttonsAndMenuColor),
+                        ),
                       ),
-                    ),
-                ],
-              ),
+                    if (_hasNextPage == false)
+                      Container(
+                        padding: const EdgeInsets.only(top: 10, bottom: 20),
+                        child: Center(
+                          child: Text(MultiLanguages.of(context)!
+                              .translate("endOfList")),
+                        ),
+                      ),
+                  ],
+                )),
         bottomNavigationBar: BottomMenu(
           selectedTab: _selectedTab,
           changeTab: (int value) {
             _changeTab(value);
           },
         ));
+  }
+
+  Future<void> _pullRefresh() async {
+    _firstLoad();
+    // why use freshNumbers var? https://stackoverflow.com/a/52992836/2301224
   }
 
   _changeTab(int index) {

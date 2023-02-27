@@ -31,7 +31,6 @@ class CategoriesState extends State<Categories> {
         crossAxisCount: 2,
         children: [
           CatalogItemCard(
-              // MultiLanguages.of(context)!.translate("breadCatalog"),
               "breadCatalog",
               'assets/categories/3d_maize.png'),
           //1

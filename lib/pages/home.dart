@@ -1,6 +1,5 @@
 import 'package:comparify/pages/about_us_page.dart';
 import 'package:comparify/pages/categories.dart';
-import 'package:comparify/pages/choose_language_page.dart';
 import 'package:comparify/pages/favorites_page.dart';
 import 'package:comparify/pages/helpers/ad_helper.dart';
 import 'package:comparify/pages/helpers/bottom.dart';
@@ -10,8 +9,6 @@ import 'package:comparify/pages/search_page.dart';
 import 'package:comparify/pages/store_link_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-
-import 'helpers/multi_languages.dart';
 
 class Home extends StatefulWidget {
   static String id = 'Home';
@@ -96,22 +93,26 @@ class _HomeState extends State {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Image.asset("assets/new_logo.png", width: 26, height: 24),
-              Padding(
-                  padding: EdgeInsets.only(left: 4),
-                  child: Text(
-                      MultiLanguages.of(context)!.translate("comparify"),
-                      style: const TextStyle(
-                          color: ApiConstants.nameFontColor,
-                          fontWeight: FontWeight.bold))),
-            ],
-          ),
+          title: Image.asset("assets/new_long_logo.png", height: 30),
+
+          // Padding(
+          //     padding: const EdgeInsets.only(top: 20, bottom: 20),
+          //     child: Image.asset("assets/new_long_logo.png")// Text(
+            // MultiLanguages.of(context)!.translate("comparify"),
+            // style: const TextStyle(
+            //     color: ApiConstants.nameFontColor,
+            //     fontWeight: FontWeight.bold))
+          // )//Row(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            // mainAxisSize: MainAxisSize.min,
+            // children: <Widget>[
+            //   Image.asset("assets/new_long_logo.png", width: 26, height: 24),
+              // ,
+            // ],
+          // ),
           backgroundColor: ApiConstants.mainBackgroundColor,
           automaticallyImplyLeading: ApiConstants.showTopBar,
+          elevation: 0,
           actions: [
             IconButton(
                 onPressed: () => Navigator.of(context).push(
@@ -121,22 +122,22 @@ class _HomeState extends State {
                   color: ApiConstants.mainFontColor,
                   size: 18,
                 )),
-            Theme(
-                data: Theme.of(context).copyWith(
-                    textTheme: TextTheme().apply(bodyColor: ApiConstants.mainFontColor),
-                    dividerColor: ApiConstants.mainFontColor,
-                    iconTheme: IconThemeData(color: ApiConstants.mainFontColor)),
-                child: PopupMenuButton<int>(
-                  color: ApiConstants.mainBackgroundColor,
-                  itemBuilder: (context) => [
-                    PopupMenuItem<int>(
-                        value: 0,
-                        child: Text(MultiLanguages.of(context)!
-                            .translate("chooseLanguage"),
-                        style: TextStyle(color: ApiConstants.mainFontColor),)),
-                  ],
-                  onSelected: (item) => selectedItem(context, item),
-                ))
+            // Theme(
+            //     data: Theme.of(context).copyWith(
+            //         textTheme: TextTheme().apply(bodyColor: ApiConstants.mainFontColor),
+            //         dividerColor: ApiConstants.mainFontColor,
+            //         iconTheme: IconThemeData(color: ApiConstants.mainFontColor)),
+            //     child: PopupMenuButton<int>(
+            //       color: ApiConstants.mainBackgroundColor,
+            //       itemBuilder: (context) => [
+            //         PopupMenuItem<int>(
+            //             value: 0,
+            //             child: Text(MultiLanguages.of(context)!
+            //                 .translate("chooseLanguage"),
+            //             style: TextStyle(color: ApiConstants.mainFontColor),)),
+            //       ],
+            //       onSelected: (item) => selectedItem(context, item),
+            //     ))
           ],
         ),
         body: _pages[_selectedTab],
@@ -148,21 +149,21 @@ class _HomeState extends State {
         ));
   }
 
-  void selectedItem(BuildContext context, item) {
-    switch (item) {
-      case 0:
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => ChooseLanguagePage()));
-        break;
-      // case 1:
-      //   print("Privacy Clicked");
-      //   break;
-      // case 2:
-      //   print("User Logged out");
-      //   Navigator.of(context).pushAndRemoveUntil(
-      //       MaterialPageRoute(builder: (context) => LoginPage()),
-      //           (route) => false);
-      //   break;
-    }
-  }
+  // void selectedItem(BuildContext context, item) {
+  //   switch (item) {
+  //     case 0:
+  //       Navigator.of(context).push(
+  //           MaterialPageRoute(builder: (context) => ChooseLanguagePage()));
+  //       break;
+  //     // case 1:
+  //     //   print("Privacy Clicked");
+  //     //   break;
+  //     // case 2:
+  //     //   print("User Logged out");
+  //     //   Navigator.of(context).pushAndRemoveUntil(
+  //     //       MaterialPageRoute(builder: (context) => LoginPage()),
+  //     //           (route) => false);
+  //     //   break;
+  //   }
+  // }
 }
