@@ -25,7 +25,7 @@
   "houseGoods": "House, household, pets",
   "babiesGoods": "Baby and kids",
   "endOfList": "End of list",
-  "smthFailed":  "Something went wrond",
+  "smthFailed":  "Something went wrong",
   "smthFailedMessage": "Probably we have troubles to get data! Please, try later.",
   "hey": "Hey",
   "pleaseScan": "Please scan barcode or search by name",
