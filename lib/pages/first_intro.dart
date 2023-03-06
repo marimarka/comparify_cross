@@ -125,7 +125,7 @@ class FirstIntroState extends State<FirstIntro> {
       description: MultiLanguages.of(context)!.translate("intro1Text"),
       styleDescription: const TextStyle(
           color: ApiConstants.mainFontColor,
-          fontSize: ApiConstants.languageFontSize),
+          fontSize: ApiConstants.languageAndAboutFontSize),
       pathImage: "assets/intro/intro1.png",
       backgroundColor: ApiConstants.mainBackgroundColor,
     ));
@@ -135,7 +135,7 @@ class FirstIntroState extends State<FirstIntro> {
       description: MultiLanguages.of(context)!.translate("intro2Text"),
       styleDescription: const TextStyle(
           color: ApiConstants.mainFontColor,
-          fontSize: ApiConstants.languageFontSize),
+          fontSize: ApiConstants.languageAndAboutFontSize),
       pathImage: "assets/intro/intro2.png",
       backgroundColor: ApiConstants.mainBackgroundColor,
     ));
@@ -145,7 +145,7 @@ class FirstIntroState extends State<FirstIntro> {
       description: MultiLanguages.of(context)!.translate("intro3Text"),
       styleDescription: const TextStyle(
           color: ApiConstants.mainFontColor,
-          fontSize: ApiConstants.languageFontSize),
+          fontSize: ApiConstants.languageAndAboutFontSize),
       pathImage: "assets/intro/intro3.png",
       backgroundColor: ApiConstants.mainBackgroundColor,
     ));
@@ -155,7 +155,7 @@ class FirstIntroState extends State<FirstIntro> {
       description: MultiLanguages.of(context)!.translate("intro4Text"),
       styleDescription: const TextStyle(
           color: ApiConstants.mainFontColor,
-          fontSize: ApiConstants.languageFontSize),
+          fontSize: ApiConstants.languageAndAboutFontSize),
       pathImage: "assets/intro/intro4.png",
       backgroundColor: ApiConstants.mainBackgroundColor,
     ));

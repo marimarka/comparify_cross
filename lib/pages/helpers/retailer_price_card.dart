@@ -81,20 +81,18 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
     final nameSection = SizedBox(
         height: 20,
         width: MediaQuery.of(context).size.width * 0.5,
-        // child: Align(
-        //     alignment: Alignment.centerLeft,
-        // child: Padding(
-        //     padding: const EdgeInsets.only(left: 3),
-        child: Text(getRetailerName(product.retailerId),
-            style: TextStyle(
-                color: isFirst
-                    ? ApiConstants.bestPriceFontColor
-                    : ApiConstants.mainFontColor,
-                fontSize: ApiConstants.productCardFontSize,
-                fontWeight: isFirst ? FontWeight.w600 : FontWeight.w400))
-        // )
-        // )
-        );
+        child: Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+                padding: const EdgeInsets.only(left: 3, top: 3, bottom: 3),
+                child: Text(getRetailerName(product.retailerId),
+                    style: TextStyle(
+                        color: isFirst
+                            ? ApiConstants.bestPriceFontColor
+                            : ApiConstants.mainFontColor,
+                        fontSize: ApiConstants.productCardFontSize,
+                        fontWeight:
+                            isFirst ? FontWeight.w600 : FontWeight.w400)))));
     // final priceSection = Padding(
     //   padding: const EdgeInsets.only(left: 10, right: 0),
     //   // child: Align(
@@ -122,9 +120,9 @@ class RetailerPriceCardState extends State<RetailerPriceCard> {
           child: Align(
               alignment: Alignment.centerRight,
               child: Padding(
-                  padding: const EdgeInsets.only(left: 3, right: 12),
+                  padding: const EdgeInsets.only(left: 3, top: 3, bottom: 3, right: 4),
                   child: Text(
-                      "${getFormattedPrice(product.retailerPrice)}   ${MultiLanguages.of(context)!.translate("toBuy")}",
+                      "${getFormattedPrice(product.retailerPrice)}      ${MultiLanguages.of(context)!.translate("toBuy")}",
                       style: TextStyle(
                           color: isFirst
                               ? ApiConstants.bestPriceFontColor
@@ -189,7 +187,8 @@ class TooltipSample extends StatelessWidget {
       ),
       triggerMode: TooltipTriggerMode.tap,
       height: 50,
-      padding: const EdgeInsets.only(left: 9, right: 9, top: 36.0, bottom: 36.0),
+      padding:
+          const EdgeInsets.only(left: 9, right: 9, top: 36.0, bottom: 36.0),
       preferBelow: false,
       textStyle:
           const TextStyle(fontSize: 18, color: ApiConstants.mainFontColor),

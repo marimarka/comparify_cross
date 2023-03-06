@@ -194,7 +194,7 @@ class _AboutUsState extends State<AboutUsPage> {
               child: Text(
                 MultiLanguages.of(context)!.translate("rateUs"),
                 style: const TextStyle(
-                    color: ApiConstants.mainFontColor, fontSize: 20),
+                    color: ApiConstants.mainFontColor, fontSize: ApiConstants.languageAndAboutFontSize),
               ))),
     );
     Widget languageTextSection = Expanded(
@@ -205,7 +205,7 @@ class _AboutUsState extends State<AboutUsPage> {
               child: Text(
                 MultiLanguages.of(context)!.translate("chooseLanguage"),
                 style: const TextStyle(
-                    color: ApiConstants.mainFontColor, fontSize: 20),
+                    color: ApiConstants.mainFontColor, fontSize: ApiConstants.languageAndAboutFontSize),
               ))),
     );
     Widget infoTextSection = Expanded(
@@ -216,7 +216,7 @@ class _AboutUsState extends State<AboutUsPage> {
               child: Text(
                 MultiLanguages.of(context)!.translate("howToUse"),
                 style: const TextStyle(
-                    color: ApiConstants.mainFontColor, fontSize: 20),
+                    color: ApiConstants.mainFontColor, fontSize: ApiConstants.languageAndAboutFontSize),
               ))),
     );
     Widget shareTextSection = Expanded(
@@ -227,7 +227,7 @@ class _AboutUsState extends State<AboutUsPage> {
               child: Text(
                 MultiLanguages.of(context)!.translate("shareApp"),
                 style: const TextStyle(
-                    color: ApiConstants.mainFontColor, fontSize: 20),
+                    color: ApiConstants.mainFontColor, fontSize: ApiConstants.languageAndAboutFontSize),
               ))),
     );
     if (Platform.isAndroid || Platform.isIOS) {
@@ -248,7 +248,7 @@ class _AboutUsState extends State<AboutUsPage> {
               child: Text(
                 MultiLanguages.of(context)!.translate("contactUs"),
                 style: const TextStyle(
-                    color: ApiConstants.mainFontColor, fontSize: 20),
+                    color: ApiConstants.mainFontColor, fontSize: ApiConstants.languageAndAboutFontSize),
               ))),
     );
 
@@ -260,7 +260,7 @@ class _AboutUsState extends State<AboutUsPage> {
               child: Text(
                 MultiLanguages.of(context)!.translate('likeUsOnFacebook'),
                 style: const TextStyle(
-                    color: ApiConstants.mainFontColor, fontSize: 20),
+                    color: ApiConstants.mainFontColor, fontSize: ApiConstants.languageAndAboutFontSize),
               ))),
     );
     Widget instaTextSection = Expanded(
@@ -271,7 +271,7 @@ class _AboutUsState extends State<AboutUsPage> {
               child: Text(
                 MultiLanguages.of(context)!.translate("followUsOnInstagram"),
                 style: const TextStyle(
-                    color: ApiConstants.mainFontColor, fontSize: 20),
+                    color: ApiConstants.mainFontColor, fontSize: ApiConstants.languageAndAboutFontSize),
               ))),
     );
     Widget tiktokTextSection = Expanded(
@@ -282,7 +282,7 @@ class _AboutUsState extends State<AboutUsPage> {
               child: Text(
                 MultiLanguages.of(context)!.translate("tiktok"),
                 style: const TextStyle(
-                    color: ApiConstants.mainFontColor, fontSize: 20),
+                    color: ApiConstants.mainFontColor, fontSize: ApiConstants.languageAndAboutFontSize),
               ))),
     );
     return Scaffold(
@@ -310,15 +310,96 @@ class _AboutUsState extends State<AboutUsPage> {
                         )),
                     SizedBox(
                         child: Padding(
-                            padding: EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(20),
                             child: Text(
                                 MultiLanguages.of(context)!
                                     .translate("aboutTeam"),
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
-                                    height: 1.5,
-                                    fontSize: 16,
+                                    height: 1.1,
+                                    fontSize: ApiConstants.productCardFontSize,
                                     color: ApiConstants.mainFontColor)))),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Row(children: <Widget>[
+                          languagelogoSection,
+                          languageTextSection,
+                          InkWell(
+                              onTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => ChooseLanguagePage())),
+                              child: const ImageIcon(
+                                  AssetImage("assets/go_futher.png")))
+                        ])),
+                    const Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: Colors.grey,
+                        )),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Row(children: <Widget>[
+                          sharelogoSection,
+                          shareTextSection,
+                          InkWell(
+                              onTap: () => Share.share(
+                                  MultiLanguages.of(context)!
+                                      .translate("shareLinkAndroid")),
+                              child: const ImageIcon(
+                                  AssetImage("assets/go_futher.png")))
+                        ])),
+                    const Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: Colors.grey,
+                        )),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Row(children: <Widget>[
+                          infologoSection,
+                          infoTextSection,
+                          InkWell(
+                              onTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => Intro())),
+                              child: const ImageIcon(
+                                  AssetImage("assets/go_futher.png")))
+                        ])),
+                    const Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: Colors.grey,
+                        )),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: Row(children: <Widget>[
+                        playStorelogoSection,
+                        playStoreTextSection,
+                        InkWell(
+                            onTap: () => launchUrl(url),
+                            child: const ImageIcon(
+                                AssetImage("assets/go_futher.png")))
+                      ]),
+                    ),
+                    const Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: Colors.grey,
+                        )),
+                    const SizedBox(height: 2),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Row(children: <Widget>[
+                          contactUsLogoSection,
+                          contactUsTextSection,
+                          InkWell(
+                              onTap: () => _sendEmail(),
+                              child: const ImageIcon(
+                                  AssetImage("assets/go_futher.png")))
+                        ])),
+                    const Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: Colors.grey,
+                        )),
                     Padding(
                         padding: EdgeInsets.only(left: 20, right: 20),
                         child: Row(children: <Widget>[
@@ -358,87 +439,6 @@ class _AboutUsState extends State<AboutUsPage> {
                           InkWell(
                               onTap: () => launchUrl(Uri.parse(
                                   'https://www.tiktok.com/@comparify_lv')),
-                              child: const ImageIcon(
-                                  AssetImage("assets/go_futher.png")))
-                        ])),
-                    const Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: Divider(
-                          color: Colors.grey,
-                        )),
-                    Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Row(children: <Widget>[
-                          languagelogoSection,
-                          languageTextSection,
-                          InkWell(
-                              onTap: () => Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) => ChooseLanguagePage())),
-                              child: const ImageIcon(
-                                  AssetImage("assets/go_futher.png")))
-                        ])),
-                    const Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: Divider(
-                          color: Colors.grey,
-                        )),
-                    Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Row(children: <Widget>[
-                          infologoSection,
-                          infoTextSection,
-                          InkWell(
-                              onTap: () => Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) => Intro())),
-                              child: const ImageIcon(
-                                  AssetImage("assets/go_futher.png")))
-                        ])),
-                    const Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: Divider(
-                          color: Colors.grey,
-                        )),
-                    Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Row(children: <Widget>[
-                          sharelogoSection,
-                          shareTextSection,
-                          InkWell(
-                              onTap: () => Share.share(
-                                  MultiLanguages.of(context)!
-                                      .translate("shareLinkAndroid")),
-                              child: const ImageIcon(
-                                  AssetImage("assets/go_futher.png")))
-                        ])),
-                    const Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: Divider(
-                          color: Colors.grey,
-                        )),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Row(children: <Widget>[
-                        playStorelogoSection,
-                        playStoreTextSection,
-                        InkWell(
-                            onTap: () => launchUrl(url),
-                            child: const ImageIcon(
-                                AssetImage("assets/go_futher.png")))
-                      ]),
-                    ),
-                    const Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: Divider(
-                          color: Colors.grey,
-                        )),
-                    const SizedBox(height: 2),
-                    Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Row(children: <Widget>[
-                          contactUsLogoSection,
-                          contactUsTextSection,
-                          InkWell(
-                              onTap: () => _sendEmail(),
                               child: const ImageIcon(
                                   AssetImage("assets/go_futher.png")))
                         ])),

@@ -1,3 +1,4 @@
+import 'package:comparify/pages/about_us_page.dart';
 import 'package:comparify/pages/helpers/constants.dart';
 import 'package:comparify/pages/helpers/multi_languages.dart';
 import 'package:comparify/pages/home.dart';
@@ -69,12 +70,12 @@ class IntroState extends State<Intro> {
 
   onPressedDone() {
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => new Home()));
+        .pushReplacement(MaterialPageRoute(builder: (context) => new AboutUsPage()));
   }
 
   onSkipPress() {
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => new Home()));
+        .pushReplacement(MaterialPageRoute(builder: (context) => new AboutUsPage()));
   }
 
   ButtonStyle myButtonStyle() {
@@ -92,7 +93,7 @@ class IntroState extends State<Intro> {
       description: MultiLanguages.of(context)!.translate("intro1Text"),
       styleDescription: const TextStyle(
           color: ApiConstants.mainFontColor,
-          fontSize: ApiConstants.languageFontSize),
+          fontSize: ApiConstants.languageAndAboutFontSize),
       pathImage: "assets/intro/intro1.png",
       backgroundColor: ApiConstants.mainBackgroundColor,
     ));
@@ -102,7 +103,7 @@ class IntroState extends State<Intro> {
       description: MultiLanguages.of(context)!.translate("intro2Text"),
       styleDescription: const TextStyle(
           color: ApiConstants.mainFontColor,
-          fontSize: ApiConstants.languageFontSize),
+          fontSize: ApiConstants.languageAndAboutFontSize),
       pathImage: "assets/intro/intro2.png",
       backgroundColor: ApiConstants.mainBackgroundColor,
     ));
@@ -112,7 +113,7 @@ class IntroState extends State<Intro> {
       description: MultiLanguages.of(context)!.translate("intro3Text"),
       styleDescription: const TextStyle(
           color: ApiConstants.mainFontColor,
-          fontSize: ApiConstants.languageFontSize),
+          fontSize: ApiConstants.languageAndAboutFontSize),
       pathImage: "assets/intro/intro3.png",
       backgroundColor: ApiConstants.mainBackgroundColor,
     ));
@@ -122,7 +123,7 @@ class IntroState extends State<Intro> {
       description: MultiLanguages.of(context)!.translate("intro4Text"),
       styleDescription: const TextStyle(
           color: ApiConstants.mainFontColor,
-          fontSize: ApiConstants.languageFontSize),
+          fontSize: ApiConstants.languageAndAboutFontSize),
       pathImage: "assets/intro/intro4.png",
       backgroundColor: ApiConstants.mainBackgroundColor,
     ));

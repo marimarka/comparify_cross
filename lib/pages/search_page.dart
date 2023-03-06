@@ -193,6 +193,8 @@ class SearchPageState extends State {
                       height: 5,
                     ),
               TextField(
+                style: const TextStyle(color: ApiConstants.mainFontColor),
+                textAlignVertical: TextAlignVertical.center,
                 cursorColor: ApiConstants.mainFontColor,
                 controller: _controller,
                 onChanged: (value) => _onChangeHandler(value),

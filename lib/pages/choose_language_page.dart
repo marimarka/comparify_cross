@@ -1,3 +1,4 @@
+import 'package:comparify/pages/about_us_page.dart';
 import 'package:comparify/pages/helpers/constants.dart';
 import 'package:comparify/pages/home.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class _ChooseLanguageState extends State<ChooseLanguagePage> {
                 MultiLanguages.of(context)!.translate("latvian"),
                 style: const TextStyle(
                     color: ApiConstants.mainFontColor,
-                    fontSize: ApiConstants.languageFontSize),
+                    fontSize: ApiConstants.languageAndAboutFontSize),
               ))),
     );
     Widget russianTextSection = Expanded(
@@ -37,7 +38,7 @@ class _ChooseLanguageState extends State<ChooseLanguagePage> {
                 MultiLanguages.of(context)!.translate("russian"),
                 style: const TextStyle(
                     color: ApiConstants.mainFontColor,
-                    fontSize: ApiConstants.languageFontSize),
+                    fontSize: ApiConstants.languageAndAboutFontSize),
               ))),
     );
     Widget englishTextSection = Expanded(
@@ -49,7 +50,7 @@ class _ChooseLanguageState extends State<ChooseLanguagePage> {
                 MultiLanguages.of(context)!.translate("english"),
                 style: const TextStyle(
                     color: ApiConstants.mainFontColor,
-                    fontSize: ApiConstants.languageFontSize),
+                    fontSize: ApiConstants.languageAndAboutFontSize),
               ))),
     );
     return Scaffold(body: Builder(builder: (BuildContext context) {
@@ -91,7 +92,7 @@ class _ChooseLanguageState extends State<ChooseLanguagePage> {
                       multiLanguages.setLocale(
                           context, const Locale("ru", "RU"));
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => Home()));
+                          MaterialPageRoute(builder: (context) => AboutUsPage()));
                     },
                     child: Row(children: <Widget>[
                       russianTextSection,

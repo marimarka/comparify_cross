@@ -65,7 +65,7 @@ class _ChooseLanguageState extends State<FirstChooseLanguagePage> {
                 MultiLanguages.of(context)!.translate("latvian"),
                 style: const TextStyle(
                     color: ApiConstants.mainFontColor,
-                    fontSize: ApiConstants.languageFontSize),
+                    fontSize: ApiConstants.languageAndAboutFontSize),
               ))),
     );
     Widget russianTextSection = Expanded(
@@ -77,7 +77,7 @@ class _ChooseLanguageState extends State<FirstChooseLanguagePage> {
                 MultiLanguages.of(context)!.translate("russian"),
                 style: const TextStyle(
                     color: ApiConstants.mainFontColor,
-                    fontSize: ApiConstants.languageFontSize),
+                    fontSize: ApiConstants.languageAndAboutFontSize),
               ))),
     );
     Widget englishTextSection = Expanded(
@@ -89,7 +89,7 @@ class _ChooseLanguageState extends State<FirstChooseLanguagePage> {
                 MultiLanguages.of(context)!.translate("english"),
                 style: const TextStyle(
                     color: ApiConstants.mainFontColor,
-                    fontSize: ApiConstants.languageFontSize),
+                    fontSize: ApiConstants.languageAndAboutFontSize),
               ))),
     );
     return Scaffold(body: Builder(builder: (BuildContext context) {

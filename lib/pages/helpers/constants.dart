@@ -10,8 +10,8 @@ class ApiConstants {
 
   static const double mainFontSize = 12;
   static const double productCardFontSize = 14;
-  static const double titleFontSize = 24;
-  static const double languageFontSize = 16;
+  static const double titleFontSize = 20;
+  static const double languageAndAboutFontSize = 16;
 
   static const Color mainFontColor = Color(0xFF23336D);
   static const Color favoriteColor = Color(0xFFD81A0E);

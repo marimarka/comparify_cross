@@ -173,6 +173,8 @@ class CategoryState extends State<Category> {
     return Scaffold(
         appBar: AppBar(
             centerTitle: false,
+            // leadingWidth: 17,
+            // titleSpacing: 0,
             title: Text(MultiLanguages.of(context)!.translate(categoriesName),
                 style: const TextStyle(
                     color: ApiConstants.appBarFontColor,

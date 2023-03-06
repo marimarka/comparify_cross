@@ -128,7 +128,7 @@ class StoreLinkState extends State<StoreLinkPage> {
                                           color: ApiConstants.mainFontColor,
                                           fontSize: ApiConstants.titleFontSize,
                                           fontWeight: FontWeight.w500))))))),
-              const SizedBox(height: 4),
+              // const SizedBox(height: 4),
               Padding(
                   padding: const EdgeInsets.only(left: 16, right: 16),
                   child: InkWell(
@@ -149,7 +149,7 @@ class StoreLinkState extends State<StoreLinkPage> {
                                 child:
                                     Image.asset("assets/store_rimi_logo.png"),
                               ))))),
-              const SizedBox(height: 4),
+              // const SizedBox(height: 4),
               Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
                 child: InkWell(
