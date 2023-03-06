@@ -72,7 +72,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/new_logo.png"
+  image_path: "assets/new_logo_512.png"
 
 # The following section is specific to Flutter packages.
 flutter:
@@ -119,7 +119,6 @@ flutter:
     - assets/favorite_liked.png
     - assets/favorite_bold.png
     - assets/new_logo.png
-    - assets/full_logo.png
     - assets/go_futher.png
     - assets/favorite_saved.png
     - assets/new_long_logo.png
@@ -128,6 +127,7 @@ flutter:
     - assets/logo_info.png
     - assets/logo_rate.png
     - assets/logo_contact.png
+    - assets/new_logo_512.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
